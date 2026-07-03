@@ -1,0 +1,11 @@
+# 内部用タスク仕様書（成果物ではないため公開リポジトリから除外）
+nobel-physics-viz-2026-07-03.md
+
+# OS / エディタ
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Python
+__pycache__/
+*.pyc

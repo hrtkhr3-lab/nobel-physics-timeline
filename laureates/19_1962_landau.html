@@ -1,0 +1,118 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1962 ランダウ — 超流動の理論</title>
+<style>
+  :root{--bg:#f5f4ef;--card:#fff;--ink:#20242e;--muted:#5b6472;--line:#e6e3d9;--accent:#16a34a;--accent-soft:#e6f6ec;--hero:#14532d;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Yu Gothic","Yu Gothic UI","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;background:var(--bg);color:var(--ink);line-height:1.8;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent);text-decoration:none}
+  .wrap{max-width:860px;margin:0 auto;padding:0 20px 80px}
+  .topnav{max-width:860px;margin:0 auto;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;font-size:.9rem}
+  .topnav a{color:var(--muted)} .topnav a:hover{color:var(--accent)}
+  .hero{background:linear-gradient(135deg,var(--accent),var(--hero));color:#fff;border-radius:20px;padding:34px 30px;margin-top:6px;box-shadow:0 12px 30px rgba(0,0,0,.12)}
+  .year{display:inline-block;background:rgba(255,255,255,.22);padding:3px 14px;border-radius:999px;font-weight:700;letter-spacing:.05em;font-size:.9rem}
+  .hero h1{margin:14px 0 6px;font-size:2rem;line-height:1.3}
+  .hero .who{font-size:1.05rem;opacity:.95}
+  .cite{margin-top:16px;padding:12px 16px;background:rgba(255,255,255,.14);border-radius:12px;font-size:.95rem}
+  section.block{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 26px;margin-top:22px}
+  section.block h2{margin:0 0 10px;font-size:1.15rem;display:flex;align-items:center;gap:10px}
+  section.block h2 .no{width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-size:.9rem;font-weight:800;flex:none}
+  p{margin:.5em 0}
+  .term{border-bottom:2px dotted var(--accent);cursor:help;position:relative}
+  .term:hover::after{content:attr(data-tip);position:absolute;left:0;bottom:135%;width:250px;background:#20242e;color:#fff;font-size:.8rem;line-height:1.6;padding:10px 12px;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,.25);z-index:5}
+  .term:hover::before{content:"";position:absolute;left:14px;bottom:125%;border:6px solid transparent;border-top-color:#20242e;z-index:5}
+  .demo{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 26px;margin-top:22px}
+  .demo h2{margin:0 0 4px;font-size:1.15rem}
+  .demo .hint{color:var(--muted);font-size:.9rem;margin-bottom:16px}
+  .xbox{background:#0f1420;border-radius:14px;padding:10px;display:flex;justify-content:center;overflow-x:auto}
+  .controls{max-width:460px;margin:18px auto 0}
+  .controls label{display:block;font-weight:700;margin:12px 0 6px;font-size:.95rem}
+  input[type=range]{width:100%;accent-color:var(--accent)}
+  .btns{display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+  .btns button{border:2px solid var(--line);background:#fff;border-radius:999px;padding:9px 20px;font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit;color:var(--ink)}
+  .btns button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .readout{text-align:center;margin-top:14px;font-size:.98rem;color:var(--muted)}
+  .readout b{color:var(--ink)}
+  .status{margin-top:16px;text-align:center;font-size:1rem;padding:12px;border-radius:12px;font-weight:700}
+  .status.no{background:#fdecea;color:#b42318}
+  .status.yes{background:#e7f8ee;color:#087443}
+  .note{font-size:.82rem;color:var(--muted);margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:30px}
+  .pager a{flex:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;color:var(--ink);font-size:.9rem}
+  .pager a.next{text-align:right}
+  .pager a:hover{border-color:var(--accent);color:var(--accent)}
+  .pager span{display:block;font-size:.75rem;color:var(--muted)}
+  .src{font-size:.82rem;color:var(--muted);margin-top:24px}
+  svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+</style>
+
+<nav class="topnav">
+  <a href="../index.html">← 年表一覧へ</a>
+  <span>物理学賞の歩み 19 / 45</span>
+</nav>
+
+<div class="wrap">
+  <div class="hero">
+    <span class="year">1962年</span>
+    <h1>抵抗ゼロで流れ続ける液体 ── 超流動の理論</h1>
+    <div class="who">レフ・ランダウ（ソ連）</div>
+    <div class="cite"><b>受賞理由：</b>液体ヘリウムなど、凝縮した物質のふるまいを説明する先駆的な理論に対して。</div>
+  </div>
+
+  <section class="block">
+    <h2><span class="no">1</span>背景 ── 冷やしきったヘリウムの不思議</h2>
+    <p>ヘリウムを絶対零度近くまで冷やすと、ふつうの液体ではありえないことが起こります。<b>抵抗（粘り）がまったくなく流れ続け</b>、細いすき間をすり抜け、容器のかべをはい上がってこぼれ出すことさえある――この状態を<span class="term" data-tip="極低温でヘリウムなどが示す、粘りがゼロで永遠に流れ続ける状態。量子の性質が目に見える大きさで現れます。">超流動（ちょうりゅうどう）</span>といいます。</p>
+  </section>
+
+  <section class="block">
+    <h2><span class="no">2</span>発見 ── 量子のふるまいが目に見える大きさで現れる</h2>
+    <p>ランダウは、こうした低温の物質を数式で説明する理論を築きました。ふつうはミクロな原子1個で起きる<b>量子の性質</b>が、超流動では<b>液体全体でそろって</b>現れます。だから摩擦を生む“ひっかかり”がなくなり、いつまでも流れ続けるのです。彼の理論は、極低温の物理を理解する共通の言葉になりました。</p>
+  </section>
+
+  <!-- INTERACTIVE -->
+  <div class="demo">
+    <h2>やってみよう ── 温度を下げると流れが変わる</h2>
+    <div class="hint">スライダーで温度を下げてみましょう。ある温度より下がると、液体は抵抗ゼロで流れ続けます。</div>
+    <div class="xbox">
+      <svg id="lg" width="460" height="160" viewBox="0 0 460 160" role="img" aria-label="超流動"></svg>
+    </div>
+    <div class="controls">
+      <label for="tp">温度（右へ動かすと下がる）　高温 ← → 極低温</label>
+      <input id="tp" type="range" min="0" max="100" value="10">
+      <div class="status no" id="st"></div>
+    </div>
+    <div class="note">※ ある温度（転移点）より下では粘りがゼロになり、液体はいつまでも止まりません。量子の性質が“大きな世界”に現れた例。模式図です。</div>
+  </div>
+
+  <section class="block">
+    <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
+    <p>超流動やそれと似た現象の理解は、<b>超伝導</b>（1972年の項）や、レーザーで原子を極低温にして作る新しい物質の状態など、現代の低温物理・量子技術の土台になりました。ランダウの理論は物性物理学の“古典”として、いまも教科書で学ばれています。</p>
+  </section>
+
+  <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）1962年物理学賞ページ、一般向け科学史資料。</p>
+
+  <div class="pager">
+    <a class="prev" href="18_1957_lee_yang.html"><span>前へ</span>← 1957 リー／ヤン</a>
+    <a class="next" href="20_1964_townes.html"><span>次へ</span>1964 タウンズ →</a>
+  </div>
+</div>
+
+<script>
+var tp=document.getElementById('tp'), st=document.getElementById('st'), svg=document.getElementById('lg');
+var NS='http://www.w3.org/2000/svg', dots=[];
+var pipe=document.createElementNS(NS,'rect');
+pipe.setAttribute('x',20);pipe.setAttribute('y',66);pipe.setAttribute('width',420);pipe.setAttribute('height',28);
+pipe.setAttribute('rx',14);pipe.setAttribute('fill','#0b1220');pipe.setAttribute('stroke','#2a3446');svg.appendChild(pipe);
+for(var i=0;i<9;i++){var c=document.createElementNS(NS,'circle');
+  c.setAttribute('r',7);c.setAttribute('cy',80);c.setAttribute('cx',40+i*44);svg.appendChild(c);
+  dots.push({el:c,x:40+i*44});}
+function frame(){ var cold=+tp.value>50;
+  dots.forEach(function(d,i){ var v=cold?3.2:(0.5+Math.sin(Date.now()/300+i)*0.4);
+    d.x+=v; if(d.x>430)d.x=25; d.el.setAttribute('cx',d.x);
+    d.el.setAttribute('fill',cold?'#5eead4':'#ff9a8a'); });
+  if(cold){st.className='status yes';st.textContent='超流動：抵抗ゼロで永遠に流れ続ける';}
+  else{st.className='status no';st.textContent='ふつうの液体：摩擦があってすぐ止まる';}
+  requestAnimationFrame(frame);
+}
+frame();
+</script>

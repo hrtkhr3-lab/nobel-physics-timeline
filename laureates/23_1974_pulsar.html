@@ -1,0 +1,126 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1974 パルサー — 電波天文学とパルサーの発見</title>
+<style>
+  :root{--bg:#f5f4ef;--card:#fff;--ink:#20242e;--muted:#5b6472;--line:#e6e3d9;--accent:#2563eb;--accent-soft:#e8f0fe;--hero:#1e3a8a;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Yu Gothic","Yu Gothic UI","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;background:var(--bg);color:var(--ink);line-height:1.8;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent);text-decoration:none}
+  .wrap{max-width:860px;margin:0 auto;padding:0 20px 80px}
+  .topnav{max-width:860px;margin:0 auto;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;font-size:.9rem}
+  .topnav a{color:var(--muted)} .topnav a:hover{color:var(--accent)}
+  .hero{background:linear-gradient(135deg,var(--accent),var(--hero));color:#fff;border-radius:20px;padding:34px 30px;margin-top:6px;box-shadow:0 12px 30px rgba(0,0,0,.12)}
+  .year{display:inline-block;background:rgba(255,255,255,.22);padding:3px 14px;border-radius:999px;font-weight:700;letter-spacing:.05em;font-size:.9rem}
+  .hero h1{margin:14px 0 6px;font-size:2rem;line-height:1.3}
+  .hero .who{font-size:1.05rem;opacity:.95}
+  .cite{margin-top:16px;padding:12px 16px;background:rgba(255,255,255,.14);border-radius:12px;font-size:.95rem}
+  section.block{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 26px;margin-top:22px}
+  section.block h2{margin:0 0 10px;font-size:1.15rem;display:flex;align-items:center;gap:10px}
+  section.block h2 .no{width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-size:.9rem;font-weight:800;flex:none}
+  p{margin:.5em 0}
+  .term{border-bottom:2px dotted var(--accent);cursor:help;position:relative}
+  .term:hover::after{content:attr(data-tip);position:absolute;left:0;bottom:135%;width:250px;background:#20242e;color:#fff;font-size:.8rem;line-height:1.6;padding:10px 12px;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,.25);z-index:5}
+  .term:hover::before{content:"";position:absolute;left:14px;bottom:125%;border:6px solid transparent;border-top-color:#20242e;z-index:5}
+  .demo{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 26px;margin-top:22px}
+  .demo h2{margin:0 0 4px;font-size:1.15rem}
+  .demo .hint{color:var(--muted);font-size:.9rem;margin-bottom:16px}
+  .xbox{background:#0f1420;border-radius:14px;padding:10px;display:flex;justify-content:center;overflow-x:auto}
+  .controls{max-width:460px;margin:18px auto 0}
+  .controls label{display:block;font-weight:700;margin:12px 0 6px;font-size:.95rem}
+  input[type=range]{width:100%;accent-color:var(--accent)}
+  .btns{display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+  .btns button{border:2px solid var(--line);background:#fff;border-radius:999px;padding:9px 20px;font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit;color:var(--ink)}
+  .btns button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .readout{text-align:center;margin-top:14px;font-size:.98rem;color:var(--muted)}
+  .readout b{color:var(--ink)}
+  .status{margin-top:16px;text-align:center;font-size:1rem;padding:12px;border-radius:12px;font-weight:700}
+  .status.no{background:#fdecea;color:#b42318}
+  .status.yes{background:#e7f8ee;color:#087443}
+  .note{font-size:.82rem;color:var(--muted);margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:30px}
+  .pager a{flex:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;color:var(--ink);font-size:.9rem}
+  .pager a.next{text-align:right}
+  .pager a:hover{border-color:var(--accent);color:var(--accent)}
+  .pager span{display:block;font-size:.75rem;color:var(--muted)}
+  .src{font-size:.82rem;color:var(--muted);margin-top:24px}
+  svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+</style>
+
+<nav class="topnav">
+  <a href="../index.html">← 年表一覧へ</a>
+  <span>物理学賞の歩み 23 / 45</span>
+</nav>
+
+<div class="wrap">
+  <div class="hero">
+    <span class="year">1974年</span>
+    <h1>宇宙の灯台 ── 電波天文学とパルサーの発見</h1>
+    <div class="who">ライル ／ ヒューイッシュ（イギリス）</div>
+    <div class="cite"><b>受賞理由：</b>電波天文学の先駆的な研究（ライル）と、パルサーの発見での決定的な役割（ヒューイッシュ）に対して。</div>
+  </div>
+
+  <section class="block">
+    <h2><span class="no">1</span>背景 ── 目ではなく電波で宇宙を見る</h2>
+    <p>宇宙からは、目に見える光だけでなく<b>電波</b>も届いています。ライルたちは複数のアンテナを組み合わせて、電波で宇宙を精密に“見る”技術（<span class="term" data-tip="離れた複数のアンテナを組み合わせ、巨大な望遠鏡1台ぶんの解像度を得る技術。">電波干渉計</span>）を発展させました。</p>
+  </section>
+
+  <section class="block">
+    <h2><span class="no">2</span>発見 ── きっかり規則正しく明滅する謎の星</h2>
+    <p>その観測中、<b>1秒ほどの間隔できっちり明滅する</b>電波源が見つかりました（発見者は大学院生ジョスリン・ベル）。あまりに正確なので一時は宇宙人の信号かと騒がれましたが、正体は高速で自転する<span class="term" data-tip="太陽ほどの質量が都市サイズにぎゅっと詰まった超高密度の星。ティースプーン1杯で数億トン。">中性子星</span>でした。電波を一方向に出しながら回転し、ビームが地球を向くたびに“点滅”して見える――宇宙の灯台<span class="term" data-tip="規則正しい電波のパルスを出す、回転する中性子星。灯台のように光（電波）を振りまきます。">パルサー</span>です。</p>
+  </section>
+
+  <!-- INTERACTIVE -->
+  <div class="demo">
+    <h2>やってみよう ── 回転する宇宙の灯台</h2>
+    <div class="hint">スライダーで自転の速さを変えます。ビームが地球（右）を向くたびに、下の記録計にパルスが刻まれます。</div>
+    <div class="xbox">
+      <svg id="ps" width="480" height="230" viewBox="0 0 480 230" role="img" aria-label="パルサー">
+        <circle cx="150" cy="90" r="20" fill="#e8edf3"/>
+        <line id="beam" x1="150" y1="90" x2="150" y2="90" stroke="#5c9dff" stroke-width="8" stroke-linecap="round" opacity="0.85"/>
+        <line id="beam2" x1="150" y1="90" x2="150" y2="90" stroke="#5c9dff" stroke-width="8" stroke-linecap="round" opacity="0.85"/>
+        <circle id="earth" cx="430" cy="90" r="9" fill="#66bb6a"/><text x="430" y="115" fill="#66bb6a" font-size="11" text-anchor="middle">地球</text>
+        <rect x="20" y="160" width="440" height="50" rx="6" fill="#0b1220" stroke="#2a3446"/>
+        <polyline id="chart" points="" fill="none" stroke="#7ee787" stroke-width="2"/>
+      </svg>
+    </div>
+    <div class="controls">
+      <label for="rot">自転の速さ</label>
+      <input id="rot" type="range" min="1" max="10" value="4">
+      <div class="readout" id="msg"></div>
+    </div>
+    <div class="note">※ ビームが地球を向いた瞬間だけ強く受信 → 規則正しいパルスになります。星の回転が“時計”のように正確です。模式図です。</div>
+  </div>
+
+  <section class="block">
+    <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
+    <p>パルサーは、極限の高密度・強い磁場・強い重力を調べる宇宙の実験室です。その正確な明滅は<b>宇宙の時計</b>として使われ、のちに連星パルサーの観測は<b>重力波の存在</b>を間接的に証明しました（直接観測は2017年の項）。電波天文学はブラックホールや宇宙背景放射（1978年の項）の研究へと広がりました。</p>
+  </section>
+
+  <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）1974年物理学賞ページ、一般向け科学史資料。</p>
+
+  <div class="pager">
+    <a class="prev" href="22_1972_bcs.html"><span>前へ</span>← 1972 BCS理論</a>
+    <a class="next" href="24_1978_cmb.html"><span>次へ</span>1978 宇宙背景放射 →</a>
+  </div>
+</div>
+
+<script>
+var beam=document.getElementById('beam'), beam2=document.getElementById('beam2'),
+    earth=document.getElementById('earth'), chart=document.getElementById('chart'),
+    rot=document.getElementById('rot'), msg=document.getElementById('msg');
+var ang=0, cx=150, cy=90, L=120, pts=[], hitCount=0;
+function frame(){ ang+=(+rot.value)/40;
+  var dx=Math.cos(ang), dy=Math.sin(ang);
+  beam.setAttribute('x2',cx+L*dx); beam.setAttribute('y2',cy+L*dy);
+  beam2.setAttribute('x2',cx-L*dx); beam2.setAttribute('y2',cy-L*dy);
+  var toward = dx>0.985;                            // 右（地球）を向いた
+  earth.setAttribute('r', toward?14:9);
+  earth.setAttribute('fill', toward?'#b6ffcf':'#66bb6a');
+  var y = toward?168:205;
+  pts.push(y); if(pts.length>220)pts.shift();
+  chart.setAttribute('points', pts.map(function(v,i){return (24+i*2)+','+v;}).join(' '));
+  if(toward){ msg.innerHTML='<b>パルス受信！</b> ビームが地球を向いた'; }
+  requestAnimationFrame(frame);
+}
+frame();
+</script>

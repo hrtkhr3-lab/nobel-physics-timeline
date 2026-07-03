@@ -1,0 +1,114 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2020 ブラックホール — ブラックホール</title>
+<style>
+  :root{--bg:#f5f4ef;--card:#fff;--ink:#20242e;--muted:#5b6472;--line:#e6e3d9;--accent:#2563eb;--accent-soft:#e8f0fe;--hero:#1e3a8a;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Yu Gothic","Yu Gothic UI","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;background:var(--bg);color:var(--ink);line-height:1.8;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent);text-decoration:none}
+  .wrap{max-width:860px;margin:0 auto;padding:0 20px 80px}
+  .topnav{max-width:860px;margin:0 auto;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;font-size:.9rem}
+  .topnav a{color:var(--muted)} .topnav a:hover{color:var(--accent)}
+  .hero{background:linear-gradient(135deg,var(--accent),var(--hero));color:#fff;border-radius:20px;padding:34px 30px;margin-top:6px;box-shadow:0 12px 30px rgba(0,0,0,.12)}
+  .year{display:inline-block;background:rgba(255,255,255,.22);padding:3px 14px;border-radius:999px;font-weight:700;letter-spacing:.05em;font-size:.9rem}
+  .hero h1{margin:14px 0 6px;font-size:2rem;line-height:1.3}
+  .hero .who{font-size:1.05rem;opacity:.95}
+  .cite{margin-top:16px;padding:12px 16px;background:rgba(255,255,255,.14);border-radius:12px;font-size:.95rem}
+  section.block{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 26px;margin-top:22px}
+  section.block h2{margin:0 0 10px;font-size:1.15rem;display:flex;align-items:center;gap:10px}
+  section.block h2 .no{width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-size:.9rem;font-weight:800;flex:none}
+  p{margin:.5em 0}
+  .term{border-bottom:2px dotted var(--accent);cursor:help;position:relative}
+  .term:hover::after{content:attr(data-tip);position:absolute;left:0;bottom:135%;width:250px;background:#20242e;color:#fff;font-size:.8rem;line-height:1.6;padding:10px 12px;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,.25);z-index:5}
+  .term:hover::before{content:"";position:absolute;left:14px;bottom:125%;border:6px solid transparent;border-top-color:#20242e;z-index:5}
+  .demo{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 26px;margin-top:22px}
+  .demo h2{margin:0 0 4px;font-size:1.15rem}
+  .demo .hint{color:var(--muted);font-size:.9rem;margin-bottom:16px}
+  .xbox{background:#0f1420;border-radius:14px;padding:10px;display:flex;justify-content:center;overflow-x:auto}
+  .controls{max-width:460px;margin:18px auto 0}
+  .controls label{display:block;font-weight:700;margin:12px 0 6px;font-size:.95rem}
+  input[type=range]{width:100%;accent-color:var(--accent)}
+  .btns{display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+  .btns button{border:2px solid var(--line);background:#fff;border-radius:999px;padding:9px 20px;font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit;color:var(--ink)}
+  .btns button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .readout{text-align:center;margin-top:14px;font-size:.98rem;color:var(--muted)}
+  .readout b{color:var(--ink)}
+  .status{margin-top:16px;text-align:center;font-size:1rem;padding:12px;border-radius:12px;font-weight:700}
+  .status.no{background:#fdecea;color:#b42318}
+  .status.yes{background:#e7f8ee;color:#087443}
+  .note{font-size:.82rem;color:var(--muted);margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:30px}
+  .pager a{flex:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;color:var(--ink);font-size:.9rem}
+  .pager a.next{text-align:right}
+  .pager a:hover{border-color:var(--accent);color:var(--accent)}
+  .pager span{display:block;font-size:.75rem;color:var(--muted)}
+  .src{font-size:.82rem;color:var(--muted);margin-top:24px}
+  svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+</style>
+
+<nav class="topnav">
+  <a href="../index.html">← 年表一覧へ</a>
+  <span>物理学賞の歩み 41 / 45</span>
+</nav>
+
+<div class="wrap">
+  <div class="hero">
+    <span class="year">2020年</span>
+    <h1>光さえ抜け出せない天体 ── ブラックホール</h1>
+    <div class="who">ペンローズ ／ ゲンツェル ／ ゲズ（イギリス・ドイツ・アメリカ）</div>
+    <div class="cite"><b>受賞理由：</b>ブラックホールが一般相対論の帰結であることの証明（ペンローズ）と、銀河中心の超巨大天体の発見（ゲンツェル・ゲズ）に対して。</div>
+  </div>
+
+  <section class="block">
+    <h2><span class="no">1</span>背景 ── 重力が強すぎると何が起きる？</h2>
+    <p>物が重く小さく集まるほど、そこから抜け出すのに必要な速さは大きくなります。もし<b>光の速さでも抜け出せない</b>ほど重力が強くなったら――そこは光さえ出てこられない<span class="term" data-tip="重力が強すぎて光さえ抜け出せない天体。境界の内側の情報は外に伝わりません。">ブラックホール</span>になります。</p>
+  </section>
+
+  <section class="block">
+    <h2><span class="no">2</span>発見 ── 理論の証明と、銀河中心での発見</h2>
+    <p>ペンローズは、アインシュタインの<span class="term" data-tip="重力を時空のゆがみとして説明するアインシュタインの理論。ブラックホールや重力波を予言します。">一般相対性理論</span>から、ブラックホールが<b>必ず生まれる</b>ことを数学的に証明しました。ゲンツェルとゲズは、私たちの銀河の中心で<b>星々が目に見えない一点を猛スピードでまわっている</b>のを何年も追跡し、そこに太陽の数百万倍の質量が潜む＝<b>超巨大ブラックホール</b>があることを突きとめました。</p>
+  </section>
+
+  <!-- INTERACTIVE -->
+  <div class="demo">
+    <h2>やってみよう ── 見えない中心をまわる星</h2>
+    <div class="hint">「動かす」を押すと、星が見えない一点を高速でまわります。中心に何も見えないのに強い重力＝ブラックホールです。</div>
+    <div class="xbox">
+      <svg id="bh" width="320" height="240" viewBox="0 0 320 240" role="img" aria-label="ブラックホール">
+        <circle id="eh" cx="160" cy="120" r="0" fill="#000" stroke="#7c3aed" stroke-dasharray="3 3"/>
+        <circle cx="160" cy="120" r="3" fill="#3a4356"/>
+        <circle id="s1" r="7" fill="#ffe066"/>
+        <circle id="s2" r="6" fill="#ff9a8a"/>
+      </svg>
+    </div>
+    <div class="btns"><button id="play5">動かす</button><button id="show">境界を表示</button></div>
+    <div class="readout" id="msg">中心には何も見えないのに、強い重力がある</div>
+    <div class="note">※ 星の速い動きから、見えない中心の重い天体（ブラックホール）が分かります。点線は「これより内は光も出られない」境界。模式図です。</div>
+  </div>
+
+  <section class="block">
+    <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
+    <p>2019年には、ブラックホールの“影”が電波望遠鏡で直接<b>撮影</b>されました。ブラックホールは、重力の極限を調べる究極の実験室であり、銀河の成り立ちにも深く関わります。100年前のアインシュタインの理論が、現代の観測でくり返し裏づけられているのです。</p>
+  </section>
+
+  <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）2020年物理学賞ページ、一般向け科学史資料。</p>
+
+  <div class="pager">
+    <a class="prev" href="40_2019_exoplanet.html"><span>前へ</span>← 2019 系外惑星</a>
+    <a class="next" href="42_2021_manabe.html"><span>次へ</span>2021 真鍋淑郎 →</a>
+  </div>
+</div>
+
+<script>
+var eh=document.getElementById('eh'), s1=document.getElementById('s1'), s2=document.getElementById('s2'),
+    play=document.getElementById('play5'), show=document.getElementById('show'), msg=document.getElementById('msg');
+var ang=0, running=false, shown=false;
+function frame(){ if(!running)return; ang+=0.045;
+  s1.setAttribute('cx',160+95*Math.cos(ang)); s1.setAttribute('cy',120+55*Math.sin(ang));
+  var a2=ang*1.7+2; s2.setAttribute('cx',160+55*Math.cos(a2)); s2.setAttribute('cy',120+80*Math.sin(a2));
+  requestAnimationFrame(frame);
+}
+play.addEventListener('click',function(){if(!running){running=true;frame();}});
+show.addEventListener('click',function(){shown=!shown; eh.setAttribute('r',shown?26:0);
+  msg.innerHTML=shown?'点線の内側＝光も抜け出せない境界（事象の地平面）':'中心には何も見えないのに、強い重力がある';});
+</script>

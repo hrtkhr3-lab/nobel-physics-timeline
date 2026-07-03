@@ -1,0 +1,126 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1956 トランジスタ — トランジスタの発明</title>
+<style>
+  :root{--bg:#f5f4ef;--card:#fff;--ink:#20242e;--muted:#5b6472;--line:#e6e3d9;--accent:#16a34a;--accent-soft:#e6f6ec;--hero:#14532d;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Yu Gothic","Yu Gothic UI","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;background:var(--bg);color:var(--ink);line-height:1.8;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent);text-decoration:none}
+  .wrap{max-width:860px;margin:0 auto;padding:0 20px 80px}
+  .topnav{max-width:860px;margin:0 auto;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;font-size:.9rem}
+  .topnav a{color:var(--muted)} .topnav a:hover{color:var(--accent)}
+  .hero{background:linear-gradient(135deg,var(--accent),var(--hero));color:#fff;border-radius:20px;padding:34px 30px;margin-top:6px;box-shadow:0 12px 30px rgba(0,0,0,.12)}
+  .year{display:inline-block;background:rgba(255,255,255,.22);padding:3px 14px;border-radius:999px;font-weight:700;letter-spacing:.05em;font-size:.9rem}
+  .hero h1{margin:14px 0 6px;font-size:2rem;line-height:1.3}
+  .hero .who{font-size:1.05rem;opacity:.95}
+  .cite{margin-top:16px;padding:12px 16px;background:rgba(255,255,255,.14);border-radius:12px;font-size:.95rem}
+  section.block{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 26px;margin-top:22px}
+  section.block h2{margin:0 0 10px;font-size:1.15rem;display:flex;align-items:center;gap:10px}
+  section.block h2 .no{width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-size:.9rem;font-weight:800;flex:none}
+  p{margin:.5em 0}
+  .term{border-bottom:2px dotted var(--accent);cursor:help;position:relative}
+  .term:hover::after{content:attr(data-tip);position:absolute;left:0;bottom:135%;width:250px;background:#20242e;color:#fff;font-size:.8rem;line-height:1.6;padding:10px 12px;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,.25);z-index:5}
+  .term:hover::before{content:"";position:absolute;left:14px;bottom:125%;border:6px solid transparent;border-top-color:#20242e;z-index:5}
+  .demo{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 26px;margin-top:22px}
+  .demo h2{margin:0 0 4px;font-size:1.15rem}
+  .demo .hint{color:var(--muted);font-size:.9rem;margin-bottom:16px}
+  .xbox{background:#0f1420;border-radius:14px;padding:10px;display:flex;justify-content:center;overflow-x:auto}
+  .controls{max-width:460px;margin:18px auto 0}
+  .controls label{display:block;font-weight:700;margin:12px 0 6px;font-size:.95rem}
+  input[type=range]{width:100%;accent-color:var(--accent)}
+  .btns{display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+  .btns button{border:2px solid var(--line);background:#fff;border-radius:999px;padding:9px 20px;font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit;color:var(--ink)}
+  .btns button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .readout{text-align:center;margin-top:14px;font-size:.98rem;color:var(--muted)}
+  .readout b{color:var(--ink)}
+  .status{margin-top:16px;text-align:center;font-size:1rem;padding:12px;border-radius:12px;font-weight:700}
+  .status.no{background:#fdecea;color:#b42318}
+  .status.yes{background:#e7f8ee;color:#087443}
+  .note{font-size:.82rem;color:var(--muted);margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:30px}
+  .pager a{flex:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;color:var(--ink);font-size:.9rem}
+  .pager a.next{text-align:right}
+  .pager a:hover{border-color:var(--accent);color:var(--accent)}
+  .pager span{display:block;font-size:.75rem;color:var(--muted)}
+  .src{font-size:.82rem;color:var(--muted);margin-top:24px}
+  svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+</style>
+
+<nav class="topnav">
+  <a href="../index.html">← 年表一覧へ</a>
+  <span>物理学賞の歩み 17 / 45</span>
+</nav>
+
+<div class="wrap">
+  <div class="hero">
+    <span class="year">1956年</span>
+    <h1>電気を操る小さなスイッチ ── トランジスタの発明</h1>
+    <div class="who">ショックレー ／ バーディーン ／ ブラッテン（アメリカ）</div>
+    <div class="cite"><b>受賞理由：</b>半導体の研究と、トランジスタ効果（小さな信号で大きな電流を操るしくみ）の発見に対して。</div>
+  </div>
+
+  <section class="block">
+    <h2><span class="no">1</span>背景 ── 大きくて熱い「真空管」の時代</h2>
+    <p>電気の流れを操る部品として、当時は<b>真空管</b>が使われていました。しかし大きく、熱く、こわれやすく、電気も食います。もっと小さく丈夫な“電気のスイッチ”が求められていました。</p>
+  </section>
+
+  <section class="block">
+    <h2><span class="no">2</span>発見 ── 半導体で、小さな力が大きな流れを操る</h2>
+    <p>3人は<span class="term" data-tip="電気を通しやすい金属と、通さない絶縁体の中間の物質。シリコンなど。条件しだいで流れをオン・オフでき、電子技術の主役です。">半導体</span>を使い、<b>ごく小さな信号で大きな電流をオン・オフしたり増幅したりできる</b>部品＝<span class="term" data-tip="半導体でできた、電気のスイッチ兼増幅器。小さな入力で大きな出力を操れます。コンピュータの基本部品。">トランジスタ</span>を作りました。水道の蛇口を軽くひねるだけで大量の水を出したり止めたりできるのと同じ。真空管よりずっと小さく、丈夫で、省エネでした。</p>
+  </section>
+
+  <!-- INTERACTIVE -->
+  <div class="demo">
+    <h2>やってみよう ── 小さな操作で大きな流れ</h2>
+    <div class="hint">スライダー（ゲート＝小さな信号）を動かすと、下の太い電流が増えたり止まったりします。ランプの明るさで確かめて。</div>
+    <div class="xbox">
+      <svg id="tr" width="480" height="200" viewBox="0 0 480 200" role="img" aria-label="トランジスタ">
+        <rect x="40" y="120" width="360" height="24" rx="6" fill="#26343f"/>
+        <text x="20" y="137" fill="#8b93a7" font-size="11">入</text>
+        <rect id="gate" x="210" y="70" width="20" height="50" fill="#16a34a"/>
+        <text x="220" y="60" fill="#66bb6a" font-size="11" text-anchor="middle">ゲート</text>
+        <circle id="lamp" cx="440" cy="132" r="22" fill="#26343f"/>
+        <text x="440" y="176" fill="#8b93a7" font-size="11" text-anchor="middle">出力ランプ</text>
+      </svg>
+    </div>
+    <div class="controls">
+      <label for="g">ゲート（小さな信号）</label>
+      <input id="g" type="range" min="0" max="100" value="0">
+      <div class="readout" id="msg">スイッチ OFF</div>
+    </div>
+    <div class="note">※ 小さな信号が“蛇口”になって大きな電流を操ります。オン・オフはコンピュータの0と1、増幅はスピーカーや電波に使われます。模式図です。</div>
+  </div>
+
+  <section class="block">
+    <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
+    <p>トランジスタは電子機器を一気に小さくし、やがて何十億個も1枚のチップに詰めこむ<b>集積回路（IC）</b>へ。コンピュータ・スマホ・インターネット・あらゆる家電――現代のデジタル社会は、この小さなスイッチの上に成り立っています。20世紀最大の発明のひとつです。</p>
+  </section>
+
+  <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）1956年物理学賞ページ、一般向け科学史資料。</p>
+
+  <div class="pager">
+    <a class="prev" href="16_1949_yukawa.html"><span>前へ</span>← 1949 湯川秀樹</a>
+    <a class="next" href="18_1957_lee_yang.html"><span>次へ</span>1957 リー／ヤン →</a>
+  </div>
+</div>
+
+<script>
+var g=document.getElementById('g'), gate=document.getElementById('gate'),
+    lamp=document.getElementById('lamp'), msg=document.getElementById('msg'), svg=document.getElementById('tr');
+var NS='http://www.w3.org/2000/svg', dots=[];
+for(var i=0;i<10;i++){var c=document.createElementNS(NS,'circle');
+  c.setAttribute('r',5);c.setAttribute('cy',132);c.setAttribute('fill','#7ee787');c.setAttribute('cx',40+i*36);
+  svg.appendChild(c);dots.push({el:c,x:40+i*36});}
+var t=+g.value;
+function frame(){ var open=+g.value/100;
+  gate.setAttribute('y',120-50*open); gate.setAttribute('height',24+50*open>50?50:24+50*open);
+  gate.setAttribute('height',20+30*open);
+  lamp.setAttribute('fill','rgba(126,231,135,'+(0.15+0.85*open).toFixed(2)+')');
+  dots.forEach(function(d){ d.x+=1+open*6; if(d.x>400)d.x=40; d.el.setAttribute('cx',d.x);
+    d.el.setAttribute('opacity', open>0.02?1:0.12); });
+  msg.innerHTML = open<0.02?'スイッチ <b>OFF</b>（流れない）': open<0.6?'少し流れる（絞った蛇口）':'<b>ON</b>：大きく流れる';
+  requestAnimationFrame(frame);
+}
+g.addEventListener('input',function(){});
+frame();
+</script>

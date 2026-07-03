@@ -1,0 +1,116 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2022 量子もつれ — 量子もつれ</title>
+<style>
+  :root{--bg:#f5f4ef;--card:#fff;--ink:#20242e;--muted:#5b6472;--line:#e6e3d9;--accent:#7c3aed;--accent-soft:#f1ebff;--hero:#4c1d95;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Yu Gothic","Yu Gothic UI","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;background:var(--bg);color:var(--ink);line-height:1.8;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent);text-decoration:none}
+  .wrap{max-width:860px;margin:0 auto;padding:0 20px 80px}
+  .topnav{max-width:860px;margin:0 auto;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;font-size:.9rem}
+  .topnav a{color:var(--muted)} .topnav a:hover{color:var(--accent)}
+  .hero{background:linear-gradient(135deg,var(--accent),var(--hero));color:#fff;border-radius:20px;padding:34px 30px;margin-top:6px;box-shadow:0 12px 30px rgba(0,0,0,.12)}
+  .year{display:inline-block;background:rgba(255,255,255,.22);padding:3px 14px;border-radius:999px;font-weight:700;letter-spacing:.05em;font-size:.9rem}
+  .hero h1{margin:14px 0 6px;font-size:2rem;line-height:1.3}
+  .hero .who{font-size:1.05rem;opacity:.95}
+  .cite{margin-top:16px;padding:12px 16px;background:rgba(255,255,255,.14);border-radius:12px;font-size:.95rem}
+  section.block{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 26px;margin-top:22px}
+  section.block h2{margin:0 0 10px;font-size:1.15rem;display:flex;align-items:center;gap:10px}
+  section.block h2 .no{width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-size:.9rem;font-weight:800;flex:none}
+  p{margin:.5em 0}
+  .term{border-bottom:2px dotted var(--accent);cursor:help;position:relative}
+  .term:hover::after{content:attr(data-tip);position:absolute;left:0;bottom:135%;width:250px;background:#20242e;color:#fff;font-size:.8rem;line-height:1.6;padding:10px 12px;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,.25);z-index:5}
+  .term:hover::before{content:"";position:absolute;left:14px;bottom:125%;border:6px solid transparent;border-top-color:#20242e;z-index:5}
+  .demo{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 26px;margin-top:22px}
+  .demo h2{margin:0 0 4px;font-size:1.15rem}
+  .demo .hint{color:var(--muted);font-size:.9rem;margin-bottom:16px}
+  .xbox{background:#0f1420;border-radius:14px;padding:10px;display:flex;justify-content:center;overflow-x:auto}
+  .controls{max-width:460px;margin:18px auto 0}
+  .controls label{display:block;font-weight:700;margin:12px 0 6px;font-size:.95rem}
+  input[type=range]{width:100%;accent-color:var(--accent)}
+  .btns{display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+  .btns button{border:2px solid var(--line);background:#fff;border-radius:999px;padding:9px 20px;font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit;color:var(--ink)}
+  .btns button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .readout{text-align:center;margin-top:14px;font-size:.98rem;color:var(--muted)}
+  .readout b{color:var(--ink)}
+  .status{margin-top:16px;text-align:center;font-size:1rem;padding:12px;border-radius:12px;font-weight:700}
+  .status.no{background:#fdecea;color:#b42318}
+  .status.yes{background:#e7f8ee;color:#087443}
+  .note{font-size:.82rem;color:var(--muted);margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:30px}
+  .pager a{flex:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;color:var(--ink);font-size:.9rem}
+  .pager a.next{text-align:right}
+  .pager a:hover{border-color:var(--accent);color:var(--accent)}
+  .pager span{display:block;font-size:.75rem;color:var(--muted)}
+  .src{font-size:.82rem;color:var(--muted);margin-top:24px}
+  svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+</style>
+
+<nav class="topnav">
+  <a href="../index.html">← 年表一覧へ</a>
+  <span>物理学賞の歩み 43 / 45</span>
+</nav>
+
+<div class="wrap">
+  <div class="hero">
+    <span class="year">2022年</span>
+    <h1>離れていても結びつく2粒子 ── 量子もつれ</h1>
+    <div class="who">アスペ ／ クラウザー ／ ツァイリンガー（フランス・アメリカ・オーストリア）</div>
+    <div class="cite"><b>受賞理由：</b>もつれ合った光子を使った実験でベルの不等式の破れを示し、量子情報科学を開いたことに対して。</div>
+  </div>
+
+  <section class="block">
+    <h2><span class="no">1</span>背景 ── アインシュタインも悩んだ“不気味な結びつき”</h2>
+    <p>量子力学では、2つの粒子が<span class="term" data-tip="2つの粒子が1つの運命を分け合う状態。片方を測ると、もう片方の状態も瞬時に決まります。">量子もつれ</span>という特別な関係を結べます。すると、どんなに遠く離れても<b>片方を測った瞬間に、もう片方の状態も決まる</b>のです。アインシュタインはこれを「不気味」と呼び、本当は隠れた仕掛けがあるのでは、と疑いました。</p>
+  </section>
+
+  <section class="block">
+    <h2><span class="no">2</span>発見 ── 実験が決着をつけた</h2>
+    <p>クラウザー、アスペ、ツァイリンガーは、もつれ合った<b>光子</b>のペアで精密な実験を重ね、<span class="term" data-tip="隠れた仕掛け（古典的な事前の取り決め）では説明できない相関の限界を示す式。量子もつれはこれを破ります。">ベルの不等式</span>が<b>破れる</b>ことを示しました。つまり「隠れた仕掛け」では説明できず、<b>量子もつれは本物</b>だと決着したのです。ただし、これを使って光より速く<b>情報を送ることはできません</b>（結果はランダムに見えるため）。</p>
+  </section>
+
+  <!-- INTERACTIVE -->
+  <div class="demo">
+    <h2>やってみよう ── 離れた2粒子を測る</h2>
+    <div class="hint">「測定する」を押すと、左右のもつれた粒子の結果が出ます。毎回ランダムですが、2つは必ず逆向き（強く相関）です。</div>
+    <div class="xbox">
+      <svg id="en2" width="440" height="170" viewBox="0 0 440 170" role="img" aria-label="量子もつれ">
+        <line x1="120" y1="85" x2="320" y2="85" stroke="#3a4356" stroke-dasharray="4 4"/>
+        <circle cx="60" cy="85" r="24" fill="#3b2f66" stroke="#c4b5fd"/>
+        <text id="lft" x="60" y="92" text-anchor="middle" font-size="20" fill="#e8edf3">?</text>
+        <circle cx="380" cy="85" r="24" fill="#3b2f66" stroke="#c4b5fd"/>
+        <text id="rgt" x="380" y="92" text-anchor="middle" font-size="20" fill="#e8edf3">?</text>
+        <text x="60" y="135" fill="#8b93a7" font-size="11" text-anchor="middle">粒子A</text>
+        <text x="380" y="135" fill="#8b93a7" font-size="11" text-anchor="middle">粒子B（遠く離れている）</text>
+      </svg>
+    </div>
+    <div class="btns"><button id="meas">測定する</button></div>
+    <div class="readout" id="msg">測定回数：0　一致して逆向き：0</div>
+    <div class="note">※ 片方が上向きなら、もう片方は必ず下向き――遠く離れても結果は結びついています。ただし通信には使えません。模式図です。</div>
+  </div>
+
+  <section class="block">
+    <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
+    <p>量子もつれは、いまや<b>量子コンピュータ</b>・<b>量子暗号（盗聴を見破る通信）</b>・<b>量子テレポーテーション</b>といった量子情報技術の基盤です。かつては哲学的な論争だった話題が、実験を経て新しい産業技術になりました。「不気味な結びつき」は、これからの情報社会のカギになろうとしています。</p>
+  </section>
+
+  <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）2022年物理学賞ページ、一般向け科学史資料。</p>
+
+  <div class="pager">
+    <a class="prev" href="42_2021_manabe.html"><span>前へ</span>← 2021 真鍋淑郎</a>
+    <a class="next" href="44_2023_attosecond.html"><span>次へ</span>2023 アト秒 →</a>
+  </div>
+</div>
+
+<script>
+var meas=document.getElementById('meas'), lft=document.getElementById('lft'),
+    rgt=document.getElementById('rgt'), msg=document.getElementById('msg');
+var n=0, corr=0;
+meas.addEventListener('click',function(){ n++;
+  var up=Math.random()<0.5;
+  lft.textContent=up?'↑':'↓'; rgt.textContent=up?'↓':'↑';
+  lft.setAttribute('fill',up?'#7ec8ff':'#ff9a8a'); rgt.setAttribute('fill',up?'#ff9a8a':'#7ec8ff');
+  corr++;                                          // つねに逆向き
+  msg.innerHTML='測定回数：<b>'+n+'</b>　一致して逆向き：<b>'+corr+'</b>（いつも相関している）';
+});
+</script>

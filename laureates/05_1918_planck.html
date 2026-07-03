@@ -1,0 +1,120 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1918 プランク — 量子の発見</title>
+<style>
+  :root{--bg:#f5f4ef;--card:#fff;--ink:#20242e;--muted:#5b6472;--line:#e6e3d9;--accent:#7c3aed;--accent-soft:#f1ebff;--hero:#4c1d95;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Yu Gothic","Yu Gothic UI","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;background:var(--bg);color:var(--ink);line-height:1.8;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent);text-decoration:none}
+  .wrap{max-width:860px;margin:0 auto;padding:0 20px 80px}
+  .topnav{max-width:860px;margin:0 auto;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;font-size:.9rem}
+  .topnav a{color:var(--muted)} .topnav a:hover{color:var(--accent)}
+  .hero{background:linear-gradient(135deg,var(--accent),var(--hero));color:#fff;border-radius:20px;padding:34px 30px;margin-top:6px;box-shadow:0 12px 30px rgba(0,0,0,.12)}
+  .year{display:inline-block;background:rgba(255,255,255,.22);padding:3px 14px;border-radius:999px;font-weight:700;letter-spacing:.05em;font-size:.9rem}
+  .hero h1{margin:14px 0 6px;font-size:2rem;line-height:1.3}
+  .hero .who{font-size:1.05rem;opacity:.95}
+  .cite{margin-top:16px;padding:12px 16px;background:rgba(255,255,255,.14);border-radius:12px;font-size:.95rem}
+  section.block{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 26px;margin-top:22px}
+  section.block h2{margin:0 0 10px;font-size:1.15rem;display:flex;align-items:center;gap:10px}
+  section.block h2 .no{width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-size:.9rem;font-weight:800;flex:none}
+  p{margin:.5em 0}
+  .term{border-bottom:2px dotted var(--accent);cursor:help;position:relative}
+  .term:hover::after{content:attr(data-tip);position:absolute;left:0;bottom:135%;width:250px;background:#20242e;color:#fff;font-size:.8rem;line-height:1.6;padding:10px 12px;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,.25);z-index:5}
+  .term:hover::before{content:"";position:absolute;left:14px;bottom:125%;border:6px solid transparent;border-top-color:#20242e;z-index:5}
+  .demo{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 26px;margin-top:22px}
+  .demo h2{margin:0 0 4px;font-size:1.15rem}
+  .demo .hint{color:var(--muted);font-size:.9rem;margin-bottom:16px}
+  .xbox{background:#0f1420;border-radius:14px;padding:10px;display:flex;justify-content:center;overflow-x:auto}
+  .controls{max-width:460px;margin:18px auto 0}
+  .controls label{display:block;font-weight:700;margin:12px 0 6px;font-size:.95rem}
+  input[type=range]{width:100%;accent-color:var(--accent)}
+  .btns{display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+  .btns button{border:2px solid var(--line);background:#fff;border-radius:999px;padding:9px 20px;font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit;color:var(--ink)}
+  .btns button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .readout{text-align:center;margin-top:14px;font-size:.98rem;color:var(--muted)}
+  .readout b{color:var(--ink)}
+  .status{margin-top:16px;text-align:center;font-size:1rem;padding:12px;border-radius:12px;font-weight:700}
+  .status.no{background:#fdecea;color:#b42318}
+  .status.yes{background:#e7f8ee;color:#087443}
+  .note{font-size:.82rem;color:var(--muted);margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:30px}
+  .pager a{flex:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;color:var(--ink);font-size:.9rem}
+  .pager a.next{text-align:right}
+  .pager a:hover{border-color:var(--accent);color:var(--accent)}
+  .pager span{display:block;font-size:.75rem;color:var(--muted)}
+  .src{font-size:.82rem;color:var(--muted);margin-top:24px}
+  svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+</style>
+
+<nav class="topnav">
+  <a href="../index.html">← 年表一覧へ</a>
+  <span>物理学賞の歩み 05 / 45</span>
+</nav>
+
+<div class="wrap">
+  <div class="hero">
+    <span class="year">1918年</span>
+    <h1>エネルギーは飛び飛び ── 量子の発見</h1>
+    <div class="who">マックス・プランク（ドイツ）</div>
+    <div class="cite"><b>受賞理由：</b>エネルギー量子の発見によって物理学の進歩に大きく貢献したことに対して。</div>
+  </div>
+
+  <section class="block">
+    <h2><span class="no">1</span>背景 ── 熱い物体の色が説明できなかった</h2>
+    <p>熱した鉄が赤→オレンジ→白と光る「<span class="term" data-tip="熱を持った物体が出す光。温度によって色（波長の分布）が変わります。">熱放射</span>」の色の分布を、当時の理論（エネルギーは連続的にいくらでも細かく分けられるという考え）で計算すると、短い波長側で値が無限大になり、実験とまるで合いませんでした。</p>
+  </section>
+
+  <section class="block">
+    <h2><span class="no">2</span>発見 ── エネルギーを「かたまり」で数える</h2>
+    <p>プランクは思いきって「光のエネルギーは、ある<b>最小のかたまり（<span class="term" data-tip="エネルギーのそれ以上分けられない最小単位。連続ではなく、この単位の整数倍しか取れないと考えます。">量子</span>）</b>の整数倍しか取れない」と仮定しました。なだらかな坂道ではなく、<b>階段のようにとびとび</b>。すると計算が実験にぴたりと合ったのです。このかたまりの大きさを決める数が<span class="term" data-tip="量子の世界の大きさを決める基本定数。とても小さな値で、これがゼロなら世界は連続的（古典的）に見えます。">プランク定数</span>で、量子の世界の“最小通貨”です。</p>
+  </section>
+
+  <!-- INTERACTIVE -->
+  <div class="demo">
+    <h2>やってみよう ── エネルギーの階段</h2>
+    <div class="hint">スライダーでエネルギーを増やしても、ボールは「階段の段」にしか止まれません。点線（昔の考え＝なめらかな坂）と比べてみましょう。</div>
+    <div class="xbox">
+      <svg id="pl" width="440" height="250" viewBox="0 0 440 250" role="img" aria-label="エネルギーの量子化">
+        <line x1="70" y1="220" x2="380" y2="60" stroke="#4b5563" stroke-width="2" stroke-dasharray="5 5"/>
+        <text x="300" y="70" fill="#8b93a7" font-size="11">昔の考え＝連続の坂</text>
+        <g id="rungs" stroke="#2a3446" stroke-width="2"></g>
+        <circle id="ball" cx="150" cy="220" r="13" fill="#c4b5fd"/>
+      </svg>
+    </div>
+    <div class="controls">
+      <label for="en">与えるエネルギー</label>
+      <input id="en" type="range" min="0" max="100" value="0">
+      <div class="readout" id="msg">いまは <b>レベル 0</b></div>
+    </div>
+    <div class="note">※ エネルギーは「量子」という段の高さの整数倍しか取れません。段の間の高さには止まれない――これが量子化です。模式図です。</div>
+  </div>
+
+  <section class="block">
+    <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
+    <p>「とびとび（量子）」という発想は、光電効果（1921）・ボーアの原子模型（1922）・量子力学（1932）へと受けつがれ、20世紀物理学の出発点になりました。<b>半導体・レーザー・LED</b>など、いまの電子技術はすべて、この量子の考えの上に成り立っています。</p>
+  </section>
+
+  <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）1918年物理学賞ページ、一般向け科学史資料。</p>
+
+  <div class="pager">
+    <a class="prev" href="04_1907_michelson.html"><span>前へ</span>← 1907 マイケルソン</a>
+    <a class="next" href="06_1921_einstein.html"><span>次へ</span>1921 アインシュタイン →</a>
+  </div>
+</div>
+
+<script>
+var en=document.getElementById('en'), ball=document.getElementById('ball'),
+    rungs=document.getElementById('rungs'), msg=document.getElementById('msg');
+var N=5, x0=110, x1=250, base=220, step=32;
+for(var k=0;k<=N;k++){var y=base-k*step;
+  var ln=document.createElementNS('http://www.w3.org/2000/svg','line');
+  ln.setAttribute('x1',x0);ln.setAttribute('y1',y);ln.setAttribute('x2',x1);ln.setAttribute('y2',y);
+  rungs.appendChild(ln);
+  var t=document.createElementNS('http://www.w3.org/2000/svg','text');
+  t.setAttribute('x',x1+8);t.setAttribute('y',y+4);t.setAttribute('fill','#8b93a7');t.setAttribute('font-size','11');
+  t.textContent='レベル '+k; rungs.appendChild(t);}
+function render(){var lvl=Math.round(+en.value/100*N);
+  ball.setAttribute('cy',base-lvl*step); ball.setAttribute('cx',(x0+x1)/2);
+  msg.innerHTML='いまは <b>レベル '+lvl+'</b>（この段の高さだけ）';}
+en.addEventListener('input',render); render();
+</script>

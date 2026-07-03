@@ -1,0 +1,122 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1907 マイケルソン — 干渉計</title>
+<style>
+  :root{--bg:#f5f4ef;--card:#fff;--ink:#20242e;--muted:#5b6472;--line:#e6e3d9;--accent:#16a34a;--accent-soft:#e6f6ec;--hero:#14532d;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Yu Gothic","Yu Gothic UI","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;background:var(--bg);color:var(--ink);line-height:1.8;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent);text-decoration:none}
+  .wrap{max-width:860px;margin:0 auto;padding:0 20px 80px}
+  .topnav{max-width:860px;margin:0 auto;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;font-size:.9rem}
+  .topnav a{color:var(--muted)} .topnav a:hover{color:var(--accent)}
+  .hero{background:linear-gradient(135deg,var(--accent),var(--hero));color:#fff;border-radius:20px;padding:34px 30px;margin-top:6px;box-shadow:0 12px 30px rgba(0,0,0,.12)}
+  .year{display:inline-block;background:rgba(255,255,255,.22);padding:3px 14px;border-radius:999px;font-weight:700;letter-spacing:.05em;font-size:.9rem}
+  .hero h1{margin:14px 0 6px;font-size:2rem;line-height:1.3}
+  .hero .who{font-size:1.05rem;opacity:.95}
+  .cite{margin-top:16px;padding:12px 16px;background:rgba(255,255,255,.14);border-radius:12px;font-size:.95rem}
+  section.block{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 26px;margin-top:22px}
+  section.block h2{margin:0 0 10px;font-size:1.15rem;display:flex;align-items:center;gap:10px}
+  section.block h2 .no{width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-size:.9rem;font-weight:800;flex:none}
+  p{margin:.5em 0}
+  .term{border-bottom:2px dotted var(--accent);cursor:help;position:relative}
+  .term:hover::after{content:attr(data-tip);position:absolute;left:0;bottom:135%;width:250px;background:#20242e;color:#fff;font-size:.8rem;line-height:1.6;padding:10px 12px;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,.25);z-index:5}
+  .term:hover::before{content:"";position:absolute;left:14px;bottom:125%;border:6px solid transparent;border-top-color:#20242e;z-index:5}
+  .demo{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 26px;margin-top:22px}
+  .demo h2{margin:0 0 4px;font-size:1.15rem}
+  .demo .hint{color:var(--muted);font-size:.9rem;margin-bottom:16px}
+  .xbox{background:#0f1420;border-radius:14px;padding:10px;display:flex;justify-content:center;overflow-x:auto}
+  .controls{max-width:460px;margin:18px auto 0}
+  .controls label{display:block;font-weight:700;margin:12px 0 6px;font-size:.95rem}
+  input[type=range]{width:100%;accent-color:var(--accent)}
+  .btns{display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+  .btns button{border:2px solid var(--line);background:#fff;border-radius:999px;padding:9px 20px;font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit;color:var(--ink)}
+  .btns button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .readout{text-align:center;margin-top:14px;font-size:.98rem;color:var(--muted)}
+  .readout b{color:var(--ink)}
+  .status{margin-top:16px;text-align:center;font-size:1rem;padding:12px;border-radius:12px;font-weight:700}
+  .status.no{background:#fdecea;color:#b42318}
+  .status.yes{background:#e7f8ee;color:#087443}
+  .note{font-size:.82rem;color:var(--muted);margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:30px}
+  .pager a{flex:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;color:var(--ink);font-size:.9rem}
+  .pager a.next{text-align:right}
+  .pager a:hover{border-color:var(--accent);color:var(--accent)}
+  .pager span{display:block;font-size:.75rem;color:var(--muted)}
+  .src{font-size:.82rem;color:var(--muted);margin-top:24px}
+  svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+</style>
+
+<nav class="topnav">
+  <a href="../index.html">← 年表一覧へ</a>
+  <span>物理学賞の歩み 04 / 45</span>
+</nav>
+
+<div class="wrap">
+  <div class="hero">
+    <span class="year">1907年</span>
+    <h1>光の波を重ねて長さを測る ── 干渉計</h1>
+    <div class="who">アルバート・マイケルソン（アメリカ）</div>
+    <div class="cite"><b>受賞理由：</b>精密な光学機器の開発と、それを用いた分光学・長さの基準づくりの研究に対して。</div>
+  </div>
+
+  <section class="block">
+    <h2><span class="no">1</span>背景 ── 光は波、でも波長はとても短い</h2>
+    <p>光が<b>波</b>であることは分かっていましたが、その波の間隔（<span class="term" data-tip="波の山から次の山までの長さ。可視光では1mmの千分の一ほどしかありません。">波長</span>）は、髪の毛よりずっと細かい長さです。これを普通のものさしで測るのは不可能でした。</p>
+  </section>
+
+  <section class="block">
+    <h2><span class="no">2</span>発見 ── 2つに分けて、また重ねる</h2>
+    <p>マイケルソンは、1本の光を鏡で2手に分け、別々の鏡ではね返してもう一度<b>重ね合わせる</b>装置（<span class="term" data-tip="光を2つの道に分けて反射させ、再び重ねて明暗の縞を作る精密測定器。マイケルソンが完成させました。">干渉計</span>）を作りました。2つの道のりの差（<span class="term" data-tip="分かれた2つの光が進む距離の差。これが波長の整数倍か半端かで、重ねた光の明暗が決まります。">光路差</span>）が波長の整数倍なら山と山が重なって<b>明るく</b>、半波長ずれると山と谷が打ち消して<b>暗く</b>なります。鏡をほんの少し動かすだけで明暗が入れかわるので、<b>光の波長そのものをものさし</b>にした超精密な測定ができたのです。</p>
+  </section>
+
+  <!-- INTERACTIVE -->
+  <div class="demo">
+    <h2>やってみよう ── 2つの波を重ねる</h2>
+    <div class="hint">スライダーで片方の鏡を動かすと2つの波の「ずれ」が変わり、重ねた光（検出器）が明るくなったり暗くなったりします。</div>
+    <div class="xbox">
+      <svg id="mi" width="520" height="210" viewBox="0 0 520 210" role="img" aria-label="光の干渉">
+        <path id="wA" fill="none" stroke="#ff9a8a" stroke-width="3"/>
+        <path id="wB" fill="none" stroke="#8ab6ff" stroke-width="3"/>
+        <text x="10" y="20" fill="#ff9a8a" font-size="12">波A（基準の光）</text>
+        <text x="130" y="20" fill="#8ab6ff" font-size="12">波B（動く鏡からの光）</text>
+        <circle id="lamp" cx="440" cy="150" r="26" fill="#ffd257"/>
+        <circle cx="440" cy="150" r="26" fill="none" stroke="#3a4356" stroke-width="2"/>
+        <text x="440" y="196" fill="#8b93a7" font-size="12" text-anchor="middle">検出器</text>
+      </svg>
+    </div>
+    <div class="controls">
+      <label for="ph">動く鏡の位置（光路差）</label>
+      <input id="ph" type="range" min="0" max="100" value="0">
+    </div>
+    <div class="status yes" id="st">山と山が重なって明るい（強め合い）</div>
+    <div class="note">※ 2つの波の山どうしが重なると明るく、山と谷が重なると打ち消して暗くなります。この明暗の周期が「光の波長ものさし」です。仕組みをつかむための模式図です。</div>
+  </div>
+
+  <section class="block">
+    <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
+    <p>この干渉の技術は、長さの世界基準を光の波長で定める道を開き、いまも精密計測の土台です。さらにマイケルソンは「光の速さは地球の動きによらず一定らしい」という有名な実験（マイケルソン・モーリーの実験）も行い、これがのちの<b>アインシュタインの相対性理論</b>につながりました。2017年に受賞した<b>重力波望遠鏡LIGO</b>も、じつは巨大な干渉計そのものです。</p>
+  </section>
+
+  <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）1907年物理学賞ページ、一般向け科学史資料。</p>
+
+  <div class="pager">
+    <a class="prev" href="03_1906_thomson.html"><span>前へ</span>← 1906 J.J.トムソン</a>
+    <a class="next" href="05_1918_planck.html"><span>次へ</span>1918 プランク →</a>
+  </div>
+</div>
+
+<script>
+var ph=document.getElementById('ph'), wA=document.getElementById('wA'),
+    wB=document.getElementById('wB'), lamp=document.getElementById('lamp'), st=document.getElementById('st');
+function sine(shift,yc){var d='M',i;for(i=0;i<=500;i+=4){var y=yc-30*Math.sin((i/40)+shift);d+=(i===0?'':'L')+(10+i)+','+y.toFixed(1)+' ';}return d;}
+function render(){
+  var t=+ph.value/100, shift=t*4*Math.PI;         // 鏡を動かす → 位相ずれ
+  wA.setAttribute('d',sine(0,70)); wB.setAttribute('d',sine(shift,70));
+  var b=Math.cos(shift/2)*Math.cos(shift/2);       // 明るさ 0..1
+  lamp.setAttribute('fill','rgba(255,210,87,'+(0.12+0.88*b).toFixed(2)+')');
+  if(b>0.7){st.className='status yes';st.textContent='山と山が重なって明るい（強め合い）';}
+  else if(b<0.15){st.className='status no';st.textContent='山と谷が打ち消して暗い（弱め合い）';}
+  else{st.className='status';st.style.background='#fff7e6';st.style.color='#8a5a00';st.textContent='中間の明るさ（少しずれている）';}
+}
+ph.addEventListener('input',render); render();
+</script>

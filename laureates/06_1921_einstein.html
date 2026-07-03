@@ -1,0 +1,147 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1921 アインシュタイン — 光電効果と光の粒</title>
+<style>
+  :root{--bg:#f5f4ef;--card:#fff;--ink:#20242e;--muted:#5b6472;--line:#e6e3d9;--accent:#7c3aed;--accent-soft:#f1ebff;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Yu Gothic","Yu Gothic UI","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;
+       background:var(--bg);color:var(--ink);line-height:1.8;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent);text-decoration:none}
+  .wrap{max-width:860px;margin:0 auto;padding:0 20px 80px}
+  .topnav{max-width:860px;margin:0 auto;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;font-size:.9rem}
+  .topnav a{color:var(--muted)} .topnav a:hover{color:var(--accent)}
+  .hero{background:linear-gradient(135deg,var(--accent),#4c1d95);color:#fff;border-radius:20px;padding:34px 30px;margin-top:6px;box-shadow:0 12px 30px rgba(0,0,0,.12)}
+  .year{display:inline-block;background:rgba(255,255,255,.22);padding:3px 14px;border-radius:999px;font-weight:700;letter-spacing:.05em;font-size:.9rem}
+  .hero h1{margin:14px 0 6px;font-size:2rem;line-height:1.3}
+  .hero .who{font-size:1.05rem;opacity:.95}
+  .cite{margin-top:16px;padding:12px 16px;background:rgba(255,255,255,.14);border-radius:12px;font-size:.95rem}
+  section.block{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 26px;margin-top:22px}
+  section.block h2{margin:0 0 10px;font-size:1.15rem;display:flex;align-items:center;gap:10px}
+  section.block h2 .no{width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-size:.9rem;font-weight:800}
+  p{margin:.5em 0}
+  .term{border-bottom:2px dotted var(--accent);cursor:help;position:relative}
+  .term:hover::after{content:attr(data-tip);position:absolute;left:0;bottom:135%;width:240px;background:#20242e;color:#fff;font-size:.8rem;line-height:1.6;padding:10px 12px;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,.25);z-index:5}
+  .term:hover::before{content:"";position:absolute;left:14px;bottom:125%;border:6px solid transparent;border-top-color:#20242e;z-index:5}
+  .demo{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 26px;margin-top:22px}
+  .demo h2{margin:0 0 4px;font-size:1.15rem}
+  .demo .hint{color:var(--muted);font-size:.9rem;margin-bottom:16px}
+  .xbox{background:#0b0d16;border-radius:14px;padding:10px;display:flex;justify-content:center}
+  .controls{max-width:460px;margin:18px auto 0}
+  .controls label{display:block;font-weight:700;margin:12px 0 6px;font-size:.95rem}
+  input[type=range]{width:100%;accent-color:var(--accent)}
+  .status{margin-top:16px;text-align:center;font-size:1rem;padding:12px;border-radius:12px;font-weight:700}
+  .status.no{background:#fdecea;color:#b42318}
+  .status.yes{background:#e7f8ee;color:#087443}
+  .note{font-size:.82rem;color:var(--muted);margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:30px}
+  .pager a{flex:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;color:var(--ink);font-size:.9rem}
+  .pager a.next{text-align:right}
+  .pager a:hover{border-color:var(--accent);color:var(--accent)}
+  .pager span{display:block;font-size:.75rem;color:var(--muted)}
+  .src{font-size:.82rem;color:var(--muted);margin-top:24px}
+</style>
+
+<nav class="topnav">
+  <a href="../index.html">← 年表一覧へ</a>
+  <span>物理学賞の歩み 06 / 45</span>
+</nav>
+
+<div class="wrap">
+  <div class="hero">
+    <span class="year">1921年</span>
+    <h1>光は「粒」でもある ── 光電効果の説明</h1>
+    <div class="who">アルベルト・アインシュタイン（ドイツ→スイス→アメリカ）</div>
+    <div class="cite"><b>受賞理由：</b>理論物理学への貢献、とくに<b>光電効果の法則の発見</b>に対して。（相対性理論ではありません）</div>
+  </div>
+
+  <section class="block">
+    <h2><span class="no">1</span>背景 ── 光を当てると電子が飛ぶ、その不思議</h2>
+    <p>金属に光を当てると、表面から電子が飛び出すことが知られていました（<span class="term" data-tip="光を当てた金属から電子が飛び出す現象。太陽電池や光センサーの原理でもあります。">光電効果</span>）。
+      当時、光は「波」と考えられていて、波なら<b>明るく（強く）すればいつか電子は飛ぶ</b>はず。ところが実験は違いました。</p>
+    <p><b>赤い光はどれだけ明るくしても電子が飛ばず、青や紫の光ならわずかでも飛ぶ</b>──。波の考えでは説明できませんでした。</p>
+  </section>
+
+  <section class="block">
+    <h2><span class="no">2</span>発見 ── 光は「エネルギーの粒」の集まり</h2>
+    <p>アインシュタインは、光は
+      <span class="term" data-tip="光を作る小さなエネルギーの粒。振動数（色）が高いほど1粒のエネルギーが大きくなります。">光子（こうし）</span>
+      という<b>粒の集まり</b>で、1粒のエネルギーは<b>光の色（振動数）で決まる</b>と考えました。
+      青や紫の光子は1粒のエネルギーが大きく、電子をはじき出せる。赤い光子は1粒が弱く、
+      いくら数を増やして（明るくして）も1粒では電子を押し出せない──こう考えるとすべて説明できたのです。</p>
+    <p>「光は波であり粒でもある」。この考えは<b>量子力学</b>の出発点になりました。</p>
+  </section>
+
+  <!-- INTERACTIVE -->
+  <div class="demo">
+    <h2>やってみよう ── 色と明るさを変えて電子を飛ばす</h2>
+    <div class="hint">上のスライダーで光の色（振動数）、下のスライダーで明るさを変えられます。「明るくするだけ」では飛ばないことを確かめてみて。</div>
+    <div class="xbox">
+      <canvas id="pe" width="520" height="240"></canvas>
+    </div>
+    <div class="controls">
+      <label for="freq">光の色（振動数）　← 赤　　　紫・紫外線 →</label>
+      <input id="freq" type="range" min="0" max="100" value="20">
+      <label for="bright">明るさ（光子の数）</label>
+      <input id="bright" type="range" min="10" max="100" value="55">
+    </div>
+    <div id="status" class="status no">赤っぽい光：明るくしても電子は飛び出しません</div>
+    <div class="note">※ しきい値より低い色（赤側）では、いくら明るくしても電子は出ません。しきい値を超えると、
+      <b>色が紫に近いほど電子は勢いよく</b>飛び出します。仕組みをつかむための模式図です。</div>
+  </div>
+
+  <section class="block">
+    <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
+    <p>この「光の粒」の考えは、<b>太陽電池</b>・<b>デジタルカメラのセンサー</b>・<b>光センサー</b>・<b>自動ドア</b>など、
+      光を電気に変えるあらゆる技術の土台です。さらに「粒でも波でもある」という量子の世界観は、
+      現代のエレクトロニクスから量子コンピュータまで続いています。</p>
+  </section>
+
+  <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）1921年物理学賞ページ、一般向け科学史資料。</p>
+
+  <div class="pager">
+    <a class="prev" href="05_1918_planck.html"><span>前へ</span>← 1918 プランク</a>
+    <a class="next" href="07_1922_bohr.html"><span>次へ</span>1922 ボーア →</a>
+  </div>
+</div>
+
+<script>
+  var cv=document.getElementById('pe'), g=cv.getContext('2d');
+  var freq=document.getElementById('freq'), bright=document.getElementById('bright'), st=document.getElementById('status');
+  var W=cv.width, H=cv.height, plateY=180, T=45; // threshold on freq scale
+  var photons=[], electrons=[], spawnAcc=0;
+  function colorFor(f){ var hue=f*2.7; return 'hsl('+hue+',85%,60%)'; } // 0 red -> 270 violet
+  function update(){
+    var f=+freq.value, b=+bright.value, above=f>=T;
+    // spawn photons
+    spawnAcc += b/60;
+    while(spawnAcc>=1){ spawnAcc-=1;
+      photons.push({x:30+Math.random()*(W-60), y:-6, c:colorFor(f), speed:3.4});
+    }
+    g.clearRect(0,0,W,H);
+    // metal plate
+    g.fillStyle='#3a4356'; g.fillRect(20,plateY,W-40,26);
+    g.fillStyle='#8b93a7'; g.font='13px sans-serif'; g.fillText('金属の板',26,plateY+18);
+    // photons
+    for(var i=photons.length-1;i>=0;i--){var p=photons[i]; p.y+=p.speed;
+      g.beginPath(); g.arc(p.x,p.y,4,0,7); g.fillStyle=p.c; g.fill();
+      if(p.y>=plateY){ photons.splice(i,1);
+        if(above){ var ke=(f-T)/(100-T); // 0..1
+          electrons.push({x:p.x,y:plateY-2,vx:(Math.random()-0.5)*1.4,vy:-(1.6+ke*5.5)});
+        }
+      }
+    }
+    // electrons
+    for(var j=electrons.length-1;j>=0;j--){var e=electrons[j]; e.x+=e.vx; e.y+=e.vy;
+      g.beginPath(); g.arc(e.x,e.y,5,0,7); g.fillStyle='#ffd257'; g.fill();
+      g.fillStyle='#111'; g.font='bold 8px sans-serif'; g.fillText('e',e.x-2.5,e.y+3);
+      if(e.y<-10) electrons.splice(j,1);
+    }
+    // status
+    if(!above){ st.className='status no'; st.textContent='赤っぽい光：明るくしても電子は飛び出しません'; }
+    else { st.className='status yes';
+      st.textContent = f<70 ? '電子が飛び出した！（青い光：ほどよい勢い）'
+                            : '電子が勢いよく飛び出した！（紫・紫外線：エネルギー大）'; }
+    requestAnimationFrame(update);
+  }
+  update();
+</script>

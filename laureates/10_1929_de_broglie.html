@@ -1,0 +1,121 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1929 ド・ブロイ — 物質波</title>
+<style>
+  :root{--bg:#f5f4ef;--card:#fff;--ink:#20242e;--muted:#5b6472;--line:#e6e3d9;--accent:#7c3aed;--accent-soft:#f1ebff;--hero:#4c1d95;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Yu Gothic","Yu Gothic UI","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;background:var(--bg);color:var(--ink);line-height:1.8;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent);text-decoration:none}
+  .wrap{max-width:860px;margin:0 auto;padding:0 20px 80px}
+  .topnav{max-width:860px;margin:0 auto;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;font-size:.9rem}
+  .topnav a{color:var(--muted)} .topnav a:hover{color:var(--accent)}
+  .hero{background:linear-gradient(135deg,var(--accent),var(--hero));color:#fff;border-radius:20px;padding:34px 30px;margin-top:6px;box-shadow:0 12px 30px rgba(0,0,0,.12)}
+  .year{display:inline-block;background:rgba(255,255,255,.22);padding:3px 14px;border-radius:999px;font-weight:700;letter-spacing:.05em;font-size:.9rem}
+  .hero h1{margin:14px 0 6px;font-size:2rem;line-height:1.3}
+  .hero .who{font-size:1.05rem;opacity:.95}
+  .cite{margin-top:16px;padding:12px 16px;background:rgba(255,255,255,.14);border-radius:12px;font-size:.95rem}
+  section.block{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 26px;margin-top:22px}
+  section.block h2{margin:0 0 10px;font-size:1.15rem;display:flex;align-items:center;gap:10px}
+  section.block h2 .no{width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-size:.9rem;font-weight:800;flex:none}
+  p{margin:.5em 0}
+  .term{border-bottom:2px dotted var(--accent);cursor:help;position:relative}
+  .term:hover::after{content:attr(data-tip);position:absolute;left:0;bottom:135%;width:250px;background:#20242e;color:#fff;font-size:.8rem;line-height:1.6;padding:10px 12px;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,.25);z-index:5}
+  .term:hover::before{content:"";position:absolute;left:14px;bottom:125%;border:6px solid transparent;border-top-color:#20242e;z-index:5}
+  .demo{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 26px;margin-top:22px}
+  .demo h2{margin:0 0 4px;font-size:1.15rem}
+  .demo .hint{color:var(--muted);font-size:.9rem;margin-bottom:16px}
+  .xbox{background:#0f1420;border-radius:14px;padding:10px;display:flex;justify-content:center;overflow-x:auto}
+  .controls{max-width:460px;margin:18px auto 0}
+  .controls label{display:block;font-weight:700;margin:12px 0 6px;font-size:.95rem}
+  input[type=range]{width:100%;accent-color:var(--accent)}
+  .btns{display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+  .btns button{border:2px solid var(--line);background:#fff;border-radius:999px;padding:9px 20px;font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit;color:var(--ink)}
+  .btns button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .readout{text-align:center;margin-top:14px;font-size:.98rem;color:var(--muted)}
+  .readout b{color:var(--ink)}
+  .status{margin-top:16px;text-align:center;font-size:1rem;padding:12px;border-radius:12px;font-weight:700}
+  .status.no{background:#fdecea;color:#b42318}
+  .status.yes{background:#e7f8ee;color:#087443}
+  .note{font-size:.82rem;color:var(--muted);margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:30px}
+  .pager a{flex:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;color:var(--ink);font-size:.9rem}
+  .pager a.next{text-align:right}
+  .pager a:hover{border-color:var(--accent);color:var(--accent)}
+  .pager span{display:block;font-size:.75rem;color:var(--muted)}
+  .src{font-size:.82rem;color:var(--muted);margin-top:24px}
+  svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+</style>
+
+<nav class="topnav">
+  <a href="../index.html">← 年表一覧へ</a>
+  <span>物理学賞の歩み 10 / 45</span>
+</nav>
+
+<div class="wrap">
+  <div class="hero">
+    <span class="year">1929年</span>
+    <h1>電子も波のようにふるまう ── 物質波</h1>
+    <div class="who">ルイ・ド・ブロイ（フランス）</div>
+    <div class="cite"><b>受賞理由：</b>電子など「物」にも波の性質があること（物質波）の発見に対して。</div>
+  </div>
+
+  <section class="block">
+    <h2><span class="no">1</span>背景 ── 光が波でも粒でもあるなら…</h2>
+    <p>光は「波でも粒でもある」と分かってきました。ド・ブロイは逆に、「では電子のような<b>物（粒）にも、波の性質があるのでは</b>？」と考えました。しかもその波の間隔（波長）は、<b>速く動くほど短くなる</b>と予想しました。</p>
+  </section>
+
+  <section class="block">
+    <h2><span class="no">2</span>発見 ── 波が「ちょうど整数個」で軌道が決まる</h2>
+    <p>この<span class="term" data-tip="電子などの粒が持つ波。速く動くほど波長が短くなります。のちに電子線の実験で本当に波として観測されました。">物質波</span>の考えは、ボーアの謎を解きました。原子の中で電子の波が<b>軌道をちょうど整数個の波でひとまわりする</b>ときだけ、波が自分自身とうまくつながって安定する（<span class="term" data-tip="行って戻ってきた波がぴったり重なり、消えずに保たれる波。弦楽器の音もこれです。">定常波</span>）。だから軌道が「とびとび」に決まるのです。電子の波は、のちに電子線の実験で本当に観測されました。</p>
+  </section>
+
+  <!-- INTERACTIVE -->
+  <div class="demo">
+    <h2>やってみよう ── 波が軌道につながるか</h2>
+    <div class="hint">スライダーで電子の波の数を変えます。ちょうど整数個そろうと波がつながって「安定な軌道」になります。</div>
+    <div class="xbox">
+      <svg id="db" width="360" height="260" viewBox="0 0 360 260" role="img" aria-label="物質波と定常波">
+        <circle cx="180" cy="130" r="80" fill="none" stroke="#2a3446" stroke-width="1" stroke-dasharray="3 4"/>
+        <path id="wave" fill="none" stroke="#c4b5fd" stroke-width="3"/>
+      </svg>
+    </div>
+    <div class="controls">
+      <label for="k">電子の波の数（速さで変わる）</label>
+      <input id="k" type="range" min="300" max="800" value="500">
+      <div class="status yes" id="st"></div>
+    </div>
+    <div class="note">※ 波が整数個そろうと自分自身とつながり、消えずに残ります（定常波）。だから原子の軌道はとびとびに決まります。模式図です。</div>
+  </div>
+
+  <section class="block">
+    <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
+    <p>「物にも波がある」というド・ブロイの考えは、シュレディンガーの<b>波動方程式</b>（1933）へと発展し、量子力学の柱になりました。電子の波を利用した<b>電子顕微鏡</b>は、光では見えないウイルスや原子の並びまで映し出し、いまも科学と産業を支えています。</p>
+  </section>
+
+  <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）1929年物理学賞ページ、一般向け科学史資料。</p>
+
+  <div class="pager">
+    <a class="prev" href="09_1927_compton.html"><span>前へ</span>← 1927 コンプトン</a>
+    <a class="next" href="11_1932_heisenberg.html"><span>次へ</span>1932 ハイゼンベルク →</a>
+  </div>
+</div>
+
+<script>
+var k=document.getElementById('k'), wave=document.getElementById('wave'), st=document.getElementById('st');
+var cx=180, cy=130, R=80;
+function render(){
+  var kk=+k.value/100;                          // 3.00 .. 8.00
+  var d='', i;
+  for(i=0;i<=360;i+=2){var a=i*Math.PI/180;
+    var rr=R+12*Math.sin(kk*a);
+    var x=cx+rr*Math.cos(a-Math.PI/2), y=cy+rr*Math.sin(a-Math.PI/2);
+    d+=(i===0?'M':'L')+x.toFixed(1)+','+y.toFixed(1)+' ';}
+  wave.setAttribute('d',d);
+  var frac=Math.abs(kk-Math.round(kk));
+  if(frac<0.06){wave.setAttribute('stroke','#7ee787');st.className='status yes';
+    st.textContent='波がぴったり '+Math.round(kk)+' 個つながった！ 安定な軌道';}
+  else{wave.setAttribute('stroke','#ff9a8a');st.className='status no';
+    st.textContent='端がずれて波がつながらない（この速さは不安定）';}
+}
+k.addEventListener('input',render); render();
+</script>

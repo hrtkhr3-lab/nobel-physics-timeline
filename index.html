@@ -1,0 +1,174 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>歴代ノーベル物理学賞 ビジュアル年表</title>
+<style>
+  :root{--bg:#f5f4ef;--card:#fff;--ink:#20242e;--muted:#5b6472;--line:#e6e3d9;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Yu Gothic","Yu Gothic UI","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;
+       background:var(--bg);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased}
+  .hero{background:linear-gradient(135deg,#1e293b,#0f172a);color:#fff;padding:46px 20px 40px}
+  .hero .inner{max-width:960px;margin:0 auto}
+  .hero h1{margin:0 0 10px;font-size:2.1rem;letter-spacing:.02em}
+  .hero p{margin:0;opacity:.85;max-width:640px}
+  .wrap{max-width:960px;margin:0 auto;padding:26px 20px 90px}
+  /* controls */
+  .tools{position:sticky;top:0;background:var(--bg);padding:14px 0;z-index:9;border-bottom:1px solid var(--line);margin-bottom:10px}
+  .search{width:100%;padding:12px 16px;border:1px solid var(--line);border-radius:12px;font-size:1rem;font-family:inherit;background:#fff}
+  .filters{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .filters button{border:1px solid var(--line);background:#fff;border-radius:999px;padding:7px 15px;font-size:.86rem;
+        cursor:pointer;font-family:inherit;font-weight:700;display:flex;align-items:center;gap:7px}
+  .filters button .dot{width:10px;height:10px;border-radius:50%}
+  .filters button.on{color:#fff}
+  .count{color:var(--muted);font-size:.85rem;margin:6px 2px 0}
+  /* timeline */
+  .tl{position:relative;margin-top:18px;padding-left:34px}
+  .tl::before{content:"";position:absolute;left:11px;top:6px;bottom:6px;width:3px;background:var(--line)}
+  .item{position:relative;margin:0 0 16px}
+  .item::before{content:"";position:absolute;left:-28px;top:20px;width:16px;height:16px;border-radius:50%;
+        background:#fff;border:4px solid var(--dot,#888)}
+  .card{display:block;background:var(--card);border:1px solid var(--line);border-left:5px solid var(--dot,#888);
+        border-radius:14px;padding:16px 20px;color:var(--ink);text-decoration:none;transition:transform .08s,box-shadow .12s}
+  a.card:hover{transform:translateX(3px);box-shadow:0 8px 22px rgba(0,0,0,.09)}
+  .card .top{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .card .yr{font-size:1.15rem;font-weight:800;color:var(--dot,#333)}
+  .card .who{font-weight:700}
+  .card .what{margin:4px 0 0;color:var(--muted)}
+  .card .tag{margin-top:8px;display:inline-block;font-size:.72rem;font-weight:700;color:var(--dot,#555);
+        background:var(--dotsoft,#eee);padding:2px 10px;border-radius:999px}
+  .card .go{float:right;font-size:.8rem;color:var(--dot);font-weight:700}
+  .item.todo .card{opacity:.6;cursor:default}
+  .item.todo .badge{float:right;font-size:.72rem;background:#eceae2;color:#8b8b7d;padding:2px 10px;border-radius:999px;font-weight:700}
+  .foot{color:var(--muted);font-size:.82rem;margin-top:30px;text-align:center}
+  @media(max-width:520px){.hero h1{font-size:1.6rem}}
+</style>
+
+<div class="hero">
+  <div class="inner">
+    <h1>歴代ノーベル物理学賞 ビジュアル年表</h1>
+    <p>1901年から、物理学の見方を変えた発見を「古い順」にたどります。カードを押すと、その研究内容を
+      <b>操作できる図解</b>で体験できます（一般〜高校生向け）。</p>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="tools">
+    <input id="q" class="search" placeholder="🔍 受賞者名・キーワード・年で探す（例：湯川、レーザー、1965）">
+    <div class="filters" id="filters"></div>
+    <div class="count" id="count"></div>
+  </div>
+  <div class="tl" id="tl"></div>
+  <div class="foot">研究内容ビジュアル年表 ／ 全45テーマ（順次拡充）。事実はノーベル財団公式サイト等に基づきます。</div>
+</div>
+
+<script>
+var THEMES={
+  radiation:{n:"放射線・原子",  c:"#c2410c", s:"#fdeee5"},
+  quantum:  {n:"量子力学",      c:"#7c3aed", s:"#f1ebff"},
+  particle: {n:"素粒子・核",    c:"#0d9488", s:"#e2f5f2"},
+  cosmos:   {n:"宇宙・天文",    c:"#2563eb", s:"#e8f0fe"},
+  matter:   {n:"物性・応用",    c:"#16a34a", s:"#e6f6ec"}
+};
+var DATA=[
+ {y:1901,who:"レントゲン",what:"X線の発見 ── 見えない光で体の中を写す",t:"radiation",h:"laureates/01_1901_roentgen.html"},
+ {y:1903,who:"ベクレル／キュリー夫妻",what:"放射能の発見 ── 石が勝手にエネルギーを出す",t:"radiation",h:"laureates/02_1903_curie.html"},
+ {y:1906,who:"J.J.トムソン",what:"電子の発見 ── 原子より小さな粒",t:"radiation",h:"laureates/03_1906_thomson.html"},
+ {y:1907,who:"マイケルソン",what:"干渉計による光の精密測定",t:"matter",h:"laureates/04_1907_michelson.html"},
+ {y:1918,who:"プランク",what:"エネルギーは飛び飛び ── 量子仮説",t:"quantum",h:"laureates/05_1918_planck.html"},
+ {y:1921,who:"アインシュタイン",what:"光電効果 ── 光は粒でもある",t:"quantum",h:"laureates/06_1921_einstein.html"},
+ {y:1922,who:"ボーア",what:"原子の構造 ── 量子で説明する原子模型",t:"quantum",h:"laureates/07_1922_bohr.html"},
+ {y:1923,who:"ミリカン",what:"電気素量の測定 ── 電子の電気の量",t:"radiation",h:"laureates/08_1923_millikan.html"},
+ {y:1927,who:"コンプトン",what:"コンプトン効果 ── X線も粒として跳ね返る",t:"quantum",h:"laureates/09_1927_compton.html"},
+ {y:1929,who:"ド・ブロイ",what:"物質波 ── 電子も波のようにふるまう",t:"quantum",h:"laureates/10_1929_de_broglie.html"},
+ {y:1932,who:"ハイゼンベルク",what:"量子力学の創始と不確定性原理",t:"quantum",h:"laureates/11_1932_heisenberg.html"},
+ {y:1933,who:"シュレディンガー／ディラック",what:"波動方程式と反粒子の予言",t:"quantum",h:"laureates/12_1933_schrodinger_dirac.html"},
+ {y:1935,who:"チャドウィック",what:"中性子の発見",t:"particle",h:"laureates/13_1935_chadwick.html"},
+ {y:1938,who:"フェルミ",what:"中性子で新元素をつくる ── 核反応の道",t:"particle",h:"laureates/14_1938_fermi.html"},
+ {y:1945,who:"パウリ",what:"排他原理 ── 電子は同じ席に座れない",t:"quantum",h:"laureates/15_1945_pauli.html"},
+ {y:1949,who:"湯川秀樹",what:"中間子の予言 ── 核をまとめる力（日本人初）",t:"particle",h:"laureates/16_1949_yukawa.html"},
+ {y:1956,who:"ショックレー／バーディーン／ブラッテン",what:"トランジスタの発明",t:"matter",h:"laureates/17_1956_transistor.html"},
+ {y:1957,who:"リー／ヤン",what:"パリティの破れ ── 自然は左右対称ではない",t:"particle",h:"laureates/18_1957_lee_yang.html"},
+ {y:1962,who:"ランダウ",what:"超流動の理論 ── 抵抗ゼロで流れる液体",t:"matter",h:"laureates/19_1962_landau.html"},
+ {y:1964,who:"タウンズ／バソフ／プロホロフ",what:"メーザー・レーザーの原理",t:"matter",h:"laureates/20_1964_townes.html"},
+ {y:1965,who:"朝永／シュウィンガー／ファインマン",what:"量子電磁力学（QED）",t:"quantum",h:"laureates/21_1965_tomonaga.html"},
+ {y:1972,who:"バーディーン／クーパー／シュリーファー",what:"超伝導の理論（BCS）",t:"matter",h:"laureates/22_1972_bcs.html"},
+ {y:1974,who:"ライル／ヒューイッシュ",what:"電波天文学とパルサーの発見",t:"cosmos",h:"laureates/23_1974_pulsar.html"},
+ {y:1978,who:"ペンジアス／ウィルソン",what:"宇宙マイクロ波背景放射 ── ビッグバンの残光",t:"cosmos",h:"laureates/24_1978_cmb.html"},
+ {y:1979,who:"グラショー／サラム／ワインバーグ",what:"電磁気と弱い力の統一",t:"particle",h:"laureates/25_1979_electroweak.html"},
+ {y:1983,who:"チャンドラセカール",what:"星の進化と限界質量",t:"cosmos",h:"laureates/26_1983_chandrasekhar.html"},
+ {y:1986,who:"ビニッヒ／ローラー",what:"走査トンネル顕微鏡 ── 原子を見る",t:"matter",h:"laureates/27_1986_stm.html"},
+ {y:1988,who:"レーダーマン／シュワルツ／スタインバーガー",what:"ニュートリノの研究",t:"particle",h:"laureates/28_1988_neutrino.html"},
+ {y:2002,who:"小柴昌俊／デイビス",what:"ニュートリノ天文学の創始",t:"cosmos",h:"laureates/29_2002_koshiba.html"},
+ {y:2008,who:"南部／小林／益川",what:"対称性の破れ",t:"particle",h:"laureates/30_2008_nambu.html"},
+ {y:2009,who:"高錕（カオ）",what:"光ファイバー通信の実現",t:"matter",h:"laureates/31_2009_fiber.html"},
+ {y:2010,who:"ガイム／ノボセロフ",what:"グラフェン ── 原子1枚のシート",t:"matter",h:"laureates/32_2010_graphene.html"},
+ {y:2011,who:"パールマッター／シュミット／リース",what:"宇宙の加速膨張の発見",t:"cosmos",h:"laureates/33_2011_dark_energy.html"},
+ {y:2013,who:"アングレール／ヒッグス",what:"ヒッグス粒子 ── 質量の起源",t:"particle",h:"laureates/34_2013_higgs.html"},
+ {y:2014,who:"赤﨑／天野／中村",what:"青色発光ダイオード（LED）",t:"matter",h:"laureates/35_2014_blue_led.html"},
+ {y:2015,who:"梶田隆章／マクドナルド",what:"ニュートリノ振動 ── 質量がある証拠",t:"cosmos",h:"laureates/36_2015_kajita.html"},
+ {y:2016,who:"サウレス／ホールデン／コスタリッツ",what:"物質のトポロジカル相",t:"matter",h:"laureates/37_2016_topology.html"},
+ {y:2017,who:"ワイス／バリッシュ／ソーン",what:"重力波の観測（LIGO）",t:"cosmos",h:"laureates/38_2017_ligo.html"},
+ {y:2018,who:"アシュキン／ムル／ストリックランド",what:"レーザー技術 ── 光ピンセットと高強度パルス",t:"matter",h:"laureates/39_2018_laser_tools.html"},
+ {y:2019,who:"ピーブルス／マイヨール／ケロー",what:"宇宙論と系外惑星の発見",t:"cosmos",h:"laureates/40_2019_exoplanet.html"},
+ {y:2020,who:"ペンローズ／ゲンツェル／ゲズ",what:"ブラックホールの理論と観測",t:"cosmos",h:"laureates/41_2020_black_hole.html"},
+ {y:2021,who:"真鍋淑郎／ハッセルマン／パリシ",what:"気候の物理モデルと複雑系",t:"cosmos",h:"laureates/42_2021_manabe.html"},
+ {y:2022,who:"アスペ／クラウザー／ツァイリンガー",what:"量子もつれの実験 ── 量子情報へ",t:"quantum",h:"laureates/43_2022_entanglement.html"},
+ {y:2023,who:"アゴスティーニ／クラウス／ルイエ",what:"アト秒の光パルス ── 電子の動きを撮る",t:"matter",h:"laureates/44_2023_attosecond.html"},
+ {y:2024,who:"ホップフィールド／ヒントン",what:"機械学習を可能にした物理",t:"matter",h:"laureates/45_2024_ml.html"}
+];
+
+var tl=document.getElementById('tl'), filtersEl=document.getElementById('filters'),
+    countEl=document.getElementById('count'), q=document.getElementById('q');
+var active="all";
+
+// build filter buttons
+var fAll=document.createElement('button'); fAll.textContent="すべて"; fAll.dataset.k="all"; fAll.className="on";
+fAll.style.background="#20242e"; filtersEl.appendChild(fAll);
+Object.keys(THEMES).forEach(function(k){
+  var b=document.createElement('button'); b.dataset.k=k;
+  b.innerHTML='<span class="dot" style="background:'+THEMES[k].c+'"></span>'+THEMES[k].n;
+  filtersEl.appendChild(b);
+});
+filtersEl.querySelectorAll('button').forEach(function(b){
+  b.addEventListener('click',function(){
+    active=b.dataset.k;
+    filtersEl.querySelectorAll('button').forEach(function(x){x.classList.remove('on');x.style.color='';x.style.background='#fff';});
+    b.classList.add('on');
+    b.style.background = active==="all" ? "#20242e" : THEMES[active].c; b.style.color="#fff";
+    render();
+  });
+});
+q.addEventListener('input',render);
+
+function render(){
+  var kw=q.value.trim().toLowerCase();
+  tl.innerHTML=''; var n=0;
+  DATA.forEach(function(d){
+    if(active!=="all" && d.t!==active) return;
+    if(kw){ var hay=(d.y+" "+d.who+" "+d.what+" "+THEMES[d.t].n).toLowerCase();
+            if(hay.indexOf(kw)<0) return; }
+    n++;
+    var th=THEMES[d.t];
+    var item=document.createElement('div');
+    item.className='item'+(d.h?'':' todo');
+    item.style.setProperty('--dot',th.c);
+    var inner='<div class="top"><span class="yr">'+d.y+'</span><span class="who">'+d.who+'</span></div>'
+             +'<div class="what">'+d.what+'</div>'
+             +'<span class="tag" style="--dot:'+th.c+';--dotsoft:'+th.s+'">'+th.n+'</span>';
+    if(d.h){
+      var a=document.createElement('a'); a.className='card'; a.href=d.h;
+      a.style.setProperty('--dot',th.c);
+      a.innerHTML=inner+'<span class="go">見る →</span>';
+      item.appendChild(a);
+    }else{
+      var c=document.createElement('div'); c.className='card';
+      c.style.setProperty('--dot',th.c);
+      c.innerHTML=inner+'<span class="badge">準備中</span>';
+      item.appendChild(c);
+    }
+    tl.appendChild(item);
+  });
+  var built=DATA.filter(function(d){return d.h;}).length;
+  countEl.textContent='表示 '+n+' 件 ／ 全'+DATA.length+'件中 体験できるページ '+built+'件（順次追加）';
+}
+render();
+</script>

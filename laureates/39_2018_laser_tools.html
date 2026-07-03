@@ -1,0 +1,114 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2018 レーザー技術 — レーザー技術</title>
+<style>
+  :root{--bg:#f5f4ef;--card:#fff;--ink:#20242e;--muted:#5b6472;--line:#e6e3d9;--accent:#16a34a;--accent-soft:#e6f6ec;--hero:#14532d;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Yu Gothic","Yu Gothic UI","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;background:var(--bg);color:var(--ink);line-height:1.8;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent);text-decoration:none}
+  .wrap{max-width:860px;margin:0 auto;padding:0 20px 80px}
+  .topnav{max-width:860px;margin:0 auto;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;font-size:.9rem}
+  .topnav a{color:var(--muted)} .topnav a:hover{color:var(--accent)}
+  .hero{background:linear-gradient(135deg,var(--accent),var(--hero));color:#fff;border-radius:20px;padding:34px 30px;margin-top:6px;box-shadow:0 12px 30px rgba(0,0,0,.12)}
+  .year{display:inline-block;background:rgba(255,255,255,.22);padding:3px 14px;border-radius:999px;font-weight:700;letter-spacing:.05em;font-size:.9rem}
+  .hero h1{margin:14px 0 6px;font-size:2rem;line-height:1.3}
+  .hero .who{font-size:1.05rem;opacity:.95}
+  .cite{margin-top:16px;padding:12px 16px;background:rgba(255,255,255,.14);border-radius:12px;font-size:.95rem}
+  section.block{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 26px;margin-top:22px}
+  section.block h2{margin:0 0 10px;font-size:1.15rem;display:flex;align-items:center;gap:10px}
+  section.block h2 .no{width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-size:.9rem;font-weight:800;flex:none}
+  p{margin:.5em 0}
+  .term{border-bottom:2px dotted var(--accent);cursor:help;position:relative}
+  .term:hover::after{content:attr(data-tip);position:absolute;left:0;bottom:135%;width:250px;background:#20242e;color:#fff;font-size:.8rem;line-height:1.6;padding:10px 12px;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,.25);z-index:5}
+  .term:hover::before{content:"";position:absolute;left:14px;bottom:125%;border:6px solid transparent;border-top-color:#20242e;z-index:5}
+  .demo{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 26px;margin-top:22px}
+  .demo h2{margin:0 0 4px;font-size:1.15rem}
+  .demo .hint{color:var(--muted);font-size:.9rem;margin-bottom:16px}
+  .xbox{background:#0f1420;border-radius:14px;padding:10px;display:flex;justify-content:center;overflow-x:auto}
+  .controls{max-width:460px;margin:18px auto 0}
+  .controls label{display:block;font-weight:700;margin:12px 0 6px;font-size:.95rem}
+  input[type=range]{width:100%;accent-color:var(--accent)}
+  .btns{display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+  .btns button{border:2px solid var(--line);background:#fff;border-radius:999px;padding:9px 20px;font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit;color:var(--ink)}
+  .btns button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .readout{text-align:center;margin-top:14px;font-size:.98rem;color:var(--muted)}
+  .readout b{color:var(--ink)}
+  .status{margin-top:16px;text-align:center;font-size:1rem;padding:12px;border-radius:12px;font-weight:700}
+  .status.no{background:#fdecea;color:#b42318}
+  .status.yes{background:#e7f8ee;color:#087443}
+  .note{font-size:.82rem;color:var(--muted);margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:30px}
+  .pager a{flex:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;color:var(--ink);font-size:.9rem}
+  .pager a.next{text-align:right}
+  .pager a:hover{border-color:var(--accent);color:var(--accent)}
+  .pager span{display:block;font-size:.75rem;color:var(--muted)}
+  .src{font-size:.82rem;color:var(--muted);margin-top:24px}
+  svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+</style>
+
+<nav class="topnav">
+  <a href="../index.html">← 年表一覧へ</a>
+  <span>物理学賞の歩み 39 / 45</span>
+</nav>
+
+<div class="wrap">
+  <div class="hero">
+    <span class="year">2018年</span>
+    <h1>光でモノをつまみ、光を極限まで強くする ── レーザー技術</h1>
+    <div class="who">アシュキン ／ ムル ／ ストリックランド（アメリカ・フランス・カナダ）</div>
+    <div class="cite"><b>受賞理由：</b>光ピンセットの発明（アシュキン）と、極めて短く強いレーザーパルスを作る手法（ムル・ストリックランド）に対して。</div>
+  </div>
+
+  <section class="block">
+    <h2><span class="no">1</span>背景 ── 光に“力”を持たせる</h2>
+    <p>光は物にぶつかると、ごくわずかに<b>押す力</b>を持っています。ふだんは弱すぎて気づきませんが、レーザーで1点に集めれば、この力を道具として使えるのでは――そんな発想から新しい技術が生まれました。</p>
+  </section>
+
+  <section class="block">
+    <h2><span class="no">2</span>発見 ── 光のピンセットと、極限の光パルス</h2>
+    <p>アシュキンは、強く絞ったレーザーの光で<b>細胞やウイルスを傷つけずにつまんで動かす</b><span class="term" data-tip="強く集めたレーザー光で、細胞や微粒子をつまんで自在に動かす技術。生物研究の必需品です。">光ピンセット</span>を発明しました。いっぽうムルとストリックランドは、レーザーのパルスをいったん引きのばして増幅し、また圧縮する巧妙な方法（<span class="term" data-tip="短いレーザーパルスを一度引きのばして安全に増幅し、再び圧縮して超高強度にする手法。近視の手術などに使われます。">チャープパルス増幅</span>）で、<b>極端に短く強い光</b>を作り出しました。</p>
+  </section>
+
+  <!-- INTERACTIVE -->
+  <div class="demo">
+    <h2>やってみよう ── 光ピンセットで粒をつまむ</h2>
+    <div class="hint">スライダーでレーザーの焦点を動かすと、つままれた粒が光についてきます。光がモノをつかんでいます。</div>
+    <div class="xbox">
+      <svg id="tw" width="440" height="180" viewBox="0 0 440 180" role="img" aria-label="光ピンセット">
+        <polygon id="beam" points="" fill="#ffe066" opacity="0.35"/>
+        <circle id="bead" cx="220" cy="120" r="13" fill="#7ec8ff"/>
+        <text x="220" y="20" fill="#8b93a7" font-size="11" text-anchor="middle">レーザー</text>
+      </svg>
+    </div>
+    <div class="controls">
+      <label for="fx">レーザーの焦点の位置</label>
+      <input id="fx" type="range" min="40" max="400" value="220">
+      <div class="readout" id="msg">光の焦点に粒がとらえられています</div>
+    </div>
+    <div class="note">※ 強く集めた光は、微小な粒を“つまむ”力を持ちます。粒は焦点についてきます。模式図です。</div>
+  </div>
+
+  <section class="block">
+    <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
+    <p>光ピンセットは、<b>細胞やDNA、細菌を1個ずつ操る</b>生命科学の必需品になりました。チャープパルス増幅は、<b>近視のレーザー手術</b>や精密な金属加工、さらに2023年のアト秒物理（次の時代の光）へとつながります。光は「照らす」だけでなく「操る道具」になったのです。</p>
+  </section>
+
+  <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）2018年物理学賞ページ、一般向け科学史資料。</p>
+
+  <div class="pager">
+    <a class="prev" href="38_2017_ligo.html"><span>前へ</span>← 2017 重力波</a>
+    <a class="next" href="40_2019_exoplanet.html"><span>次へ</span>2019 系外惑星 →</a>
+  </div>
+</div>
+
+<script>
+var fx=document.getElementById('fx'), beam=document.getElementById('beam'), bead=document.getElementById('bead'), msg=document.getElementById('msg');
+var bx=220;
+function frame(){ var f=+fx.value; bx+=(f-bx)*0.12;
+  beam.setAttribute('points',(f-40)+',0 '+(f+40)+',0 '+(f+4)+',120 '+(f-4)+',120');
+  bead.setAttribute('cx',bx);
+  msg.innerHTML = Math.abs(f-bx)>6?'粒が光の焦点に引かれて移動中…':'粒は光にしっかりつままれています';
+  requestAnimationFrame(frame);
+}
+frame();
+</script>

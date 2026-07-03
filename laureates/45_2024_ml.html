@@ -1,0 +1,123 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2024 機械学習 — 機械学習の基礎</title>
+<style>
+  :root{--bg:#f5f4ef;--card:#fff;--ink:#20242e;--muted:#5b6472;--line:#e6e3d9;--accent:#16a34a;--accent-soft:#e6f6ec;--hero:#14532d;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Yu Gothic","Yu Gothic UI","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;background:var(--bg);color:var(--ink);line-height:1.8;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent);text-decoration:none}
+  .wrap{max-width:860px;margin:0 auto;padding:0 20px 80px}
+  .topnav{max-width:860px;margin:0 auto;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;font-size:.9rem}
+  .topnav a{color:var(--muted)} .topnav a:hover{color:var(--accent)}
+  .hero{background:linear-gradient(135deg,var(--accent),var(--hero));color:#fff;border-radius:20px;padding:34px 30px;margin-top:6px;box-shadow:0 12px 30px rgba(0,0,0,.12)}
+  .year{display:inline-block;background:rgba(255,255,255,.22);padding:3px 14px;border-radius:999px;font-weight:700;letter-spacing:.05em;font-size:.9rem}
+  .hero h1{margin:14px 0 6px;font-size:2rem;line-height:1.3}
+  .hero .who{font-size:1.05rem;opacity:.95}
+  .cite{margin-top:16px;padding:12px 16px;background:rgba(255,255,255,.14);border-radius:12px;font-size:.95rem}
+  section.block{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 26px;margin-top:22px}
+  section.block h2{margin:0 0 10px;font-size:1.15rem;display:flex;align-items:center;gap:10px}
+  section.block h2 .no{width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-size:.9rem;font-weight:800;flex:none}
+  p{margin:.5em 0}
+  .term{border-bottom:2px dotted var(--accent);cursor:help;position:relative}
+  .term:hover::after{content:attr(data-tip);position:absolute;left:0;bottom:135%;width:250px;background:#20242e;color:#fff;font-size:.8rem;line-height:1.6;padding:10px 12px;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,.25);z-index:5}
+  .term:hover::before{content:"";position:absolute;left:14px;bottom:125%;border:6px solid transparent;border-top-color:#20242e;z-index:5}
+  .demo{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 26px;margin-top:22px}
+  .demo h2{margin:0 0 4px;font-size:1.15rem}
+  .demo .hint{color:var(--muted);font-size:.9rem;margin-bottom:16px}
+  .xbox{background:#0f1420;border-radius:14px;padding:10px;display:flex;justify-content:center;overflow-x:auto}
+  .controls{max-width:460px;margin:18px auto 0}
+  .controls label{display:block;font-weight:700;margin:12px 0 6px;font-size:.95rem}
+  input[type=range]{width:100%;accent-color:var(--accent)}
+  .btns{display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+  .btns button{border:2px solid var(--line);background:#fff;border-radius:999px;padding:9px 20px;font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit;color:var(--ink)}
+  .btns button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .readout{text-align:center;margin-top:14px;font-size:.98rem;color:var(--muted)}
+  .readout b{color:var(--ink)}
+  .status{margin-top:16px;text-align:center;font-size:1rem;padding:12px;border-radius:12px;font-weight:700}
+  .status.no{background:#fdecea;color:#b42318}
+  .status.yes{background:#e7f8ee;color:#087443}
+  .note{font-size:.82rem;color:var(--muted);margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:30px}
+  .pager a{flex:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;color:var(--ink);font-size:.9rem}
+  .pager a.next{text-align:right}
+  .pager a:hover{border-color:var(--accent);color:var(--accent)}
+  .pager span{display:block;font-size:.75rem;color:var(--muted)}
+  .src{font-size:.82rem;color:var(--muted);margin-top:24px}
+  svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+</style>
+
+<nav class="topnav">
+  <a href="../index.html">← 年表一覧へ</a>
+  <span>物理学賞の歩み 45 / 45</span>
+</nav>
+
+<div class="wrap">
+  <div class="hero">
+    <span class="year">2024年</span>
+    <h1>物理から生まれた“学ぶ機械” ── 機械学習の基礎</h1>
+    <div class="who">ホップフィールド ／ ヒントン（アメリカ・イギリス→カナダ）</div>
+    <div class="cite"><b>受賞理由：</b>人工ニューラルネットワークによる機械学習を可能にした、基礎的な発見と発明に対して。</div>
+  </div>
+
+  <section class="block">
+    <h2><span class="no">1</span>背景 ── 脳のまねをする計算のしくみ</h2>
+    <p>脳は、たくさんの神経細胞がつながり合って学びます。これをまねた計算のしくみ（<span class="term" data-tip="脳の神経細胞のつながりをまねた計算のしくみ。データから自動でパターンを学びます。">ニューラルネットワーク</span>）は古くからありましたが、うまく学習させる方法が分かりませんでした。ここで<b>物理学の考え方</b>が力を発揮します。</p>
+  </section>
+
+  <section class="block">
+    <h2><span class="no">2</span>発見 ── エネルギーが低い方へ“落ち着く”記憶</h2>
+    <p>ホップフィールドは、物理でおなじみの「<b>エネルギーが低い状態に落ち着く</b>」という考えを使い、あいまいな入力から正しい記憶を思い出すネットワークを作りました（<span class="term" data-tip="ノイズだらけの入力から、記憶したパターンへと“転がり落ちて”思い出すネットワーク。物理のエネルギー最小化がもとです。">ホップフィールド・ネットワーク</span>）。ヒントンは、これを発展させて<b>データから自動で学ぶ</b>方法を築きました。いまの人工知能（AI）ブームの土台です。</p>
+  </section>
+
+  <!-- INTERACTIVE -->
+  <div class="demo">
+    <h2>やってみよう ── ノイズから記憶を思い出す</h2>
+    <div class="hint">「ノイズを加える」で絵を乱し、「思い出す」を押すと、ネットワークが記憶した絵へと“落ち着いて”復元します。</div>
+    <div class="xbox">
+      <svg id="hp" width="220" height="220" viewBox="0 0 220 220" role="img" aria-label="連想記憶"></svg>
+    </div>
+    <div class="btns"><button id="noise">ノイズを加える</button><button id="recall">思い出す</button></div>
+    <div class="readout" id="msg">記憶した絵を表示中</div>
+    <div class="note">※ ノイズだらけの入力から、記憶したパターンへ“転がり落ちて”復元します（エネルギー最小化）。連想記憶の模式図です。</div>
+  </div>
+
+  <section class="block">
+    <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
+    <p>物理から生まれた「学ぶ機械」の考えは、いまや<b>画像認識・音声認識・自動翻訳・生成AI</b>など、社会のあらゆる場面で使われています。物理学賞がAIの基礎に贈られたことは、物理の考え方が分野を超えて世界を変えている証しです。この年表の最新の1ページであり、次の時代への入り口でもあります。</p>
+  </section>
+
+  <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）2024年物理学賞ページ、一般向け科学史資料。</p>
+
+  <div class="pager">
+    <a class="prev" href="44_2023_attosecond.html"><span>前へ</span>← 2023 アト秒</a>
+    <a class="next" href="../index.html"><span>このあと</span>年表一覧へ →</a>
+  </div>
+</div>
+
+<script>
+var svg=document.getElementById('hp'), noise=document.getElementById('noise'),
+    recall=document.getElementById('recall'), msg=document.getElementById('msg');
+var NS='http://www.w3.org/2000/svg', G=7, cell=28, pad=12;
+// 記憶パターン（十字）
+var mem=[]; for(var y=0;y<G;y++){var row=[];for(var x=0;x<G;x++){ row.push((x===3||y===3)?1:0);} mem.push(row);}
+var state=mem.map(function(r){return r.slice();});
+var rects=[];
+for(var y=0;y<G;y++){rects.push([]);for(var x=0;x<G;x++){
+  var r=document.createElementNS(NS,'rect'); r.setAttribute('x',pad+x*cell); r.setAttribute('y',pad+y*cell);
+  r.setAttribute('width',cell-3); r.setAttribute('height',cell-3); r.setAttribute('rx',4); svg.appendChild(r); rects[y].push(r);}}
+function paint(){ for(var y=0;y<G;y++)for(var x=0;x<G;x++) rects[y][x].setAttribute('fill', state[y][x]?'#b388ff':'#20293a'); }
+noise.addEventListener('click',function(){ for(var k=0;k<16;k++){var x=(Math.random()*G)|0,y=(Math.random()*G)|0; state[y][x]=1-state[y][x];}
+  paint(); msg.innerHTML='ノイズを加えました（乱れた入力）'; });
+var timer=null;
+recall.addEventListener('click',function(){ if(timer)clearInterval(timer);
+  msg.innerHTML='記憶へ“落ち着いて”いく…';
+  timer=setInterval(function(){ var changed=false;
+    var x=(Math.random()*G)|0, y=(Math.random()*G)|0;
+    if(state[y][x]!==mem[y][x]){ state[y][x]=mem[y][x]; changed=true; }
+    paint();
+    var done=true; for(var yy=0;yy<G;yy++)for(var xx=0;xx<G;xx++) if(state[yy][xx]!==mem[yy][xx])done=false;
+    if(done){ clearInterval(timer); msg.innerHTML='<b>思い出した！</b> 記憶した絵にぴったり復元'; }
+  },60);
+});
+paint();
+</script>

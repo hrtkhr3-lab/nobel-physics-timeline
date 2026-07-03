@@ -1,0 +1,133 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1922 ボーア — 原子模型</title>
+<style>
+  :root{--bg:#f5f4ef;--card:#fff;--ink:#20242e;--muted:#5b6472;--line:#e6e3d9;--accent:#7c3aed;--accent-soft:#f1ebff;--hero:#4c1d95;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Yu Gothic","Yu Gothic UI","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;background:var(--bg);color:var(--ink);line-height:1.8;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent);text-decoration:none}
+  .wrap{max-width:860px;margin:0 auto;padding:0 20px 80px}
+  .topnav{max-width:860px;margin:0 auto;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;font-size:.9rem}
+  .topnav a{color:var(--muted)} .topnav a:hover{color:var(--accent)}
+  .hero{background:linear-gradient(135deg,var(--accent),var(--hero));color:#fff;border-radius:20px;padding:34px 30px;margin-top:6px;box-shadow:0 12px 30px rgba(0,0,0,.12)}
+  .year{display:inline-block;background:rgba(255,255,255,.22);padding:3px 14px;border-radius:999px;font-weight:700;letter-spacing:.05em;font-size:.9rem}
+  .hero h1{margin:14px 0 6px;font-size:2rem;line-height:1.3}
+  .hero .who{font-size:1.05rem;opacity:.95}
+  .cite{margin-top:16px;padding:12px 16px;background:rgba(255,255,255,.14);border-radius:12px;font-size:.95rem}
+  section.block{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 26px;margin-top:22px}
+  section.block h2{margin:0 0 10px;font-size:1.15rem;display:flex;align-items:center;gap:10px}
+  section.block h2 .no{width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-size:.9rem;font-weight:800;flex:none}
+  p{margin:.5em 0}
+  .term{border-bottom:2px dotted var(--accent);cursor:help;position:relative}
+  .term:hover::after{content:attr(data-tip);position:absolute;left:0;bottom:135%;width:250px;background:#20242e;color:#fff;font-size:.8rem;line-height:1.6;padding:10px 12px;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,.25);z-index:5}
+  .term:hover::before{content:"";position:absolute;left:14px;bottom:125%;border:6px solid transparent;border-top-color:#20242e;z-index:5}
+  .demo{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 26px;margin-top:22px}
+  .demo h2{margin:0 0 4px;font-size:1.15rem}
+  .demo .hint{color:var(--muted);font-size:.9rem;margin-bottom:16px}
+  .xbox{background:#0f1420;border-radius:14px;padding:10px;display:flex;justify-content:center;overflow-x:auto}
+  .controls{max-width:460px;margin:18px auto 0}
+  .controls label{display:block;font-weight:700;margin:12px 0 6px;font-size:.95rem}
+  input[type=range]{width:100%;accent-color:var(--accent)}
+  .btns{display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+  .btns button{border:2px solid var(--line);background:#fff;border-radius:999px;padding:9px 20px;font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit;color:var(--ink)}
+  .btns button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .readout{text-align:center;margin-top:14px;font-size:.98rem;color:var(--muted)}
+  .readout b{color:var(--ink)}
+  .status{margin-top:16px;text-align:center;font-size:1rem;padding:12px;border-radius:12px;font-weight:700}
+  .status.no{background:#fdecea;color:#b42318}
+  .status.yes{background:#e7f8ee;color:#087443}
+  .note{font-size:.82rem;color:var(--muted);margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:30px}
+  .pager a{flex:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;color:var(--ink);font-size:.9rem}
+  .pager a.next{text-align:right}
+  .pager a:hover{border-color:var(--accent);color:var(--accent)}
+  .pager span{display:block;font-size:.75rem;color:var(--muted)}
+  .src{font-size:.82rem;color:var(--muted);margin-top:24px}
+  svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+</style>
+
+<nav class="topnav">
+  <a href="../index.html">← 年表一覧へ</a>
+  <span>物理学賞の歩み 07 / 45</span>
+</nav>
+
+<div class="wrap">
+  <div class="hero">
+    <span class="year">1922年</span>
+    <h1>電子は決まった軌道にいる ── 原子模型</h1>
+    <div class="who">ニールス・ボーア（デンマーク）</div>
+    <div class="cite"><b>受賞理由：</b>原子の構造と、原子から出る光（放射）についての研究に対して。</div>
+  </div>
+
+  <section class="block">
+    <h2><span class="no">1</span>背景 ── なぜ原子はつぶれないのか</h2>
+    <p>電子が原子核のまわりを回っているなら、電磁気の法則では光を出してだんだん失速し、すぐ核に落ちて原子はつぶれてしまうはずでした。ところが原子は安定で、しかも元素ごとに<b>決まった色の光</b>（<span class="term" data-tip="原子が出す光を色（波長）ごとに分けると、とびとびの決まった線として現れるもの。元素ごとに違う“指紋”です。">線スペクトル</span>）しか出さない、という謎がありました。</p>
+  </section>
+
+  <section class="block">
+    <h2><span class="no">2</span>発見 ── 軌道はとびとび、移るときに光を出す</h2>
+    <p>ボーアは「電子は<b>とびとびの決まった軌道</b>（<span class="term" data-tip="電子が取れるとびとびのエネルギーの段。内側ほど低く、外側ほど高いエネルギーです。">エネルギー準位</span>）にだけいられて、そこでは光を出さない」と考えました。電子が外側の軌道から内側へ飛び移るとき、その差のぶんを<span class="term" data-tip="光のエネルギーの最小のつぶ。差が大きいほど紫っぽく、小さいほど赤っぽい光になります。">光子</span>1粒として放ちます。差が大きいほど青〜紫、小さいほど赤い光。元素ごとの線スペクトルがこうして説明できました。</p>
+  </section>
+
+  <!-- INTERACTIVE -->
+  <div class="demo">
+    <h2>やってみよう ── 電子を飛び移らせる</h2>
+    <div class="hint">ボタンで電子の軌道を選びます。外側から内側へ移ると、その差のぶんだけ色のついた光が飛び出します。</div>
+    <div class="xbox">
+      <svg id="atom" width="360" height="240" viewBox="0 0 360 240" role="img" aria-label="ボーアの原子模型">
+        <circle cx="140" cy="120" r="38" fill="none" stroke="#3a4356"/>
+        <circle cx="140" cy="120" r="68" fill="none" stroke="#3a4356"/>
+        <circle cx="140" cy="120" r="98" fill="none" stroke="#3a4356"/>
+        <circle cx="140" cy="120" r="10" fill="#ff8a8a"/>
+        <text x="140" y="228" fill="#8b93a7" font-size="11" text-anchor="middle">原子核</text>
+        <circle id="elec" cx="140" cy="52" r="8" fill="#c4b5fd"/>
+        <circle id="photon" cx="0" cy="0" r="7" opacity="0"/>
+      </svg>
+    </div>
+    <div class="btns">
+      <button data-n="1">内側 n=1</button>
+      <button data-n="2">n=2</button>
+      <button data-n="3">外側 n=3</button>
+    </div>
+    <div class="readout" id="msg">電子はいま <b>n=3</b> にいます</div>
+    <div class="note">※ 外側→内側で光を出し（放出）、内側→外側は光を吸って移ります（吸収）。落差が大きいほど紫、小さいほど赤い光。模式図です。</div>
+  </div>
+
+  <section class="block">
+    <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
+    <p>この「エネルギー準位」の考えは、<b>蛍光灯・LED・レーザー・ネオンサイン</b>の発光や、星や銀河の成分を光の色で見分ける方法（分光）まで、光と物質のかかわりすべての基礎になりました。のちに量子力学によって、より正確な姿へと磨かれていきます。</p>
+  </section>
+
+  <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）1922年物理学賞ページ、一般向け科学史資料。</p>
+
+  <div class="pager">
+    <a class="prev" href="06_1921_einstein.html"><span>前へ</span>← 1921 アインシュタイン</a>
+    <a class="next" href="08_1923_millikan.html"><span>次へ</span>1923 ミリカン →</a>
+  </div>
+</div>
+
+<script>
+var elec=document.getElementById('elec'), photon=document.getElementById('photon'), msg=document.getElementById('msg');
+var btns=document.querySelectorAll('.btns button');
+var R={1:38,2:68,3:98}, cx=140, cy=120, cur=3;
+function hueFor(gap){return Math.max(0,Math.min(285,(gap-0.1)/0.8*285));}
+function setElec(n){elec.setAttribute('cy',cy-R[n]);}
+var anim=null;
+function go(n){
+  btns.forEach(function(b){b.classList.toggle('on',+b.dataset.n===n);});
+  if(n<cur){ // 放出
+    var gap=(1/(n*n))-(1/(cur*cur)); var col='hsl('+hueFor(gap)+',85%,62%)';
+    msg.innerHTML='<b>n='+cur+' → n='+n+'</b>：光を放出！（'+(gap>0.5?'青〜紫':'赤っぽい')+'光）';
+    if(anim)cancelAnimationFrame(anim); var px=cx, t0=null;
+    photon.setAttribute('fill',col); photon.setAttribute('cy',cy); photon.setAttribute('opacity','1');
+    function step(){px+=5; photon.setAttribute('cx',px);
+      photon.setAttribute('opacity',Math.max(0,1-(px-cx)/220).toFixed(2));
+      if(px<cx+220)anim=requestAnimationFrame(step); }
+    photon.setAttribute('cx',cx); step();
+  }else if(n>cur){ msg.innerHTML='<b>n='+cur+' → n='+n+'</b>：光を吸って外側へ（吸収）'; photon.setAttribute('opacity','0');
+  }else{ msg.innerHTML='電子はいま <b>n='+n+'</b> にいます'; }
+  cur=n; setElec(n);
+}
+btns.forEach(function(b){b.addEventListener('click',function(){go(+b.dataset.n);});});
+setElec(3);
+</script>

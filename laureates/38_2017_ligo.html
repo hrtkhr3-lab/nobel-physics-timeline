@@ -1,0 +1,115 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2017 重力波 — 重力波の直接観測</title>
+<style>
+  :root{--bg:#f5f4ef;--card:#fff;--ink:#20242e;--muted:#5b6472;--line:#e6e3d9;--accent:#2563eb;--accent-soft:#e8f0fe;--hero:#1e3a8a;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Yu Gothic","Yu Gothic UI","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;background:var(--bg);color:var(--ink);line-height:1.8;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent);text-decoration:none}
+  .wrap{max-width:860px;margin:0 auto;padding:0 20px 80px}
+  .topnav{max-width:860px;margin:0 auto;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;font-size:.9rem}
+  .topnav a{color:var(--muted)} .topnav a:hover{color:var(--accent)}
+  .hero{background:linear-gradient(135deg,var(--accent),var(--hero));color:#fff;border-radius:20px;padding:34px 30px;margin-top:6px;box-shadow:0 12px 30px rgba(0,0,0,.12)}
+  .year{display:inline-block;background:rgba(255,255,255,.22);padding:3px 14px;border-radius:999px;font-weight:700;letter-spacing:.05em;font-size:.9rem}
+  .hero h1{margin:14px 0 6px;font-size:2rem;line-height:1.3}
+  .hero .who{font-size:1.05rem;opacity:.95}
+  .cite{margin-top:16px;padding:12px 16px;background:rgba(255,255,255,.14);border-radius:12px;font-size:.95rem}
+  section.block{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 26px;margin-top:22px}
+  section.block h2{margin:0 0 10px;font-size:1.15rem;display:flex;align-items:center;gap:10px}
+  section.block h2 .no{width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-size:.9rem;font-weight:800;flex:none}
+  p{margin:.5em 0}
+  .term{border-bottom:2px dotted var(--accent);cursor:help;position:relative}
+  .term:hover::after{content:attr(data-tip);position:absolute;left:0;bottom:135%;width:250px;background:#20242e;color:#fff;font-size:.8rem;line-height:1.6;padding:10px 12px;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,.25);z-index:5}
+  .term:hover::before{content:"";position:absolute;left:14px;bottom:125%;border:6px solid transparent;border-top-color:#20242e;z-index:5}
+  .demo{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 26px;margin-top:22px}
+  .demo h2{margin:0 0 4px;font-size:1.15rem}
+  .demo .hint{color:var(--muted);font-size:.9rem;margin-bottom:16px}
+  .xbox{background:#0f1420;border-radius:14px;padding:10px;display:flex;justify-content:center;overflow-x:auto}
+  .controls{max-width:460px;margin:18px auto 0}
+  .controls label{display:block;font-weight:700;margin:12px 0 6px;font-size:.95rem}
+  input[type=range]{width:100%;accent-color:var(--accent)}
+  .btns{display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+  .btns button{border:2px solid var(--line);background:#fff;border-radius:999px;padding:9px 20px;font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit;color:var(--ink)}
+  .btns button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .readout{text-align:center;margin-top:14px;font-size:.98rem;color:var(--muted)}
+  .readout b{color:var(--ink)}
+  .status{margin-top:16px;text-align:center;font-size:1rem;padding:12px;border-radius:12px;font-weight:700}
+  .status.no{background:#fdecea;color:#b42318}
+  .status.yes{background:#e7f8ee;color:#087443}
+  .note{font-size:.82rem;color:var(--muted);margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:30px}
+  .pager a{flex:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;color:var(--ink);font-size:.9rem}
+  .pager a.next{text-align:right}
+  .pager a:hover{border-color:var(--accent);color:var(--accent)}
+  .pager span{display:block;font-size:.75rem;color:var(--muted)}
+  .src{font-size:.82rem;color:var(--muted);margin-top:24px}
+  svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+</style>
+
+<nav class="topnav">
+  <a href="../index.html">← 年表一覧へ</a>
+  <span>物理学賞の歩み 38 / 45</span>
+</nav>
+
+<div class="wrap">
+  <div class="hero">
+    <span class="year">2017年</span>
+    <h1>時空のさざ波をとらえる ── 重力波の直接観測</h1>
+    <div class="who">ワイス ／ バリッシュ ／ ソーン（アメリカ）</div>
+    <div class="cite"><b>受賞理由：</b>重力波を検出した観測装置LIGOへの決定的な貢献と、重力波の観測に対して。</div>
+  </div>
+
+  <section class="block">
+    <h2><span class="no">1</span>背景 ── アインシュタインが予言した“時空のゆれ”</h2>
+    <p>アインシュタインは、重い物が激しく動くと<b>時空そのものがゆれ、さざ波のように広がる</b>と予言していました（<span class="term" data-tip="重い天体が動くときに生じる時空のゆがみの波。空間そのものが伸び縮みします。">重力波</span>）。しかしそのゆれはあまりに小さく、100年間だれも直接とらえられませんでした。</p>
+  </section>
+
+  <section class="block">
+    <h2><span class="no">2</span>発見 ── ブラックホール合体のゆれを検出</h2>
+    <p>2015年、LIGO は<b>2つのブラックホールが合体</b>した瞬間の重力波をとらえました。重力波が通ると、空間が<b>片方向に伸び、直角方向に縮む</b>のを交互にくり返します。その伸び縮みは<b>陽子より小さい</b>ほどですが、巨大な<span class="term" data-tip="マイケルソン（1907年の項）と同じしくみの装置を数kmに巨大化したもの。腕の長さの超微小な変化を光でとらえます。">干渉計</span>で検出しました。目に見えない宇宙を“ゆれ”で聴く、新しい天文学の始まりです。</p>
+  </section>
+
+  <!-- INTERACTIVE -->
+  <div class="demo">
+    <h2>やってみよう ── 重力波が通ると空間が伸び縮み</h2>
+    <div class="hint">「重力波が来た」を押すと、輪に並んだ点が、たてよこ交互に伸び縮みします（空間そのもののゆれ）。</div>
+    <div class="xbox">
+      <svg id="gw" width="300" height="240" viewBox="0 0 300 240" role="img" aria-label="重力波">
+        <circle cx="150" cy="120" r="80" fill="none" stroke="#2a3446" stroke-dasharray="3 4"/>
+        <g id="ring"></g>
+      </svg>
+    </div>
+    <div class="btns"><button id="wave">重力波が来た</button><button id="stopw">止める</button></div>
+    <div class="readout" id="msg">静かな時空（ゆれなし）</div>
+    <div class="note">※ 重力波は空間を「たて伸び・よこ縮み」→「たて縮み・よこ伸び」と交互にゆらします。実際の伸び縮みは原子より小さい。模式図です。</div>
+  </div>
+
+  <section class="block">
+    <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
+    <p>重力波の観測は、光では見えないブラックホールや中性子星の合体を“聴く”手段になりました。以来、多数の合体が観測され、宇宙のなりたちを探る新しい窓が開きました。数kmの巨大干渉計は、1907年のマイケルソンの発想が現代の宇宙物理へと実を結んだ姿でもあります。</p>
+  </section>
+
+  <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）2017年物理学賞ページ、一般向け科学史資料。</p>
+
+  <div class="pager">
+    <a class="prev" href="37_2016_topology.html"><span>前へ</span>← 2016 トポロジカル相</a>
+    <a class="next" href="39_2018_laser_tools.html"><span>次へ</span>2018 レーザー技術 →</a>
+  </div>
+</div>
+
+<script>
+var svg=document.getElementById('gw'), ring=document.getElementById('ring'),
+    wave=document.getElementById('wave'), stopw=document.getElementById('stopw'), msg=document.getElementById('msg');
+var NS='http://www.w3.org/2000/svg', pts=[], running=false, t=0;
+for(var i=0;i<12;i++){var a=i/12*6.283; var c=document.createElementNS(NS,'circle');
+  c.setAttribute('r',6);c.setAttribute('fill','#5c9dff');ring.appendChild(c);pts.push({a:a,el:c});}
+function place(sx,sy){ pts.forEach(function(p){ p.el.setAttribute('cx',150+80*sx*Math.cos(p.a));
+  p.el.setAttribute('cy',120+80*sy*Math.sin(p.a)); }); }
+function frame(){ if(!running)return; t+=0.12; var A=0.28*Math.sin(t);
+  place(1+A,1-A); msg.innerHTML='<b>重力波が通過中</b>：空間がたて・よこ交互に伸び縮み';
+  requestAnimationFrame(frame);
+}
+wave.addEventListener('click',function(){ if(!running){running=true;frame();} });
+stopw.addEventListener('click',function(){ running=false;place(1,1);msg.innerHTML='静かな時空（ゆれなし）'; });
+place(1,1);
+</script>

@@ -1,0 +1,115 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1932 ハイゼンベルク — 不確定性原理</title>
+<style>
+  :root{--bg:#f5f4ef;--card:#fff;--ink:#20242e;--muted:#5b6472;--line:#e6e3d9;--accent:#7c3aed;--accent-soft:#f1ebff;--hero:#4c1d95;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Yu Gothic","Yu Gothic UI","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;background:var(--bg);color:var(--ink);line-height:1.8;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent);text-decoration:none}
+  .wrap{max-width:860px;margin:0 auto;padding:0 20px 80px}
+  .topnav{max-width:860px;margin:0 auto;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;font-size:.9rem}
+  .topnav a{color:var(--muted)} .topnav a:hover{color:var(--accent)}
+  .hero{background:linear-gradient(135deg,var(--accent),var(--hero));color:#fff;border-radius:20px;padding:34px 30px;margin-top:6px;box-shadow:0 12px 30px rgba(0,0,0,.12)}
+  .year{display:inline-block;background:rgba(255,255,255,.22);padding:3px 14px;border-radius:999px;font-weight:700;letter-spacing:.05em;font-size:.9rem}
+  .hero h1{margin:14px 0 6px;font-size:2rem;line-height:1.3}
+  .hero .who{font-size:1.05rem;opacity:.95}
+  .cite{margin-top:16px;padding:12px 16px;background:rgba(255,255,255,.14);border-radius:12px;font-size:.95rem}
+  section.block{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 26px;margin-top:22px}
+  section.block h2{margin:0 0 10px;font-size:1.15rem;display:flex;align-items:center;gap:10px}
+  section.block h2 .no{width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-size:.9rem;font-weight:800;flex:none}
+  p{margin:.5em 0}
+  .term{border-bottom:2px dotted var(--accent);cursor:help;position:relative}
+  .term:hover::after{content:attr(data-tip);position:absolute;left:0;bottom:135%;width:250px;background:#20242e;color:#fff;font-size:.8rem;line-height:1.6;padding:10px 12px;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,.25);z-index:5}
+  .term:hover::before{content:"";position:absolute;left:14px;bottom:125%;border:6px solid transparent;border-top-color:#20242e;z-index:5}
+  .demo{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 26px;margin-top:22px}
+  .demo h2{margin:0 0 4px;font-size:1.15rem}
+  .demo .hint{color:var(--muted);font-size:.9rem;margin-bottom:16px}
+  .xbox{background:#0f1420;border-radius:14px;padding:10px;display:flex;justify-content:center;overflow-x:auto}
+  .controls{max-width:460px;margin:18px auto 0}
+  .controls label{display:block;font-weight:700;margin:12px 0 6px;font-size:.95rem}
+  input[type=range]{width:100%;accent-color:var(--accent)}
+  .btns{display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+  .btns button{border:2px solid var(--line);background:#fff;border-radius:999px;padding:9px 20px;font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit;color:var(--ink)}
+  .btns button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .readout{text-align:center;margin-top:14px;font-size:.98rem;color:var(--muted)}
+  .readout b{color:var(--ink)}
+  .status{margin-top:16px;text-align:center;font-size:1rem;padding:12px;border-radius:12px;font-weight:700}
+  .status.no{background:#fdecea;color:#b42318}
+  .status.yes{background:#e7f8ee;color:#087443}
+  .note{font-size:.82rem;color:var(--muted);margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:30px}
+  .pager a{flex:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;color:var(--ink);font-size:.9rem}
+  .pager a.next{text-align:right}
+  .pager a:hover{border-color:var(--accent);color:var(--accent)}
+  .pager span{display:block;font-size:.75rem;color:var(--muted)}
+  .src{font-size:.82rem;color:var(--muted);margin-top:24px}
+  svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+</style>
+
+<nav class="topnav">
+  <a href="../index.html">← 年表一覧へ</a>
+  <span>物理学賞の歩み 11 / 45</span>
+</nav>
+
+<div class="wrap">
+  <div class="hero">
+    <span class="year">1932年</span>
+    <h1>位置と速さは同時に決められない ── 不確定性原理</h1>
+    <div class="who">ヴェルナー・ハイゼンベルク（ドイツ）</div>
+    <div class="cite"><b>受賞理由：</b>量子力学をつくり上げたこと（その応用が水素などの発見にもつながった）に対して。</div>
+  </div>
+
+  <section class="block">
+    <h2><span class="no">1</span>背景 ── 小さな世界のあいまいさ</h2>
+    <p>ハイゼンベルクは、日常の物理とはまるで違う、原子の世界のための新しい理論「<b>量子力学</b>」をつくりました。そこから驚くべき性質が導かれます。粒の<b>位置</b>と<b>速さ（勢い）</b>を、<b>両方同時にきっちり決めることはできない</b>のです。</p>
+  </section>
+
+  <section class="block">
+    <h2><span class="no">2</span>発見 ── 片方をはっきりさせると、もう片方がぼやける</h2>
+    <p>これが<span class="term" data-tip="位置をはっきりさせるほど速さがぼやけ、逆もまた同じ。量子の世界に必ずある“あいまいさ”で、測り方が下手なせいではありません。">不確定性原理</span>です。「どこにいるか」をはっきり突きとめようとするほど、「どんな速さか」はぼやけて広がってしまう。これは道具が悪いのではなく、<b>自然そのものが持つあいまいさ</b>。小さな世界では、物はキッチリした点ではなく、少しぼんやりした存在なのです。</p>
+  </section>
+
+  <!-- INTERACTIVE -->
+  <div class="demo">
+    <h2>やってみよう ── 位置と速さのシーソー</h2>
+    <div class="hint">スライダーで「位置のはっきり度」を上げる（青い幅を狭める）と、そのぶん「速さのぼやけ」（赤い幅）が広がります。</div>
+    <div class="xbox">
+      <svg id="hb" width="460" height="200" viewBox="0 0 460 200" role="img" aria-label="不確定性">
+        <text x="30" y="55" fill="#8ab6ff" font-size="13">位置のぼやけ Δx</text>
+        <rect x="30" y="65" width="200" height="20" rx="6" fill="#26343f"/>
+        <rect id="bx" x="30" y="65" width="120" height="20" rx="6" fill="#8ab6ff"/>
+        <text x="30" y="130" fill="#ff9a8a" font-size="13">速さのぼやけ Δp</text>
+        <rect x="30" y="140" width="400" height="20" rx="6" fill="#26343f"/>
+        <rect id="bp" x="30" y="140" width="120" height="20" rx="6" fill="#ff9a8a"/>
+      </svg>
+    </div>
+    <div class="controls">
+      <label for="dx">位置をどれだけはっきりさせるか</label>
+      <input id="dx" type="range" min="20" max="190" value="120">
+      <div class="readout" id="msg"></div>
+    </div>
+    <div class="note">※ 位置の幅と速さの幅は「かけ算するとほぼ一定」。片方を狭めると必ずもう片方が広がります。量子の世界のきまりを表す模式図です。</div>
+  </div>
+
+  <section class="block">
+    <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
+    <p>不確定性原理は、量子の世界が確率で語られることを示し、現代物理の常識になりました。この「あいまいさ」は欠点ではなく、<b>トンネル効果</b>（半導体やSTM、2011年以降の量子技術）や<b>量子コンピュータ</b>など、新しい技術の源にもなっています。</p>
+  </section>
+
+  <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）1932年物理学賞ページ、一般向け科学史資料。</p>
+
+  <div class="pager">
+    <a class="prev" href="10_1929_de_broglie.html"><span>前へ</span>← 1929 ド・ブロイ</a>
+    <a class="next" href="12_1933_schrodinger_dirac.html"><span>次へ</span>1933 シュレディンガー／ディラック →</a>
+  </div>
+</div>
+
+<script>
+var dx=document.getElementById('dx'), bx=document.getElementById('bx'), bp=document.getElementById('bp'), msg=document.getElementById('msg');
+function render(){
+  var w=+dx.value; bx.setAttribute('width',w);
+  var wp=Math.min(400, 14000/w); bp.setAttribute('width',wp.toFixed(0));
+  msg.innerHTML='位置の幅 <b>'+(w<70?'せまい（はっきり）':'広い（あいまい）')+'</b> → 速さの幅 <b>'+(wp>200?'広い（ぼやける）':'せまい')+'</b>';
+}
+dx.addEventListener('input',render); render();
+</script>

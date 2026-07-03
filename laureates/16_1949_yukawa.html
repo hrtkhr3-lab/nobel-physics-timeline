@@ -1,0 +1,118 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>1949 湯川秀樹 — 中間子の予言</title>
+<style>
+  :root{--bg:#f5f4ef;--card:#fff;--ink:#20242e;--muted:#5b6472;--line:#e6e3d9;--accent:#0d9488;--accent-soft:#e2f5f2;--hero:#115e59;}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Yu Gothic","Yu Gothic UI","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;background:var(--bg);color:var(--ink);line-height:1.8;-webkit-font-smoothing:antialiased}
+  a{color:var(--accent);text-decoration:none}
+  .wrap{max-width:860px;margin:0 auto;padding:0 20px 80px}
+  .topnav{max-width:860px;margin:0 auto;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;font-size:.9rem}
+  .topnav a{color:var(--muted)} .topnav a:hover{color:var(--accent)}
+  .hero{background:linear-gradient(135deg,var(--accent),var(--hero));color:#fff;border-radius:20px;padding:34px 30px;margin-top:6px;box-shadow:0 12px 30px rgba(0,0,0,.12)}
+  .year{display:inline-block;background:rgba(255,255,255,.22);padding:3px 14px;border-radius:999px;font-weight:700;letter-spacing:.05em;font-size:.9rem}
+  .hero h1{margin:14px 0 6px;font-size:2rem;line-height:1.3}
+  .hero .who{font-size:1.05rem;opacity:.95}
+  .cite{margin-top:16px;padding:12px 16px;background:rgba(255,255,255,.14);border-radius:12px;font-size:.95rem}
+  section.block{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 26px;margin-top:22px}
+  section.block h2{margin:0 0 10px;font-size:1.15rem;display:flex;align-items:center;gap:10px}
+  section.block h2 .no{width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-size:.9rem;font-weight:800;flex:none}
+  p{margin:.5em 0}
+  .term{border-bottom:2px dotted var(--accent);cursor:help;position:relative}
+  .term:hover::after{content:attr(data-tip);position:absolute;left:0;bottom:135%;width:250px;background:#20242e;color:#fff;font-size:.8rem;line-height:1.6;padding:10px 12px;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,.25);z-index:5}
+  .term:hover::before{content:"";position:absolute;left:14px;bottom:125%;border:6px solid transparent;border-top-color:#20242e;z-index:5}
+  .demo{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 26px;margin-top:22px}
+  .demo h2{margin:0 0 4px;font-size:1.15rem}
+  .demo .hint{color:var(--muted);font-size:.9rem;margin-bottom:16px}
+  .xbox{background:#0f1420;border-radius:14px;padding:10px;display:flex;justify-content:center;overflow-x:auto}
+  .controls{max-width:460px;margin:18px auto 0}
+  .controls label{display:block;font-weight:700;margin:12px 0 6px;font-size:.95rem}
+  input[type=range]{width:100%;accent-color:var(--accent)}
+  .btns{display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+  .btns button{border:2px solid var(--line);background:#fff;border-radius:999px;padding:9px 20px;font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit;color:var(--ink)}
+  .btns button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .readout{text-align:center;margin-top:14px;font-size:.98rem;color:var(--muted)}
+  .readout b{color:var(--ink)}
+  .status{margin-top:16px;text-align:center;font-size:1rem;padding:12px;border-radius:12px;font-weight:700}
+  .status.no{background:#fdecea;color:#b42318}
+  .status.yes{background:#e7f8ee;color:#087443}
+  .note{font-size:.82rem;color:var(--muted);margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
+  .pager{display:flex;justify-content:space-between;gap:12px;margin-top:30px}
+  .pager a{flex:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;color:var(--ink);font-size:.9rem}
+  .pager a.next{text-align:right}
+  .pager a:hover{border-color:var(--accent);color:var(--accent)}
+  .pager span{display:block;font-size:.75rem;color:var(--muted)}
+  .src{font-size:.82rem;color:var(--muted);margin-top:24px}
+  svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+</style>
+
+<nav class="topnav">
+  <a href="../index.html">← 年表一覧へ</a>
+  <span>物理学賞の歩み 16 / 45</span>
+</nav>
+
+<div class="wrap">
+  <div class="hero">
+    <span class="year">1949年</span>
+    <h1>核をまとめる力の正体 ── 中間子の予言</h1>
+    <div class="who">湯川秀樹（日本）</div>
+    <div class="cite"><b>受賞理由：</b>原子核の中で働く力についての理論研究にもとづく、中間子の存在の予言に対して。</div>
+  </div>
+
+  <section class="block">
+    <h2><span class="no">1</span>背景 ── プラスどうしなのに、なぜ核はまとまる？</h2>
+    <p>原子核はプラスの陽子がぎゅっと集まっています。同じプラスどうしは反発するはずなのに、核はバラバラになりません。反発をおさえて核をまとめる、電気とは別の<b>強い力</b>があるはず――でもその正体は謎でした。</p>
+  </section>
+
+  <section class="block">
+    <h2><span class="no">2</span>発見 ── 粒をキャッチボールして力が生まれる</h2>
+    <p>湯川は「陽子と中性子が、ある<b>粒をキャッチボール</b>することで引き合う」と考えました。その未知の粒が<span class="term" data-tip="陽子や中性子の間でやりとりされ、核をまとめる力を伝える粒。重さが電子と陽子の中くらいなので“中間子”。湯川が予言し、のちに発見されました。">中間子（ちゅうかんし）</span>です。重さが電子と陽子の中くらいなのでこの名前に。しかもこの力は<b>核の中だけに届く近距離の力</b>だと予言しました。数年後、中間子は宇宙線の中から本当に見つかり、<b>日本人初のノーベル賞</b>となりました。</p>
+  </section>
+
+  <!-- INTERACTIVE -->
+  <div class="demo">
+    <h2>やってみよう ── 中間子のキャッチボール</h2>
+    <div class="hint">ボタンを押すと、陽子と中性子が中間子を投げ合います。このやりとりが、核をまとめる「強い力」です。</div>
+    <div class="xbox">
+      <svg id="yu" width="460" height="180" viewBox="0 0 460 180" role="img" aria-label="中間子交換">
+        <circle cx="120" cy="90" r="26" fill="#ff9a8a"/><text x="120" y="95" text-anchor="middle" font-size="13" fill="#3f0404" font-weight="bold">p</text>
+        <text x="120" y="150" fill="#8b93a7" font-size="11" text-anchor="middle">陽子</text>
+        <circle cx="340" cy="90" r="26" fill="#8ab6ff"/><text x="340" y="95" text-anchor="middle" font-size="13" fill="#04203f" font-weight="bold">n</text>
+        <text x="340" y="150" fill="#8b93a7" font-size="11" text-anchor="middle">中性子</text>
+        <circle id="pion" cx="120" cy="90" r="10" fill="#c4b5fd" opacity="0"/>
+      </svg>
+    </div>
+    <div class="btns"><button id="toggle">力を働かせる（開始）</button></div>
+    <div class="readout" id="msg">ボタンで中間子のやりとりを始めます</div>
+    <div class="note">※ 粒を投げ合うことで力が伝わる、というのが現代物理の「力」の見方です。強い力は核の中だけに届く近距離の力。模式図です。</div>
+  </div>
+
+  <section class="block">
+    <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
+    <p>「力は粒のやりとりで伝わる」という湯川の考え方は、その後の<b>素粒子物理学</b>の基本になりました。電磁気の力は光子、弱い力・強い力もそれぞれの粒のやりとり――という現代の描像（1965・1979・2013年の項）はここから続いています。日本の物理学が世界に認められる出発点にもなりました。</p>
+  </section>
+
+  <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）1949年物理学賞ページ、一般向け科学史資料。</p>
+
+  <div class="pager">
+    <a class="prev" href="15_1945_pauli.html"><span>前へ</span>← 1945 パウリ</a>
+    <a class="next" href="17_1956_transistor.html"><span>次へ</span>1956 トランジスタ →</a>
+  </div>
+</div>
+
+<script>
+var pion=document.getElementById('pion'), toggle=document.getElementById('toggle'), msg=document.getElementById('msg');
+var on=false, anim=null, t=0;
+function loop(){ t+=0.03; var s=(Math.sin(t)+1)/2;   // 0..1 往復
+  var x=120+(340-120)*s, y=90-40*Math.sin(s*Math.PI);
+  pion.setAttribute('cx',x); pion.setAttribute('cy',y);
+  anim=requestAnimationFrame(loop);
+}
+toggle.addEventListener('click',function(){
+  on=!on;
+  if(on){ pion.setAttribute('opacity','1'); toggle.textContent='止める'; toggle.classList.add('on');
+    msg.innerHTML='中間子を<b>キャッチボール</b>中 ── これが核をまとめる力'; loop(); }
+  else{ if(anim)cancelAnimationFrame(anim); pion.setAttribute('opacity','0'); toggle.textContent='力を働かせる（開始）'; toggle.classList.remove('on');
+    msg.innerHTML='止めました'; }
+});
+</script>
