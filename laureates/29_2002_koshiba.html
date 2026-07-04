@@ -44,6 +44,27 @@
   .pager span{display:block;font-size:.75rem;color:var(--muted)}
   .src{font-size:.82rem;color:var(--muted);margin-top:24px}
   svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+  /* --- 発展セクション（数式あり） --- */
+  details.adv{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:16px;margin-top:22px;overflow:hidden}
+  details.adv summary{cursor:pointer;list-style:none;padding:18px 26px;font-weight:800;font-size:1.05rem;color:var(--accent)}
+  details.adv summary::-webkit-details-marker{display:none}
+  details.adv summary::before{content:"▸ "}
+  details.adv[open] summary::before{content:"▾ "}
+  .advbody{padding:0 26px 22px}
+  .advbody>p:first-child{margin-top:0}
+  .eq{display:block;text-align:center;margin:14px auto;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-family:"Cambria Math",Cambria,Georgia,"Times New Roman",serif;font-size:1.1rem;overflow-x:auto;line-height:2}
+  .eq i{font-style:italic;padding:0 1px}
+  .fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 3px}
+  .fr>span{display:block;padding:0 5px;line-height:1.35}
+  .fr>span:first-child{border-bottom:1.5px solid currentColor}
+  /* --- 定量シミュレーション用コントロール --- */
+  .cpanel{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:4px 26px;max-width:640px;margin:16px auto 0}
+  .cpanel .ctl label{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;font-size:.9rem;margin:8px 0 2px;gap:8px}
+  .cpanel .ctl label output{font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .cpanel .ctl input[type=range]{width:100%;accent-color:var(--accent)}
+  canvas{max-width:100%;height:auto;display:block;border-radius:8px}
+  .rpanel{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;margin-top:12px;font-size:.92rem;color:var(--muted)}
+  .rpanel b{color:var(--ink);font-variant-numeric:tabular-nums}
 </style>
 
 <nav class="topnav">
@@ -89,6 +110,15 @@
     <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
     <p>ニュートリノ天文学は、太陽の内部や超新星、宇宙の成り立ちを直接調べる手段になりました。後継の<b>スーパーカミオカンデ</b>はニュートリノに質量がある証拠をつかみ（2015年 梶田）、いまも宇宙のなぞに挑んでいます。日本の“地下の巨大実験”が世界の宇宙物理を牽引しています。</p>
   </section>
+
+  <details class="adv">
+    <summary>発展 ── もっと詳しく知りたい人へ（数式あり）</summary>
+    <div class="advbody">
+<p>カミオカンデが使う<b>チェレンコフ放射</b>は、荷電粒子が媒質中の光速 c/n を超えて走るときに出る「光の衝撃波」です。</p>
+<div class="eq">条件：<i>v</i> &gt; <span class="fr"><span><i>c</i></span><span><i>n</i></span></span>,　放射角 cos θ = <span class="fr"><span><i>c</i></span><span><i>nv</i></span></span>　（水 n=1.33 → θ ≈ 42°）</div>
+<p>ニュートリノが水中の電子や核子を弾くと、その荷電粒子のチェレンコフ光が<b>リング状</b>に光電子増倍管へ映り、向き・エネルギー・粒子の種類（リングの縁のぼけ方で e/μ を判別）が再構成できます。1987年2月23日、大マゼラン雲の超新星SN1987Aから届いた11個のニュートリノはわずか13秒間に集中し、重力崩壊のエネルギー約3×10<sup>46</sup> J の99%がニュートリノで持ち去られるという超新星理論の骨格を一発で検証しました。「たった11個」でも、それまでゼロだった<b>ニュートリノ天文学</b>の誕生には十分だったのです。後継のスーパーカミオカンデが振動発見（36番）、建設中のハイパーカミオカンデが次世代を担う、神岡鉱山の地下1000 mの系譜です。</p>
+    </div>
+  </details>
 
   <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）2002年物理学賞ページ、一般向け科学史資料。</p>
 

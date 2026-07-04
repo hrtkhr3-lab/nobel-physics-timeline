@@ -44,6 +44,27 @@
   .pager span{display:block;font-size:.75rem;color:var(--muted)}
   .src{font-size:.82rem;color:var(--muted);margin-top:24px}
   svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+  /* --- 発展セクション（数式あり） --- */
+  details.adv{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:16px;margin-top:22px;overflow:hidden}
+  details.adv summary{cursor:pointer;list-style:none;padding:18px 26px;font-weight:800;font-size:1.05rem;color:var(--accent)}
+  details.adv summary::-webkit-details-marker{display:none}
+  details.adv summary::before{content:"▸ "}
+  details.adv[open] summary::before{content:"▾ "}
+  .advbody{padding:0 26px 22px}
+  .advbody>p:first-child{margin-top:0}
+  .eq{display:block;text-align:center;margin:14px auto;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-family:"Cambria Math",Cambria,Georgia,"Times New Roman",serif;font-size:1.1rem;overflow-x:auto;line-height:2}
+  .eq i{font-style:italic;padding:0 1px}
+  .fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 3px}
+  .fr>span{display:block;padding:0 5px;line-height:1.35}
+  .fr>span:first-child{border-bottom:1.5px solid currentColor}
+  /* --- 定量シミュレーション用コントロール --- */
+  .cpanel{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:4px 26px;max-width:640px;margin:16px auto 0}
+  .cpanel .ctl label{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;font-size:.9rem;margin:8px 0 2px;gap:8px}
+  .cpanel .ctl label output{font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .cpanel .ctl input[type=range]{width:100%;accent-color:var(--accent)}
+  canvas{max-width:100%;height:auto;display:block;border-radius:8px}
+  .rpanel{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;margin-top:12px;font-size:.92rem;color:var(--muted)}
+  .rpanel b{color:var(--ink);font-variant-numeric:tabular-nums}
 </style>
 
 <nav class="topnav">
@@ -71,31 +92,30 @@
 
   <!-- INTERACTIVE -->
   <div class="demo">
-    <h2>やってみよう ── 2つの波を重ねる</h2>
-    <div class="hint">スライダーで片方の鏡を動かすと2つの波の「ずれ」が変わり、重ねた光（検出器）が明るくなったり暗くなったりします。</div>
-    <div class="xbox">
-      <svg id="mi" width="520" height="210" viewBox="0 0 520 210" role="img" aria-label="光の干渉">
-        <path id="wA" fill="none" stroke="#ff9a8a" stroke-width="3"/>
-        <path id="wB" fill="none" stroke="#8ab6ff" stroke-width="3"/>
-        <text x="10" y="20" fill="#ff9a8a" font-size="12">波A（基準の光）</text>
-        <text x="130" y="20" fill="#8ab6ff" font-size="12">波B（動く鏡からの光）</text>
-        <circle id="lamp" cx="440" cy="150" r="26" fill="#ffd257"/>
-        <circle cx="440" cy="150" r="26" fill="none" stroke="#3a4356" stroke-width="2"/>
-        <text x="440" y="196" fill="#8b93a7" font-size="12" text-anchor="middle">検出器</text>
-      </svg>
+    <h2>実験してみよう ── 干渉計で光の波長を測る</h2>
+    <div class="hint">鏡を動かすと光の道のりの差（光路差 = 鏡の移動 × 2）が変わり、検出器が明→暗→明…と点滅します。<b>明暗の回数を数えると波長が測れる</b>のがマイケルソンの発明です。波長を変えて、点滅の間隔がどう変わるかも見てみましょう。</div>
+    <div class="xbox"><canvas id="cv" width="640" height="300"></canvas></div>
+    <div class="cpanel">
+      <div class="ctl"><label>光の波長 λ <output id="oL">550 nm</output></label><input id="L" type="range" min="400" max="700" value="550"></div>
+      <div class="ctl"><label>鏡の移動距離 Δd <output id="oD">0 nm</output></label><input id="Dm" type="range" min="0" max="1500" value="0"></div>
     </div>
-    <div class="controls">
-      <label for="ph">動く鏡の位置（光路差）</label>
-      <input id="ph" type="range" min="0" max="100" value="0">
-    </div>
-    <div class="status yes" id="st">山と山が重なって明るい（強め合い）</div>
-    <div class="note">※ 2つの波の山どうしが重なると明るく、山と谷が重なると打ち消して暗くなります。この明暗の周期が「光の波長ものさし」です。仕組みをつかむための模式図です。</div>
+    <div class="rpanel"><span>光路差 2Δd <b id="rP">0 nm</b></span><span>数えた明暗の回数 m <b id="rM">0</b></span><span>m から逆算した波長 2Δd/m <b id="rW">–</b></span></div>
+    <div class="note">明るさは干渉の式 I = I₀cos²(2πΔd/λ) による正確な計算です。鏡を Δd 動かすと光は往復で 2Δd 余分に進むため、<b>2Δd がちょうど波長の整数倍のとき明るく</b>なります。この「明暗を数えて長さを測る」原理は、いまのレーザー測長器や重力波望遠鏡LIGO（2017年のページ参照）とまったく同じです。</div>
   </div>
 
   <section class="block">
     <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
     <p>この干渉の技術は、長さの世界基準を光の波長で定める道を開き、いまも精密計測の土台です。さらにマイケルソンは「光の速さは地球の動きによらず一定らしい」という有名な実験（マイケルソン・モーリーの実験）も行い、これがのちの<b>アインシュタインの相対性理論</b>につながりました。2017年に受賞した<b>重力波望遠鏡LIGO</b>も、じつは巨大な干渉計そのものです。</p>
   </section>
+
+  <details class="adv">
+    <summary>発展 ── もっと詳しく知りたい人へ（数式あり）</summary>
+    <div class="advbody">
+<p>干渉計の出力強度は、腕の光路差を Δ = 2<i>d</i>（鏡の変位 <i>d</i> の往復分）として</p>
+<div class="eq"><i>I</i> = <i>I</i><sub>0</sub> cos²<span class="fr"><span>πΔ</span><span>λ</span></span></div>
+<p>で表されます。明暗1周期が波長1個分に対応するので、縞を <i>m</i> 回数えれば Δ = <i>m</i>λ として長さと波長を相互に較正できます。マイケルソンは1892年、カドミウムの赤い輝線を使って<b>メートル原器を波長の個数で表現</b>し（1 m = 1553163.5 波長）、精密測長の礎を築きました。有名なマイケルソン・モーリーの実験（1887）は、地球の公転（30 km/s）による「エーテルの風」で生じるはずだった約0.4本の縞のずれを探し、0.01本の精度で<b>ずれ無し</b>を得たもの。この「否定的な結果」が光速度不変の原理、つまり特殊相対性理論への強い伏線になりました。現代のLIGO（38番）は腕4 kmのマイケルソン干渉計で10<sup>−18</sup> m の変位を読み取ります。</p>
+    </div>
+  </details>
 
   <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）1907年物理学賞ページ、一般向け科学史資料。</p>
 
@@ -106,17 +126,48 @@
 </div>
 
 <script>
-var ph=document.getElementById('ph'), wA=document.getElementById('wA'),
-    wB=document.getElementById('wB'), lamp=document.getElementById('lamp'), st=document.getElementById('st');
-function sine(shift,yc){var d='M',i;for(i=0;i<=500;i+=4){var y=yc-30*Math.sin((i/40)+shift);d+=(i===0?'':'L')+(10+i)+','+y.toFixed(1)+' ';}return d;}
+var cv=document.getElementById('cv'),g=cv.getContext('2d'),W=cv.width,H=cv.height;
+var Ls=document.getElementById('L'),Dm=document.getElementById('Dm');
+function wl2rgb(w){var r=0,gg=0,b=0;
+  if(w<440){r=-(w-440)/60;b=1;}else if(w<490){gg=(w-440)/50;b=1;}
+  else if(w<510){gg=1;b=-(w-510)/20;}else if(w<580){r=(w-510)/70;gg=1;}
+  else if(w<645){r=1;gg=-(w-645)/65;}else{r=1;}
+  return [Math.round(255*r),Math.round(255*gg),Math.round(255*b)];}
 function render(){
-  var t=+ph.value/100, shift=t*4*Math.PI;         // 鏡を動かす → 位相ずれ
-  wA.setAttribute('d',sine(0,70)); wB.setAttribute('d',sine(shift,70));
-  var b=Math.cos(shift/2)*Math.cos(shift/2);       // 明るさ 0..1
-  lamp.setAttribute('fill','rgba(255,210,87,'+(0.12+0.88*b).toFixed(2)+')');
-  if(b>0.7){st.className='status yes';st.textContent='山と山が重なって明るい（強め合い）';}
-  else if(b<0.15){st.className='status no';st.textContent='山と谷が打ち消して暗い（弱め合い）';}
-  else{st.className='status';st.style.background='#fff7e6';st.style.color='#8a5a00';st.textContent='中間の明るさ（少しずれている）';}
+  var lam=+Ls.value,dd=+Dm.value,path=2*dd;
+  var phase=2*Math.PI*path/lam;                 // 位相差
+  var I=Math.pow(Math.cos(phase/2),2);          // 検出強度
+  var c=wl2rgb(lam),col='rgb('+c[0]+','+c[1]+','+c[2]+')';
+  document.getElementById('oL').textContent=lam+' nm';
+  document.getElementById('oD').textContent=dd+' nm';
+  g.clearRect(0,0,W,H);
+  g.font='12px sans-serif';
+  // 波A(基準) と 波B(2Δd ずれ) と 合成波
+  var y1=64,y2=134,y3=224,amp=26,px2nm=3.5;     // 1px = 3.5nm
+  g.fillStyle='#8b93a7';g.fillText('波A（固定鏡から）',16,y1-34);
+  g.fillText('波B（動かした鏡から: 2Δd 遅れ）',16,y2-34);
+  g.fillText('重ね合わせ（検出器へ）',16,y3-40);
+  function wave(yc,shiftNm,a,color,lw){g.strokeStyle=color;g.lineWidth=lw;g.beginPath();
+    for(var x=0;x<=W-140;x++){var pos=(x*px2nm-shiftNm)/lam*2*Math.PI;
+      var y=yc-a*Math.sin(pos);if(x===0)g.moveTo(16+x,y);else g.lineTo(16+x,y);}g.stroke();}
+  wave(y1,0,amp,'rgba('+c[0]+','+c[1]+','+c[2]+',0.95)',2);
+  wave(y2,path,amp,'rgba('+c[0]+','+c[1]+','+c[2]+',0.65)',2);
+  // 合成
+  g.strokeStyle=col;g.lineWidth=2.5;g.beginPath();
+  for(var x=0;x<=W-140;x++){var p1=(x*px2nm)/lam*2*Math.PI,p2=(x*px2nm-path)/lam*2*Math.PI;
+    var y=y3-amp*0.9*(Math.sin(p1)+Math.sin(p2));if(x===0)g.moveTo(16+x,y);else g.lineTo(16+x,y);}
+  g.stroke();g.lineWidth=1;
+  // 検出器
+  var dx=W-70,dy=H/2;
+  g.fillStyle='rgba('+c[0]+','+c[1]+','+c[2]+','+(0.08+0.92*I).toFixed(2)+')';
+  g.beginPath();g.arc(dx,dy,30,0,7);g.fill();
+  g.strokeStyle='#3a4356';g.beginPath();g.arc(dx,dy,30,0,7);g.stroke();
+  g.fillStyle='#8b93a7';g.fillText('検出器',dx-20,dy+52);
+  g.fillStyle='#e6e3d9';g.fillText('明るさ '+(I*100).toFixed(0)+'%',dx-26,dy-40);
+  var m=Math.floor(path/lam+0.5/1e9);           // 通過した明線の数
+  document.getElementById('rP').textContent=path+' nm';
+  document.getElementById('rM').textContent=(path/lam).toFixed(2)+' 周期（明線 '+Math.floor(path/lam)+' 回）';
+  document.getElementById('rW').textContent=Math.floor(path/lam)>=1?(path/Math.floor(path/lam)).toFixed(0)+' nm（真値 '+lam+' nm）':'明線1回以上動かすと計算できます';
 }
-ph.addEventListener('input',render); render();
+[Ls,Dm].forEach(function(s){s.addEventListener('input',render);});render();
 </script>

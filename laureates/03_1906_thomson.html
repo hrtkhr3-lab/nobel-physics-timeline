@@ -19,7 +19,7 @@
   section.block h2 .no{width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-size:.9rem;font-weight:800;flex:none}
   p{margin:.5em 0}
   .term{border-bottom:2px dotted var(--accent);cursor:help;position:relative}
-  .term:hover::after{content:attr(data-tip);position:absolute;left:0;bottom:135%;width:240px;background:#20242e;color:#fff;font-size:.8rem;line-height:1.6;padding:10px 12px;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,.25);z-index:5}
+  .term:hover::after{content:attr(data-tip);position:absolute;left:0;bottom:135%;width:250px;background:#20242e;color:#fff;font-size:.8rem;line-height:1.6;padding:10px 12px;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,.25);z-index:5}
   .term:hover::before{content:"";position:absolute;left:14px;bottom:125%;border:6px solid transparent;border-top-color:#20242e;z-index:5}
   .demo{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 26px;margin-top:22px}
   .demo h2{margin:0 0 4px;font-size:1.15rem}
@@ -28,8 +28,14 @@
   .controls{max-width:460px;margin:18px auto 0}
   .controls label{display:block;font-weight:700;margin:12px 0 6px;font-size:.95rem}
   input[type=range]{width:100%;accent-color:var(--accent)}
+  .btns{display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+  .btns button{border:2px solid var(--line);background:#fff;border-radius:999px;padding:9px 20px;font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit;color:var(--ink)}
+  .btns button.on{background:var(--accent);border-color:var(--accent);color:#fff}
   .readout{text-align:center;margin-top:14px;font-size:.98rem;color:var(--muted)}
   .readout b{color:var(--ink)}
+  .status{margin-top:16px;text-align:center;font-size:1rem;padding:12px;border-radius:12px;font-weight:700}
+  .status.no{background:#fdecea;color:#b42318}
+  .status.yes{background:#e7f8ee;color:#087443}
   .note{font-size:.82rem;color:var(--muted);margin-top:14px;padding-top:12px;border-top:1px dashed var(--line)}
   .pager{display:flex;justify-content:space-between;gap:12px;margin-top:30px}
   .pager a{flex:1;background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px 16px;color:var(--ink);font-size:.9rem}
@@ -38,6 +44,27 @@
   .pager span{display:block;font-size:.75rem;color:var(--muted)}
   .src{font-size:.82rem;color:var(--muted);margin-top:24px}
   svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+  /* --- 発展セクション（数式あり） --- */
+  details.adv{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:16px;margin-top:22px;overflow:hidden}
+  details.adv summary{cursor:pointer;list-style:none;padding:18px 26px;font-weight:800;font-size:1.05rem;color:var(--accent)}
+  details.adv summary::-webkit-details-marker{display:none}
+  details.adv summary::before{content:"▸ "}
+  details.adv[open] summary::before{content:"▾ "}
+  .advbody{padding:0 26px 22px}
+  .advbody>p:first-child{margin-top:0}
+  .eq{display:block;text-align:center;margin:14px auto;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-family:"Cambria Math",Cambria,Georgia,"Times New Roman",serif;font-size:1.1rem;overflow-x:auto;line-height:2}
+  .eq i{font-style:italic;padding:0 1px}
+  .fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 3px}
+  .fr>span{display:block;padding:0 5px;line-height:1.35}
+  .fr>span:first-child{border-bottom:1.5px solid currentColor}
+  /* --- 定量シミュレーション用コントロール --- */
+  .cpanel{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:4px 26px;max-width:640px;margin:16px auto 0}
+  .cpanel .ctl label{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;font-size:.9rem;margin:8px 0 2px;gap:8px}
+  .cpanel .ctl label output{font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .cpanel .ctl input[type=range]{width:100%;accent-color:var(--accent)}
+  canvas{max-width:100%;height:auto;display:block;border-radius:8px}
+  .rpanel{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;margin-top:12px;font-size:.92rem;color:var(--muted)}
+  .rpanel b{color:var(--ink);font-variant-numeric:tabular-nums}
 </style>
 
 <nav class="topnav">
@@ -55,57 +82,42 @@
 
   <section class="block">
     <h2><span class="no">1</span>背景 ── 「これ以上分けられない」はずだった原子</h2>
-    <p>19世紀の終わりごろ、物質のいちばん小さな単位は<b>原子</b>で、それより小さいものはないと考えられていました。
-      いっぽうで、<span class="term" data-tip="ガラス管の空気を抜き、両端に高い電圧をかけると、マイナス極から反対側へ流れる正体不明の“線”。">陰極線（いんきょくせん）</span>
-      という光る流れの正体が謎のまま残っていました。</p>
+    <p>19世紀の終わりごろ、物質のいちばん小さな単位は<b>原子</b>で、それより小さいものはないと考えられていました。いっぽうで、<span class="term" data-tip="ガラス管の空気を抜き、両端に高い電圧をかけると、マイナス極から反対側へ流れる正体不明の“線”。">陰極線（いんきょくせん）</span>という光る流れの正体が謎のまま残っていました。</p>
   </section>
 
   <section class="block">
     <h2><span class="no">2</span>発見 ── 曲がる線、それは「粒」だった</h2>
-    <p>トムソンは、陰極線に電気の力（電場）を加えると<b>プラス極のほうへ曲がる</b>ことを精密に測りました。
-      曲がるということは、この線が<b>マイナスの電気を持った粒の流れ</b>だという証拠です。しかもその粒は、
-      いちばん軽い原子（水素）よりも<b>2000分の1ほども軽い</b>。原子の中に、もっと小さな共通部品があったのです。
-      これがのちに<span class="term" data-tip="すべての原子に共通してふくまれる、マイナスの電気を持つとても軽い粒。電気や電子回路の主役です。">電子</span>と呼ばれました。</p>
+    <p>トムソンは、陰極線に電気の力（電場）を加えると<b>プラス極のほうへ曲がる</b>ことを精密に測りました。曲がるということは、この線が<b>マイナスの電気を持った粒の流れ</b>だという証拠です。しかもその粒は、いちばん軽い原子（水素）よりも<b>2000分の1ほども軽い</b>。原子の中に、もっと小さな共通部品があったのです。これがのちに<span class="term" data-tip="すべての原子に共通してふくまれる、マイナスの電気を持つとても軽い粒。電気や電子回路の主役です。">電子</span>と呼ばれました。</p>
   </section>
 
   <!-- INTERACTIVE -->
   <div class="demo">
-    <h2>やってみよう ── 電気の力で線を曲げる</h2>
-    <div class="hint">スライダーで「電気の力（電圧）」を強くすると、まっすぐ飛んでいた線がプラス極のほうへ曲がります。</div>
-    <div class="xbox">
-      <svg id="crt" width="520" height="240" viewBox="0 0 520 240" role="img" aria-label="陰極線の実験">
-        <rect x="20" y="30" width="480" height="180" rx="16" fill="none" stroke="#2a3446" stroke-width="2"/>
-        <!-- cathode -->
-        <rect x="26" y="104" width="26" height="32" rx="4" fill="#8b93a7"/>
-        <text x="39" y="160" fill="#8b93a7" font-size="12" text-anchor="middle">−極</text>
-        <!-- plates -->
-        <rect x="200" y="66" width="120" height="10" rx="3" fill="#ff8a8a"/>
-        <text x="330" y="76" fill="#ff8a8a" font-size="13">＋</text>
-        <rect x="200" y="164" width="120" height="10" rx="3" fill="#8ab6ff"/>
-        <text x="330" y="176" fill="#8ab6ff" font-size="13">−</text>
-        <!-- screen -->
-        <rect x="486" y="40" width="8" height="160" rx="3" fill="#26343f"/>
-        <!-- beam -->
-        <path id="beam" d="" fill="none" stroke="#7ee787" stroke-width="4" stroke-linecap="round"/>
-        <circle id="spot" r="7" fill="#b6ffcf"/>
-      </svg>
+    <h2>実験してみよう ── トムソンの方法で e/m を測る</h2>
+    <div class="hint">トムソンの実験を3ステップで再現します。<b>①</b> 加速電圧で電子を打ち出す → <b>②</b> 偏向電圧で上に曲げる → <b>③</b> 磁場を強めて、ちょうどまっすぐに戻す。つり合ったとき電子の速さは v = E/B と分かり、そこから e/m（電荷と質量の比）が求まります。</div>
+    <div class="xbox"><canvas id="cv" width="640" height="280"></canvas></div>
+    <div class="cpanel">
+      <div class="ctl"><label>① 加速電圧 <output id="oVa">1500 V</output></label><input id="Va" type="range" min="500" max="3000" value="1500" step="50"></div>
+      <div class="ctl"><label>② 偏向板の電圧 <output id="oVd">300 V</output></label><input id="Vd" type="range" min="0" max="600" value="300" step="10"></div>
+      <div class="ctl"><label>③ 磁束密度 <output id="oB">0.00 mT</output></label><input id="B" type="range" min="0" max="200" value="0"></div>
     </div>
-    <div class="controls">
-      <label for="v">電気の力（電圧）</label>
-      <input id="v" type="range" min="0" max="100" value="0">
-      <div class="readout" id="msg">今は <b>電場オフ ── 線はまっすぐ</b></div>
-    </div>
-    <div class="note">※ 線がプラス極のほうへ曲がるのは、線がマイナスの電気を帯びた粒（電子）でできているから。
-      これは仕組みをつかむための模式図で、曲がり方は誇張しています。</div>
+    <div class="status" id="st">まず ②偏向電圧 で曲げてから、③磁場 でまっすぐに戻しましょう</div>
+    <div class="rpanel"><span>電子の速さ v <b id="rV">–</b></span><span>測定された e/m <b id="rEM">–</b></span><span>現代の値 <b>1.759×10¹¹ C/kg</b></span></div>
+    <div class="note">偏向板の長さ 10 cm・間隔 2 cm・スクリーンまで 25 cm の装置を想定し、電子の軌道は運動方程式どおりに計算しています（磁気偏向は小角近似）。つり合いから v = E/B、加速の式 eV<sub>a</sub> = ½mv² から e/m = v²/2V<sub>a</sub>。トムソンはこの値が「陰極の材質や気体の種類を変えても同じ」であることから、電子があらゆる原子に共通の部品だと見抜きました。</div>
   </div>
 
   <section class="block">
     <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
-    <p>電子の発見で、原子は「部品からできた世界」だと分かり、<b>原子の構造の研究</b>が一気に進みました。
-      電子の流れを操る技術は、<b>真空管 → トランジスタ → あらゆる電子機器</b>へと発展し、
-      テレビのブラウン管も、いまのスマホの中身も、すべて「電子を動かす」ことで成り立っています。
-      おもしろいことに、息子のジョージ・トムソンは「電子が波でもある」ことを示して、のちにノーベル賞を受けています。</p>
+    <p>電子の発見で、原子は「部品からできた世界」だと分かり、<b>原子の構造の研究</b>が一気に進みました。電子の流れを操る技術は、<b>真空管 → トランジスタ → あらゆる電子機器</b>へと発展し、テレビのブラウン管も、いまのスマホの中身も、すべて「電子を動かす」ことで成り立っています。おもしろいことに、息子のジョージ・トムソンは「電子が波でもある」ことを示して、のちにノーベル賞を受けています。</p>
   </section>
+
+  <details class="adv">
+    <summary>発展 ── もっと詳しく知りたい人へ（数式あり）</summary>
+    <div class="advbody">
+<p>トムソンの測定の核心は、電場と磁場を直交させた<b>速度選別</b>です。電気力 <i>eE</i> と磁気力 <i>evB</i> がつり合うとき速度が確定し、加速の式と組み合わせると比電荷が求まります。</p>
+<div class="eq"><i>v</i> = <span class="fr"><span><i>E</i></span><span><i>B</i></span></span>,　<span class="fr"><span><i>e</i></span><span><i>m</i></span></span> = <span class="fr"><span><i>v</i>²</span><span>2<i>V</i><sub>a</sub></span></span> = 1.759×10<sup>11</sup> C/kg</div>
+<p>この値は電気分解から分かっていた水素イオンの <i>q/m</i>（≈9.6×10<sup>7</sup> C/kg）の約1800倍。電荷が同じ程度なら<b>質量が水素原子の約1/1836</b>しかない、という結論になります。しかも陰極の金属や管内の気体を替えても同じ値──電子があらゆる物質に共通の普遍的な構成要素である証拠でした。トムソンは「プラムプディング模型」（正電荷の海に電子が浮かぶ）を提案しましたが、これはのちに弟子のラザフォードの散乱実験で原子核模型に置き換えられます。</p>
+    </div>
+  </details>
 
   <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）1906年物理学賞ページ、一般向け科学史資料。</p>
 
@@ -116,20 +128,53 @@
 </div>
 
 <script>
-  var v=document.getElementById('v'), beam=document.getElementById('beam'),
-      spot=document.getElementById('spot'), msg=document.getElementById('msg');
-  var x0=52,y0=120, xp1=200, xp2=320, x1=488;
-  function render(){
-    var t=+v.value/100, d=68*t;              // upward deflection at plate exit
-    var yExit=y0-d, cx=(xp1+xp2)/2, cy=y0;
-    var slope=(yExit-y0)/((xp2-xp1)/2);
-    var yEnd=yExit + slope*(x1-xp2);
-    beam.setAttribute('d','M'+x0+','+y0+' L'+xp1+','+y0+' Q'+cx+','+cy+' '+xp2+','+yExit+' L'+x1+','+yEnd);
-    spot.setAttribute('cx',x1); spot.setAttribute('cy',yEnd);
-    msg.innerHTML = t===0 ? '今は <b>電場オフ ── 線はまっすぐ</b>'
-                  : t<0.5 ? '<b>プラス極のほうへ曲がった</b> ── マイナスの粒だ！'
-                  : '<b>強く曲がった</b> ── 陰極線＝電子の流れ';
-  }
-  v.addEventListener('input', render);
-  render();
+var cv=document.getElementById('cv'),g=cv.getContext('2d'),W=cv.width,H=cv.height;
+var Va=document.getElementById('Va'),Vd=document.getElementById('Vd'),Bs=document.getElementById('B'),st=document.getElementById('st');
+var EM=1.7588e11,L=0.10,d=0.02,DD=0.25;    // 実寸 (m)
+var X0=40,XP1=220,XP2=XP1+180,XS=W-30,YC=H/2,SC=1800;  // 描画: 180px=10cm → 1px≈0.55mm, y倍率SC px/m
+function render(){
+  var va=+Va.value,vd=+Vd.value,B=+Bs.value/100*1e-3;   // T
+  document.getElementById('oVa').textContent=va+' V';
+  document.getElementById('oVd').textContent=vd+' V';
+  document.getElementById('oB').textContent=(B*1e3).toFixed(2)+' mT';
+  var v=Math.sqrt(2*EM*va),E=vd/d;
+  // 板の中: 上向き加速度 aE=(e/m)E, 下向き aB=(e/m)vB
+  var a=EM*(E-v*B);                       // 正なら上へ
+  var t1=L/v,y1=0.5*a*t1*t1,vy=a*t1;      // 板の出口
+  var y2=y1+vy*(DD/v);                    // スクリーン
+  g.clearRect(0,0,W,H);
+  // 管
+  g.strokeStyle='#2a3446';g.lineWidth=2;g.strokeRect(20,30,W-46,H-60);
+  g.fillStyle='#8b93a7';g.fillRect(26,YC-16,20,32);
+  g.font='12px sans-serif';g.fillText('電子銃',24,YC+40);
+  // 偏向板
+  g.fillStyle='#ff8a8a';g.fillRect(XP1,YC-40,XP2-XP1,8);g.fillText('＋',XP2+6,YC-32);
+  g.fillStyle='#8ab6ff';g.fillRect(XP1,YC+32,XP2-XP1,8);g.fillText('−',XP2+6,YC+44);
+  // 磁場マーク（紙面の奥向き ×）
+  if(B>0){g.fillStyle='#c4b5fd';for(var mx=XP1+20;mx<XP2;mx+=40)for(var my=YC-20;my<=YC+20;my+=40)g.fillText('×',mx,my);}
+  // スクリーン
+  g.fillStyle='#26343f';g.fillRect(XS-6,40,8,H-80);
+  // 軌道: 板内は放物線、板後は直線
+  g.strokeStyle='#7ee787';g.lineWidth=3;g.beginPath();g.moveTo(X0,YC);g.lineTo(XP1,YC);
+  for(var i=0;i<=30;i++){var frac=i/30,xx=XP1+(XP2-XP1)*frac,tt=t1*frac;
+    var yy=0.5*a*tt*tt;g.lineTo(xx,YC-yy*SC);}
+  var xrest=(XS-XP2)/ (XP2-XP1)*L;        // 描画x → 実距離換算
+  var yEnd=y1+vy*(xrest/v);
+  g.lineTo(XS,YC-yEnd*SC);g.stroke();g.lineWidth=1;
+  var ys=Math.max(48,Math.min(H-48,YC-yEnd*SC));
+  g.fillStyle='#b6ffcf';g.beginPath();g.arc(XS-2,ys,6,0,7);g.fill();
+  // 判定
+  var rV=document.getElementById('rV'),rEM=document.getElementById('rEM');
+  rV.textContent=(v/1e7).toFixed(2)+'×10⁷ m/s';
+  if(vd===0){st.className='status';st.style.background='#fff7e6';st.style.color='#8a5a00';
+    st.textContent='② 偏向電圧をかけて、ビームを曲げてみましょう';rEM.textContent='–';}
+  else if(B===0){st.className='status no';st.textContent='電場で上に曲がった ── ③ 磁場をかけて、まっすぐに戻してみましょう';rEM.textContent='–';}
+  else{var bal=Math.abs(E-v*B)/(E);
+    if(bal<0.02){var vm=E/B,em=vm*vm/(2*va);st.className='status yes';
+      st.textContent='つり合った！ v = E/B = '+(vm/1e7).toFixed(2)+'×10⁷ m/s と測定できた';
+      rEM.textContent=(em/1e11).toFixed(3)+'×10¹¹ C/kg（誤差 '+(Math.abs(em-EM)/EM*100).toFixed(1)+'%）';}
+    else{st.className='status no';st.textContent=(E>v*B?'まだ電気の力が強い ── 磁場をもう少し強く':'磁気の力が強すぎる ── 磁場を少し弱く');
+      rEM.textContent='つり合っていないので測定できない';}}
+}
+[Va,Vd,Bs].forEach(function(s){s.addEventListener('input',render);});render();
 </script>

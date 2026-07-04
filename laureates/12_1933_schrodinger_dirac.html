@@ -44,6 +44,27 @@
   .pager span{display:block;font-size:.75rem;color:var(--muted)}
   .src{font-size:.82rem;color:var(--muted);margin-top:24px}
   svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+  /* --- 発展セクション（数式あり） --- */
+  details.adv{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:16px;margin-top:22px;overflow:hidden}
+  details.adv summary{cursor:pointer;list-style:none;padding:18px 26px;font-weight:800;font-size:1.05rem;color:var(--accent)}
+  details.adv summary::-webkit-details-marker{display:none}
+  details.adv summary::before{content:"▸ "}
+  details.adv[open] summary::before{content:"▾ "}
+  .advbody{padding:0 26px 22px}
+  .advbody>p:first-child{margin-top:0}
+  .eq{display:block;text-align:center;margin:14px auto;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-family:"Cambria Math",Cambria,Georgia,"Times New Roman",serif;font-size:1.1rem;overflow-x:auto;line-height:2}
+  .eq i{font-style:italic;padding:0 1px}
+  .fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 3px}
+  .fr>span{display:block;padding:0 5px;line-height:1.35}
+  .fr>span:first-child{border-bottom:1.5px solid currentColor}
+  /* --- 定量シミュレーション用コントロール --- */
+  .cpanel{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:4px 26px;max-width:640px;margin:16px auto 0}
+  .cpanel .ctl label{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;font-size:.9rem;margin:8px 0 2px;gap:8px}
+  .cpanel .ctl label output{font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .cpanel .ctl input[type=range]{width:100%;accent-color:var(--accent)}
+  canvas{max-width:100%;height:auto;display:block;border-radius:8px}
+  .rpanel{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;margin-top:12px;font-size:.92rem;color:var(--muted)}
+  .rpanel b{color:var(--ink);font-variant-numeric:tabular-nums}
 </style>
 
 <nav class="topnav">
@@ -71,26 +92,31 @@
 
   <!-- INTERACTIVE -->
   <div class="demo">
-    <h2>やってみよう ── エネルギーから粒のペアが生まれる</h2>
-    <div class="hint">ボタンでエネルギー（光）を注ぐと、電子（−）と反電子＝陽電子（＋）がペアで生まれて飛び出します。</div>
-    <div class="xbox">
-      <svg id="pair" width="460" height="220" viewBox="0 0 460 220" role="img" aria-label="対生成">
-        <line id="gam" x1="20" y1="110" x2="230" y2="110" stroke="#ffe066" stroke-width="5" stroke-linecap="round" opacity="0"/>
-        <circle id="pe" cx="230" cy="110" r="13" fill="#8ab6ff" opacity="0"/>
-        <text id="pel" x="230" y="115" fill="#04203f" font-size="13" text-anchor="middle" font-weight="bold" opacity="0">−</text>
-        <circle id="po" cx="230" cy="110" r="13" fill="#ff9a8a" opacity="0"/>
-        <text id="pol" x="230" y="115" fill="#3f0404" font-size="13" text-anchor="middle" font-weight="bold" opacity="0">＋</text>
-      </svg>
+    <h2>実験してみよう ── 箱に閉じ込めた電子の波</h2>
+    <div class="hint">幅 L の「箱」（井戸型ポテンシャル）に電子を閉じ込めると、シュレーディンガー方程式の解は<b>両端がゼロの定在波</b>だけになり、エネルギーはとびとびの値 E<sub>n</sub> しか取れません。箱の幅と量子数 n を変えてみましょう。</div>
+    <div class="xbox"><canvas id="cv" width="640" height="330"></canvas></div>
+    <div class="cpanel">
+      <div class="ctl"><label>箱の幅 L <output id="oL">1.00 nm</output></label><input id="L" type="range" min="30" max="300" value="100"></div>
+      <div class="ctl"><label>量子数 n <output id="oN">1</output></label><input id="N" type="range" min="1" max="6" value="1"></div>
     </div>
-    <div class="btns"><button id="go">エネルギーを注ぐ</button></div>
-    <div class="readout" id="msg">ボタンを押してみましょう</div>
-    <div class="note">※ E=mc²。じゅうぶんなエネルギーがあると、質量を持つ粒と反粒子がペアで生まれます。逆に出会うと光になって消えます。模式図です。</div>
+    <div class="btns"><button id="bw" class="on">波動関数 ψ</button><button id="bp">存在確率 |ψ|²</button></div>
+    <div class="rpanel"><span>エネルギー E<sub>n</sub> <b id="rE">–</b></span><span>n→n−1 で出る光の波長 <b id="rT">–</b></span></div>
+    <div class="note">E<sub>n</sub> = n²π²ħ²/(2mL²)、ψ<sub>n</sub>(x) = √(2/L)·sin(nπx/L) という厳密解です。<b>箱を狭くするとエネルギーが L² に反比例して跳ね上がる</b>こと（電子を狭い場所に閉じ込めるには大きなエネルギーが要る＝原子がつぶれない理由の本質）、|ψ|² には電子が「見つかりやすい場所・絶対に見つからない場所（節）」があることを確かめてください。半導体の量子井戸レーザーはこの式そのもので発光色を設計しています。</div>
   </div>
 
   <section class="block">
     <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
     <p>シュレディンガーの波の式は、いまも化学・材料・電子工学のあらゆる計算の土台です。ディラックが予言した<b>反物質</b>は、医療の<b>PET検査</b>（陽電子を使う体内の画像診断）に実際に使われています。宇宙になぜ物質だけが残ったのか、という大きな謎（2008年の項）にもつながります。</p>
   </section>
+
+  <details class="adv">
+    <summary>発展 ── もっと詳しく知りたい人へ（数式あり）</summary>
+    <div class="advbody">
+<p>シュレーディンガー方程式は、波動関数 ψ の時間発展を定める量子力学の運動方程式です。</p>
+<div class="eq"><i>i</i>ħ<span class="fr"><span>∂ψ</span><span>∂<i>t</i></span></span> = <i>Ĥ</i>ψ,　幅 <i>L</i> の井戸型では　<i>E</i><sub>n</sub> = <span class="fr"><span><i>n</i>²π²ħ²</span><span>2<i>mL</i>²</span></span></div>
+<p>|ψ|² を確率密度と解釈するのはボルンの規則（1954年受賞）。上の図解はこの式の最も簡単な厳密解で、<b>閉じ込めるほど（L が小さいほど）エネルギーが上がる</b>という量子力学の一般則を示します。一方ディラックは、この方程式が特殊相対性理論と両立しない点を解決するためディラック方程式を導き、そこから<b>スピン½が自動的に現れ、負エネルギー解＝反粒子（陽電子）の存在が予言</b>されました。陽電子は1932年に宇宙線中で実際に発見され（アンダーソン、1936年受賞）、「方程式が新しい粒子を予言する」という理論物理の様式がここに確立しました。PET検査（陽電子断層撮影）はこの反物質を毎日医療に使う技術です。</p>
+    </div>
+  </details>
 
   <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）1933年物理学賞ページ、一般向け科学史資料。</p>
 
@@ -101,26 +127,45 @@
 </div>
 
 <script>
-var go=document.getElementById('go'), gam=document.getElementById('gam'), msg=document.getElementById('msg');
-var pe=document.getElementById('pe'), pel=document.getElementById('pel'),
-    po=document.getElementById('po'), pol=document.getElementById('pol');
-var anim=null;
-function reset(){['pe','pel','po','pol'].forEach(function(id){document.getElementById(id).setAttribute('opacity','0');});
-  gam.setAttribute('opacity','0');pe.setAttribute('cx',230);po.setAttribute('cx',230);pel.setAttribute('x',230);pol.setAttribute('x',230);}
-function fire(){ if(anim)cancelAnimationFrame(anim); reset();
-  gam.setAttribute('opacity','1'); msg.innerHTML='エネルギー（光）を注入中…';
-  var phase=0, t=0;
-  function step(){ t++;
-    if(t<25){ var gx=20+t*8; gam.setAttribute('x2',Math.min(230,gx)); anim=requestAnimationFrame(step); return; }
-    gam.setAttribute('opacity','0');
-    ['pe','pel','po','pol'].forEach(function(id){document.getElementById(id).setAttribute('opacity','1');});
-    var s=t-25, off=s*3.2, y=110-s*1.2;
-    pe.setAttribute('cx',230-off); pe.setAttribute('cy',y); pel.setAttribute('x',230-off); pel.setAttribute('y',y+5);
-    po.setAttribute('cx',230+off); po.setAttribute('cy',y); pol.setAttribute('x',230+off); pol.setAttribute('y',y+5);
-    msg.innerHTML='<b>電子（−）</b>と<b>陽電子（＋）</b>がペアで誕生！（E=mc²）';
-    if(s<45)anim=requestAnimationFrame(step);
-  }
-  step();
+var cv=document.getElementById('cv'),g=cv.getContext('2d'),W=cv.width,H=cv.height;
+var Ls=document.getElementById('L'),Ns=document.getElementById('N');
+var bw=document.getElementById('bw'),bp=document.getElementById('bp'),prob=false;
+bw.addEventListener('click',function(){prob=false;bw.classList.add('on');bp.classList.remove('on');render();});
+bp.addEventListener('click',function(){prob=true;bp.classList.add('on');bw.classList.remove('on');render();});
+function En(n,L){return n*n*0.37603/(L*L);}   // eV (L in nm)
+function render(){
+  var L=+Ls.value/100,n=+Ns.value;
+  document.getElementById('oL').textContent=L.toFixed(2)+' nm';
+  document.getElementById('oN').textContent=n;
+  g.clearRect(0,0,W,H);g.font='12px sans-serif';
+  var X0=90,X1=W-180,YB=H-40,YT=36;
+  var Emax=En(6,L)*1.08;
+  function ey(E){return YB-(YB-YT)*E/Emax;}
+  // 井戸の壁
+  g.strokeStyle='#5c6470';g.lineWidth=3;g.beginPath();
+  g.moveTo(X0,YT-6);g.lineTo(X0,YB);g.lineTo(X1,YB);g.lineTo(X1,YT-6);g.stroke();g.lineWidth=1;
+  g.fillStyle='#8b93a7';g.fillText('L = '+L.toFixed(2)+' nm',(X0+X1)/2-30,YB+18);
+  // 準位と波
+  for(var k=1;k<=6;k++){var E=En(k,L),y=ey(E);
+    var on=(k===n);
+    g.strokeStyle=on?'#ffd257':'#3a4356';g.setLineDash(on?[]:[4,4]);
+    g.beginPath();g.moveTo(X0,y);g.lineTo(X1,y);g.stroke();g.setLineDash([]);
+    g.fillStyle=on?'#ffd257':'#5c6470';
+    g.fillText('n='+k+'  '+E.toFixed(2)+' eV',X1+8,y+4);
+    if(on){var A=Math.min(34,(ey(0)-ey(Emax))/14+18);
+      g.strokeStyle='#c4b5fd';g.lineWidth=2.5;g.beginPath();
+      for(var px=0;px<=X1-X0;px++){var s=Math.sin(k*Math.PI*px/(X1-X0));
+        var v=prob?s*s:s;var yy=y-A*v;
+        if(px===0)g.moveTo(X0,yy);else g.lineTo(X0+px,yy);}
+      g.stroke();g.lineWidth=1;
+      if(prob){g.fillStyle='rgba(196,181,253,0.25)';g.beginPath();g.moveTo(X0,y);
+        for(px=0;px<=X1-X0;px++){var s2=Math.sin(k*Math.PI*px/(X1-X0));g.lineTo(X0+px,y-A*s2*s2);}
+        g.lineTo(X1,y);g.closePath();g.fill();}}}
+  var E1=En(n,L);
+  document.getElementById('rE').textContent=E1.toFixed(2)+' eV';
+  if(n>1){var dE=E1-En(n-1,L);var lam=1239.84/dE;
+    document.getElementById('rT').textContent=lam>=1000?(lam/1000).toFixed(2)+' μm（赤外）':lam.toFixed(0)+' nm'+(lam<380?'（紫外）':lam<=780?'（可視光！）':'（赤外）');}
+  else document.getElementById('rT').textContent='n=1 は基底状態（これ以上下がれない）';
 }
-go.addEventListener('click',fire);
+[Ls,Ns].forEach(function(s){s.addEventListener('input',render);});render();
 </script>

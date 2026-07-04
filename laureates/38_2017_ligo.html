@@ -44,6 +44,27 @@
   .pager span{display:block;font-size:.75rem;color:var(--muted)}
   .src{font-size:.82rem;color:var(--muted);margin-top:24px}
   svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+  /* --- 発展セクション（数式あり） --- */
+  details.adv{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:16px;margin-top:22px;overflow:hidden}
+  details.adv summary{cursor:pointer;list-style:none;padding:18px 26px;font-weight:800;font-size:1.05rem;color:var(--accent)}
+  details.adv summary::-webkit-details-marker{display:none}
+  details.adv summary::before{content:"▸ "}
+  details.adv[open] summary::before{content:"▾ "}
+  .advbody{padding:0 26px 22px}
+  .advbody>p:first-child{margin-top:0}
+  .eq{display:block;text-align:center;margin:14px auto;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-family:"Cambria Math",Cambria,Georgia,"Times New Roman",serif;font-size:1.1rem;overflow-x:auto;line-height:2}
+  .eq i{font-style:italic;padding:0 1px}
+  .fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 3px}
+  .fr>span{display:block;padding:0 5px;line-height:1.35}
+  .fr>span:first-child{border-bottom:1.5px solid currentColor}
+  /* --- 定量シミュレーション用コントロール --- */
+  .cpanel{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:4px 26px;max-width:640px;margin:16px auto 0}
+  .cpanel .ctl label{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;font-size:.9rem;margin:8px 0 2px;gap:8px}
+  .cpanel .ctl label output{font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .cpanel .ctl input[type=range]{width:100%;accent-color:var(--accent)}
+  canvas{max-width:100%;height:auto;display:block;border-radius:8px}
+  .rpanel{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;margin-top:12px;font-size:.92rem;color:var(--muted)}
+  .rpanel b{color:var(--ink);font-variant-numeric:tabular-nums}
 </style>
 
 <nav class="topnav">
@@ -71,23 +92,32 @@
 
   <!-- INTERACTIVE -->
   <div class="demo">
-    <h2>やってみよう ── 重力波が通ると空間が伸び縮み</h2>
-    <div class="hint">「重力波が来た」を押すと、輪に並んだ点が、たてよこ交互に伸び縮みします（空間そのもののゆれ）。</div>
-    <div class="xbox">
-      <svg id="gw" width="300" height="240" viewBox="0 0 300 240" role="img" aria-label="重力波">
-        <circle cx="150" cy="120" r="80" fill="none" stroke="#2a3446" stroke-dasharray="3 4"/>
-        <g id="ring"></g>
-      </svg>
+    <h2>実験してみよう ── ブラックホールの質量で重力波の「声」が変わる</h2>
+    <div class="hint">2つのブラックホールの質量と距離を変えると、合体直前の重力波の波形（チャープ＝さえずり）がどう変わるでしょうか。<b>軽いほど長く高く鳴き、重いほど短く低い</b>──LIGOはこの波形から天体の正体を読み取ります。</div>
+    <div class="xbox"><canvas id="cv" width="640" height="300"></canvas></div>
+    <div class="cpanel">
+      <div class="ctl"><label>ブラックホール1の質量 <output id="oM1">36 太陽質量</output></label><input id="M1" type="range" min="5" max="80" value="36"></div>
+      <div class="ctl"><label>ブラックホール2の質量 <output id="oM2">29 太陽質量</output></label><input id="M2" type="range" min="5" max="80" value="29"></div>
+      <div class="ctl"><label>地球からの距離 <output id="oD">410 Mpc</output></label><input id="D" type="range" min="100" max="3000" value="410" step="10"></div>
     </div>
-    <div class="btns"><button id="wave">重力波が来た</button><button id="stopw">止める</button></div>
-    <div class="readout" id="msg">静かな時空（ゆれなし）</div>
-    <div class="note">※ 重力波は空間を「たて伸び・よこ縮み」→「たて縮み・よこ伸び」と交互にゆらします。実際の伸び縮みは原子より小さい。模式図です。</div>
+    <div class="btns"><button id="gw">GW150914（初検出）の値にセット</button></div>
+    <div class="rpanel"><span>チャープ質量 <b id="rMc">–</b></span><span>合体直前の周波数 <b id="rF">–</b></span><span>最大ひずみ h <b id="rH">–</b></span><span>腕4 kmの伸び縮み <b id="rL">–</b></span></div>
+    <div class="note">波形は一般相対論のニュートン近似チャープ f(t) ∝ (t<sub>合体</sub>−t)<sup>−3/8</sup>、振幅 h ∝ M<sub>c</sub><sup>5/3</sup>f<sup>2/3</sup>/D で計算しています（合体後のリングダウンは省略）。波形全体の形を決めるのは<b>チャープ質量 M<sub>c</sub> = (m₁m₂)<sup>3/5</sup>/(m₁+m₂)<sup>1/5</sup></b> という組合せだけ──だから波形から質量が分かります。h〜10⁻²¹ とは、4 kmの腕が陽子1個の直径の千分の一ほど伸び縮みするということ。それを検出したのがLIGO（＝巨大なマイケルソン干渉計）です。</div>
   </div>
 
   <section class="block">
     <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
     <p>重力波の観測は、光では見えないブラックホールや中性子星の合体を“聴く”手段になりました。以来、多数の合体が観測され、宇宙のなりたちを探る新しい窓が開きました。数kmの巨大干渉計は、1907年のマイケルソンの発想が現代の宇宙物理へと実を結んだ姿でもあります。</p>
   </section>
+
+  <details class="adv">
+    <summary>発展 ── もっと詳しく知りたい人へ（数式あり）</summary>
+    <div class="advbody">
+<p>合体前の連星が出す重力波は、周波数と振幅がともに上がる「チャープ」波形で、その全体は<b>チャープ質量</b>だけでほぼ決まります。</p>
+<div class="eq"><i>M</i><sub>c</sub> = <span class="fr"><span>(<i>m</i>₁<i>m</i>₂)<sup>3/5</sup></span><span>(<i>m</i>₁+<i>m</i>₂)<sup>1/5</sup></span></span>,　<i>h</i> 〜 10⁻²¹　（ΔL = hL ≈ 4×10⁻¹⁸ m）</div>
+<p>GW150914 では 36+29 太陽質量のブラックホールが合体して62太陽質量になり、<b>差し引き3太陽質量が0.2秒で重力波に変換</b>されました──瞬間パワーは全宇宙の星の光の合計を上回ります。検出器は腕4 kmのマイケルソン干渉計（04番の直系）で、ファブリ・ペロー共振器で光路を実効1000 km に伸ばし、鏡の熱雑音・量子雑音（スクイーズド光で低減）・地面振動と戦って 10⁻²³/√Hz の感度を達成。2つのサイト（+Virgo）の到達時間差で方向も決めます。2017年の中性子星合体 GW170817 では重力波の1.7秒後にγ線、その後可視光・電波が観測され、重い元素（金やプラチナ）が中性子星合体で作られる現場を押さえた<b>マルチメッセンジャー天文学</b>が幕を開けました。</p>
+    </div>
+  </details>
 
   <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）2017年物理学賞ページ、一般向け科学史資料。</p>
 
@@ -98,18 +128,50 @@
 </div>
 
 <script>
-var svg=document.getElementById('gw'), ring=document.getElementById('ring'),
-    wave=document.getElementById('wave'), stopw=document.getElementById('stopw'), msg=document.getElementById('msg');
-var NS='http://www.w3.org/2000/svg', pts=[], running=false, t=0;
-for(var i=0;i<12;i++){var a=i/12*6.283; var c=document.createElementNS(NS,'circle');
-  c.setAttribute('r',6);c.setAttribute('fill','#5c9dff');ring.appendChild(c);pts.push({a:a,el:c});}
-function place(sx,sy){ pts.forEach(function(p){ p.el.setAttribute('cx',150+80*sx*Math.cos(p.a));
-  p.el.setAttribute('cy',120+80*sy*Math.sin(p.a)); }); }
-function frame(){ if(!running)return; t+=0.12; var A=0.28*Math.sin(t);
-  place(1+A,1-A); msg.innerHTML='<b>重力波が通過中</b>：空間がたて・よこ交互に伸び縮み';
-  requestAnimationFrame(frame);
+var cv=document.getElementById('cv'),g=cv.getContext('2d'),W=cv.width,H=cv.height;
+var M1s=document.getElementById('M1'),M2s=document.getElementById('M2'),Ds=document.getElementById('D');
+document.getElementById('gw').addEventListener('click',function(){M1s.value=36;M2s.value=29;Ds.value=410;render();});
+function render(){
+  var m1=+M1s.value,m2=+M2s.value,D=+Ds.value;
+  document.getElementById('oM1').textContent=m1+' 太陽質量';
+  document.getElementById('oM2').textContent=m2+' 太陽質量';
+  document.getElementById('oD').textContent=D+' Mpc';
+  var Mc=Math.pow(m1*m2,0.6)/Math.pow(m1+m2,0.2),Mt=m1+m2;
+  var tMc=Mc*4.925e-6;                      // GMc/c³ [s]
+  var fEnd=4400/Mt*2;                       // 合体直前のGW周波数の目安 [Hz]
+  var f0=Math.max(20,fEnd/12);              // 表示開始周波数
+  function tau(f){return 5/256*Math.pow(tMc,-5/3)*Math.pow(Math.PI*f,-8/3);}
+  var T=tau(f0),tEnd=tau(fEnd);
+  // 振幅 h(f)
+  var MPC=3.086e22,GM=Mc*1.327e20,c=2.998e8;
+  function amp(f){return 4*Math.pow(GM,5/3)*Math.pow(Math.PI*f,2/3)/(Math.pow(c,4)*D*MPC);}
+  var hMax=amp(fEnd);
+  g.clearRect(0,0,W,H);g.font='12px sans-serif';
+  var X0=52,Y0=H/2,PWx=W-92,A=H/2-52;
+  g.strokeStyle='#232b3d';g.beginPath();g.moveTo(X0,Y0);g.lineTo(X0+PWx,Y0);g.stroke();
+  g.fillStyle='#8b93a7';
+  g.fillText('時間 →（合体まで '+(T<1?(T*1000).toFixed(0)+' ミリ秒':T.toFixed(2)+' 秒'+'')+'）',W/2-80,H-8);
+  g.save();g.translate(14,H/2+40);g.rotate(-Math.PI/2);g.fillText('ひずみ h（×10⁻²¹）',0,0);g.restore();
+  // 目盛
+  var scl=A/(hMax*1.05);
+  g.fillText('+'+(hMax*1e21).toFixed(1),X0-40,Y0-A+10);g.fillText('−'+(hMax*1e21).toFixed(1),X0-40,Y0+A);
+  // 波形: 位相を積分しながら描く
+  g.strokeStyle='#7ee787';g.lineWidth=1.8;g.beginPath();
+  var phase=0,prevT=0,started=false;
+  var NPT=1400;
+  for(var i=0;i<=NPT;i++){var t=T*i/NPT;var ta=Math.max(T-t,tEnd);
+    var f=1/Math.PI*Math.pow(5/(256*ta),3/8)*Math.pow(tMc,-5/8);
+    phase+=2*Math.PI*f*(t-prevT);prevT=t;
+    var h=amp(f)*Math.sin(phase);
+    var x=X0+PWx*i/NPT,y=Y0-h*scl;
+    if(!started){g.moveTo(x,y);started=true;}else g.lineTo(x,y);
+    if(T-t<=tEnd)break;}
+  g.stroke();g.lineWidth=1;
+  g.fillStyle='#ff9a8a';g.fillText('← 合体！（この先のリングダウンは省略）',Math.min(X0+PWx-230,W-240),Y0-A-2);
+  document.getElementById('rMc').textContent=Mc.toFixed(1)+' 太陽質量';
+  document.getElementById('rF').textContent=fEnd.toFixed(0)+' Hz（'+(fEnd<260?'低い音':fEnd<520?'真ん中のドの音あたり':'高い音')+'）';
+  document.getElementById('rH').textContent=(hMax*1e21).toFixed(2)+'×10⁻²¹';
+  document.getElementById('rL').textContent='陽子の直径の '+(hMax*4000/1.7e-15*1000).toFixed(1)+'/1000';
 }
-wave.addEventListener('click',function(){ if(!running){running=true;frame();} });
-stopw.addEventListener('click',function(){ running=false;place(1,1);msg.innerHTML='静かな時空（ゆれなし）'; });
-place(1,1);
+[M1s,M2s,Ds].forEach(function(s){s.addEventListener('input',render);});render();
 </script>

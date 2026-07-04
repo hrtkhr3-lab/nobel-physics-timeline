@@ -1,14 +1,14 @@
 # -*- coding: utf-8 -*-
 """歴代ノーベル物理学賞 個別ページ生成器.
 共通シェル(CSS/レイアウト)を一元管理し、各ページは中身(3ブロック+図解)だけ記述する。
-出力先: ../laureates/  (プロジェクト内)。既存の 01,02,03,06 は手書き済みなので生成対象外。
+出力先: ../laureates/  (プロジェクト内)。全45ページを生成する(01,02,03,06 も pages_data.py に取り込み済み)。
 前/次ナビは NAV(全45件・年代順) から自動導出 → リンク切れを防ぐ。
+sims_data.py の SIM が図解を定量シミュレーションに差し替え、advanced_data.py の ADV が
+「発展」セクション(数式・専門解説)を全ページに注入する。
 """
 import os
 
-OUT = os.path.join(os.path.dirname(__file__), "..", "laureates")
-OUT = os.path.abspath(os.path.join(
-    r"c:\Users\PowerSystemLab\OneDrive - 国立大学法人福井大学\堀\github\歴代ノーベル賞", "laureates"))
+OUT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "laureates"))
 
 THEME = {
     "radiation": ("#c2410c", "#fdeee5", "#7c2d12"),
@@ -114,6 +114,27 @@ TEMPLATE = r'''<meta charset="utf-8">
   .pager span{display:block;font-size:.75rem;color:var(--muted)}
   .src{font-size:.82rem;color:var(--muted);margin-top:24px}
   svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+  /* --- 発展セクション（数式あり） --- */
+  details.adv{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:16px;margin-top:22px;overflow:hidden}
+  details.adv summary{cursor:pointer;list-style:none;padding:18px 26px;font-weight:800;font-size:1.05rem;color:var(--accent)}
+  details.adv summary::-webkit-details-marker{display:none}
+  details.adv summary::before{content:"▸ "}
+  details.adv[open] summary::before{content:"▾ "}
+  .advbody{padding:0 26px 22px}
+  .advbody>p:first-child{margin-top:0}
+  .eq{display:block;text-align:center;margin:14px auto;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-family:"Cambria Math",Cambria,Georgia,"Times New Roman",serif;font-size:1.1rem;overflow-x:auto;line-height:2}
+  .eq i{font-style:italic;padding:0 1px}
+  .fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 3px}
+  .fr>span{display:block;padding:0 5px;line-height:1.35}
+  .fr>span:first-child{border-bottom:1.5px solid currentColor}
+  /* --- 定量シミュレーション用コントロール --- */
+  .cpanel{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:4px 26px;max-width:640px;margin:16px auto 0}
+  .cpanel .ctl label{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;font-size:.9rem;margin:8px 0 2px;gap:8px}
+  .cpanel .ctl label output{font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .cpanel .ctl input[type=range]{width:100%;accent-color:var(--accent)}
+  canvas{max-width:100%;height:auto;display:block;border-radius:8px}
+  .rpanel{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;margin-top:12px;font-size:.92rem;color:var(--muted)}
+  .rpanel b{color:var(--ink);font-variant-numeric:tabular-nums}
 </style>
 
 <nav class="topnav">
@@ -149,6 +170,7 @@ TEMPLATE = r'''<meta charset="utf-8">
     @@B3@@
   </section>
 
+@@ADV@@
   <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）@@YEAR@@年物理学賞ページ、一般向け科学史資料。@@SRCX@@</p>
 
   <div class="pager">
@@ -164,9 +186,36 @@ TEMPLATE = r'''<meta charset="utf-8">
 
 PAGES = []  # 各バッチで append される
 
-def page(file, theme, year, h1, who, cite, b1h, b1, b2h, b2, demo, b3, script, srcx=""):
+def page(file, theme, year, h1, who, cite, b1h, b1, b2h, b2, demo, b3, script, srcx="", adv=""):
     PAGES.append(dict(file=file, theme=theme, year=year, h1=h1, who=who, cite=cite,
-                      b1h=b1h, b1=b1, b2h=b2h, b2=b2, demo=demo, b3=b3, script=script, srcx=srcx))
+                      b1h=b1h, b1=b1, b2h=b2h, b2=b2, demo=demo, b3=b3, script=script,
+                      srcx=srcx, adv=adv))
+
+ADV_SHELL = '''  <details class="adv">
+    <summary>発展 ── もっと詳しく知りたい人へ（数式あり）</summary>
+    <div class="advbody">
+%s
+    </div>
+  </details>
+'''
+
+def apply_overrides():
+    """sims_data.SIM(定量シミュレーション) と advanced_data.ADV(発展セクション) を各ページに合流させる。"""
+    try:
+        import sims_data
+        SIM = sims_data.SIM
+    except ImportError:
+        SIM = {}
+    try:
+        import advanced_data
+        ADV = advanced_data.ADV
+    except ImportError:
+        ADV = {}
+    for p in PAGES:
+        if p["file"] in SIM:
+            p["demo"], p["script"] = SIM[p["file"]]
+        if p["file"] in ADV:
+            p["adv"] = ADV[p["file"]]
 
 def build():
     os.makedirs(OUT, exist_ok=True)
@@ -195,6 +244,7 @@ def build():
             "@@B1H@@": p["b1h"], "@@B1@@": p["b1"], "@@B2H@@": p["b2h"], "@@B2@@": p["b2"],
             "@@DEMO@@": p["demo"], "@@B3@@": p["b3"], "@@SCRIPT@@": p["script"],
             "@@PREV@@": prev, "@@NEXT@@": nxt, "@@SRCX@@": p["srcx"],
+            "@@ADV@@": (ADV_SHELL % p["adv"]) if p.get("adv") else "",
         }
         for k, v in rep.items():
             html = html.replace(k, v)
@@ -206,4 +256,5 @@ def build():
 if __name__ == "__main__":
     import pages_data
     pages_data.register(page)
+    apply_overrides()
     build()

@@ -44,6 +44,27 @@
   .pager span{display:block;font-size:.75rem;color:var(--muted)}
   .src{font-size:.82rem;color:var(--muted);margin-top:24px}
   svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+  /* --- 発展セクション（数式あり） --- */
+  details.adv{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:16px;margin-top:22px;overflow:hidden}
+  details.adv summary{cursor:pointer;list-style:none;padding:18px 26px;font-weight:800;font-size:1.05rem;color:var(--accent)}
+  details.adv summary::-webkit-details-marker{display:none}
+  details.adv summary::before{content:"▸ "}
+  details.adv[open] summary::before{content:"▾ "}
+  .advbody{padding:0 26px 22px}
+  .advbody>p:first-child{margin-top:0}
+  .eq{display:block;text-align:center;margin:14px auto;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-family:"Cambria Math",Cambria,Georgia,"Times New Roman",serif;font-size:1.1rem;overflow-x:auto;line-height:2}
+  .eq i{font-style:italic;padding:0 1px}
+  .fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 3px}
+  .fr>span{display:block;padding:0 5px;line-height:1.35}
+  .fr>span:first-child{border-bottom:1.5px solid currentColor}
+  /* --- 定量シミュレーション用コントロール --- */
+  .cpanel{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:4px 26px;max-width:640px;margin:16px auto 0}
+  .cpanel .ctl label{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;font-size:.9rem;margin:8px 0 2px;gap:8px}
+  .cpanel .ctl label output{font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .cpanel .ctl input[type=range]{width:100%;accent-color:var(--accent)}
+  canvas{max-width:100%;height:auto;display:block;border-radius:8px}
+  .rpanel{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;margin-top:12px;font-size:.92rem;color:var(--muted)}
+  .rpanel b{color:var(--ink);font-variant-numeric:tabular-nums}
 </style>
 
 <nav class="topnav">
@@ -88,6 +109,15 @@
     <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
     <p>超流動やそれと似た現象の理解は、<b>超伝導</b>（1972年の項）や、レーザーで原子を極低温にして作る新しい物質の状態など、現代の低温物理・量子技術の土台になりました。ランダウの理論は物性物理学の“古典”として、いまも教科書で学ばれています。</p>
   </section>
+
+  <details class="adv">
+    <summary>発展 ── もっと詳しく知りたい人へ（数式あり）</summary>
+    <div class="advbody">
+<p>ランダウの二流体モデルでは、λ点（2.17 K）以下の液体ヘリウムを「粘性ゼロの超流動成分＋普通の常流動成分」の混合として記述します。超流動が壊れる条件は素励起の分散関係から決まります。</p>
+<div class="eq"><i>v</i><sub>c</sub> = min<span> </span><span class="fr"><span>ε(<i>p</i>)</span><span><i>p</i></span></span>　（ランダウの臨界速度）</div>
+<p>流れがこの速度以下なら、流体は素励起（フォノンやロトン）を作ってエネルギーを失うことが<b>運動学的に不可能</b>になり、摩擦なしで流れ続けます──ε(p) が直線から始まる（フォノン）ことが本質で、自由粒子（ε=p²/2m）なら v<sub>c</sub>=0 になって超流動は起きません。ランダウが理論から要請したロトン（分散関係の谷）は、のちに中性子散乱で実測されました。彼の枠組み（秩序変数・準粒子・対称性の破れによる相転移の分類）は超伝導（22番）、超流動³He、ボース・アインシュタイン凝縮、さらにヒッグス機構（34番）まで、現代物理の共通言語になっています。</p>
+    </div>
+  </details>
 
   <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）1962年物理学賞ページ、一般向け科学史資料。</p>
 

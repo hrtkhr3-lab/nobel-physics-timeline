@@ -44,6 +44,27 @@
   .pager span{display:block;font-size:.75rem;color:var(--muted)}
   .src{font-size:.82rem;color:var(--muted);margin-top:24px}
   svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+  /* --- 発展セクション（数式あり） --- */
+  details.adv{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:16px;margin-top:22px;overflow:hidden}
+  details.adv summary{cursor:pointer;list-style:none;padding:18px 26px;font-weight:800;font-size:1.05rem;color:var(--accent)}
+  details.adv summary::-webkit-details-marker{display:none}
+  details.adv summary::before{content:"▸ "}
+  details.adv[open] summary::before{content:"▾ "}
+  .advbody{padding:0 26px 22px}
+  .advbody>p:first-child{margin-top:0}
+  .eq{display:block;text-align:center;margin:14px auto;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-family:"Cambria Math",Cambria,Georgia,"Times New Roman",serif;font-size:1.1rem;overflow-x:auto;line-height:2}
+  .eq i{font-style:italic;padding:0 1px}
+  .fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 3px}
+  .fr>span{display:block;padding:0 5px;line-height:1.35}
+  .fr>span:first-child{border-bottom:1.5px solid currentColor}
+  /* --- 定量シミュレーション用コントロール --- */
+  .cpanel{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:4px 26px;max-width:640px;margin:16px auto 0}
+  .cpanel .ctl label{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;font-size:.9rem;margin:8px 0 2px;gap:8px}
+  .cpanel .ctl label output{font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .cpanel .ctl input[type=range]{width:100%;accent-color:var(--accent)}
+  canvas{max-width:100%;height:auto;display:block;border-radius:8px}
+  .rpanel{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;margin-top:12px;font-size:.92rem;color:var(--muted)}
+  .rpanel b{color:var(--ink);font-variant-numeric:tabular-nums}
 </style>
 
 <nav class="topnav">
@@ -71,26 +92,30 @@
 
   <!-- INTERACTIVE -->
   <div class="demo">
-    <h2>やってみよう ── 星の重さと運命</h2>
-    <div class="hint">スライダーで白色矮星の重さを変えます。限界（太陽の1.4倍）を超えると、星は支えきれずに崩壊します。</div>
-    <div class="xbox">
-      <svg id="ch2" width="360" height="230" viewBox="0 0 360 230" role="img" aria-label="チャンドラセカール限界">
-        <circle id="star" cx="180" cy="115" r="70" fill="#ffe066"/>
-        <circle id="flash" cx="180" cy="115" r="0" fill="#ff6b6b" opacity="0"/>
-      </svg>
+    <h2>実験してみよう ── 星に質量を積んでいくと…</h2>
+    <div class="hint">燃え尽きた星の芯「白色矮星」は、電子の量子的な圧力（縮退圧）で自分の重力を支えています。スライダーで質量を増やしてみましょう。ふつうの星と違って<b>重いほど小さくなり</b>、1.4太陽質量に近づくと──。</div>
+    <div class="xbox"><canvas id="cv" width="640" height="310"></canvas></div>
+    <div class="cpanel">
+      <div class="ctl"><label>白色矮星の質量 <output id="oM">0.60 太陽質量</output></label><input id="M" type="range" min="20" max="143" value="60"></div>
     </div>
-    <div class="controls">
-      <label for="m">星の重さ（太陽の何倍）</label>
-      <input id="m" type="range" min="20" max="200" value="60">
-      <div class="status yes" id="st"></div>
-    </div>
-    <div class="note">※ 重いほど強い重力で小さく縮みます。1.4倍を超えると電子の力で支えきれず崩壊――模式図です。</div>
+    <div class="status" id="st">–</div>
+    <div class="rpanel"><span>半径 <b id="rR">–</b></span><span>平均密度 <b id="rD">–</b></span><span>角砂糖1個分の重さ <b id="rS">–</b></span></div>
+    <div class="note">質量-半径関係は R ∝ M<sup>−1/3</sup>√(1−(M/M<sub>Ch</sub>)<sup>4/3</sup>) （相対論的補正を入れた縮退星の近似式）で計算しています。電子が光速近くまで追い詰められると縮退圧の「腰折れ」が起き、<b>M<sub>Ch</sub> ≈ 1.4 太陽質量を超えては支えられない</b>──これがチャンドラセカール限界です。限界を超えた星の芯は中性子星やブラックホールへ崩壊し、Ia型超新星（2011年の加速膨張のページ参照）の明るさが揃う理由もこの限界質量にあります。</div>
   </div>
 
   <section class="block">
     <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
     <p>チャンドラセカール限界は、<b>Ia型超新星</b>という“標準の明るさ”の爆発を生み、それが宇宙の距離をはかる「ものさし」になりました。この物差しが、のちに<b>宇宙の加速膨張</b>（2011年の項）の発見を可能にしました。星の一生とブラックホール誕生を理解する、天体物理の基礎です。</p>
   </section>
+
+  <details class="adv">
+    <summary>発展 ── もっと詳しく知りたい人へ（数式あり）</summary>
+    <div class="advbody">
+<p>白色矮星を支える電子の縮退圧は、非相対論的には P ∝ ρ<sup>5/3</sup> ですが、密度が上がって電子が光速に近づくと P ∝ ρ<sup>4/3</sup> に「腰折れ」します。指数 4/3 は重力と圧力の釣り合いがちょうど質量だけで決まる臨界値で、そこから限界質量が出ます。</p>
+<div class="eq"><i>M</i><sub>Ch</sub> ≈ 1.4<span> </span><span class="fr"><span>2</span><span>μ<sub>e</sub></span></span>²<i>M</i><sub>☉</sub>　（ħ, c, G と核子質量だけで決まる）</div>
+<p>基本定数の組合せ (ħc/G)<sup>3/2</sup>/m<sub>H</sub>² が太陽質量程度になる──ミクロの量子論とマクロの天体が直結する美しい結果です。19歳のチャンドラセカールがインドから英国への船上でこの計算を行ったとき、大御所エディントンは「星がそんな不条理な振る舞いをするはずがない」と公然と否定し、論争は数十年続きました。限界を超えた芯の行き先が中性子星（23番）やブラックホール（41番）です。また炭素・酸素白色矮星が伴星から質量を奪って限界に達すると Ia型超新星として爆発し、<b>明るさが揃う（＝限界質量が揃う）標準光源</b>になります──加速膨張の発見（33番）はこの性質の上に立っています。</p>
+    </div>
+  </details>
 
   <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）1983年物理学賞ページ、一般向け科学史資料。</p>
 
@@ -101,15 +126,53 @@
 </div>
 
 <script>
-var m=document.getElementById('m'), star=document.getElementById('star'), flash=document.getElementById('flash'), st=document.getElementById('st');
-function render(){ var mass=+m.value/100;           // 太陽比
-  if(mass<=1.4){ var r=80-(mass-0.2)/1.2*46;         // 重いほど小さく
-    star.setAttribute('r',r); star.setAttribute('fill','#ffe066'); star.setAttribute('opacity',1);
-    flash.setAttribute('opacity',0);
-    st.className='status yes'; st.textContent='重さ '+mass.toFixed(2)+' 倍：電子の力で支えて安定（白色矮星）'; }
-  else{ star.setAttribute('r',10); star.setAttribute('fill','#5c6470');
-    flash.setAttribute('r',95); flash.setAttribute('opacity',0.5);
-    st.className='status no'; st.textContent='重さ '+mass.toFixed(2)+' 倍：限界超え！ 支えきれず崩壊（→超新星・中性子星）'; }
+var cv=document.getElementById('cv'),g=cv.getContext('2d'),W=cv.width,H=cv.height;
+var Ms=document.getElementById('M'),st=document.getElementById('st');
+var MCH=1.44;
+function radius(M){var x=Math.pow(M/MCH,4/3);if(x>=1)return 0;
+  return 14350*Math.pow(M/0.6,-1/3)*Math.sqrt(1-x)*0.62;}   // km（0.6M☉で約8900km）
+function render(){
+  var M=+Ms.value/100;
+  document.getElementById('oM').textContent=M.toFixed(2)+' 太陽質量';
+  g.clearRect(0,0,W,H);g.font='12px sans-serif';
+  // 左: M-R 曲線
+  var X0=60,Y0=H-44,PWi=330,PHi=H-84;
+  g.strokeStyle='#8b93a7';g.beginPath();g.moveTo(X0,Y0-PHi);g.lineTo(X0,Y0);g.lineTo(X0+PWi,Y0);g.stroke();
+  g.fillStyle='#8b93a7';
+  for(var m2=0.2;m2<=1.4;m2+=0.4)g.fillText(m2.toFixed(1),X0+PWi*(m2-0.1)/1.4-8,Y0+16);
+  g.fillText('質量（太陽=1）',X0+PWi/2-40,H-6);
+  g.save();g.translate(16,H/2);g.rotate(-Math.PI/2);g.fillText('半径 (km)',0,0);g.restore();
+  var RMAX=16000;
+  g.fillText('15000',X0-44,Y0-PHi*15000/RMAX+4);g.fillText('5000',X0-38,Y0-PHi*5000/RMAX+4);
+  g.strokeStyle='#ffb454';g.lineWidth=2.5;g.beginPath();var st2=false;
+  for(var px=0;px<=PWi;px++){var mm=0.1+1.4*px/PWi;if(mm>=MCH)break;
+    var R=radius(mm),y=Y0-PHi*Math.min(R,RMAX)/RMAX;
+    if(!st2){g.moveTo(X0+px,y);st2=true;}else g.lineTo(X0+px,y);}
+  g.stroke();g.lineWidth=1;
+  // 限界線
+  var lx=X0+PWi*(MCH-0.1)/1.4;
+  g.strokeStyle='#ff7b72';g.setLineDash([5,4]);g.beginPath();g.moveTo(lx,Y0);g.lineTo(lx,Y0-PHi);g.stroke();g.setLineDash([]);
+  g.fillStyle='#ff7b72';g.fillText('チャンドラセカール限界 1.44',lx-140,Y0-PHi+14);
+  var R=radius(M);
+  var mx=X0+PWi*(M-0.1)/1.4,my=Y0-PHi*Math.min(R,RMAX)/RMAX;
+  g.fillStyle='#ffd257';g.beginPath();g.arc(mx,my,6,0,7);g.fill();
+  // 右: 星と地球の大きさ比べ
+  var ex=520,ey=130,ER=6371,SCALE=70/ER;
+  g.strokeStyle='#2563eb';g.beginPath();g.arc(ex,ey,ER*SCALE,0,7);g.stroke();
+  g.fillStyle='#8b93a7';g.fillText('地球',ex-12,ey+92);
+  if(R>0){g.fillStyle='#e8f0fe';g.beginPath();g.arc(ex,ey,Math.max(2,R*SCALE),0,7);g.fill();
+    g.fillStyle='#8b93a7';g.fillText('白色矮星',ex-24,ey-84);}
+  else{g.fillStyle='#ff7b72';g.fillText('崩壊！',ex-20,ey);}
+  var MSUN=1.989e30;
+  if(R>0){var rho=3*M*MSUN/(4*Math.PI*Math.pow(R*1000,3));
+    document.getElementById('rR').textContent=R.toFixed(0)+' km（地球の'+(R/ER).toFixed(2)+'倍）';
+    document.getElementById('rD').textContent=(rho/1e9).toFixed(2)+'×10⁹ kg/m³';
+    document.getElementById('rS').textContent='約 '+(rho*1e-6/1000).toFixed(1)+' トン';
+    if(M<1.3){st.className='status yes';st.textContent='電子の縮退圧で安定 ── 重いほど小さくなる不思議な星';}
+    else{st.className='status no';st.textContent='限界が近い…あと少し質量が増えると支えきれない';}}
+  else{document.getElementById('rR').textContent='0（崩壊）';
+    document.getElementById('rD').textContent='∞へ';document.getElementById('rS').textContent='–';
+    st.className='status no';st.textContent='限界を超えた ── 中性子星かブラックホールへ崩壊（超新星爆発）';}
 }
-m.addEventListener('input',render); render();
+Ms.addEventListener('input',render);render();
 </script>

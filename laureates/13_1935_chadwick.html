@@ -44,6 +44,27 @@
   .pager span{display:block;font-size:.75rem;color:var(--muted)}
   .src{font-size:.82rem;color:var(--muted);margin-top:24px}
   svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+  /* --- 発展セクション（数式あり） --- */
+  details.adv{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:16px;margin-top:22px;overflow:hidden}
+  details.adv summary{cursor:pointer;list-style:none;padding:18px 26px;font-weight:800;font-size:1.05rem;color:var(--accent)}
+  details.adv summary::-webkit-details-marker{display:none}
+  details.adv summary::before{content:"▸ "}
+  details.adv[open] summary::before{content:"▾ "}
+  .advbody{padding:0 26px 22px}
+  .advbody>p:first-child{margin-top:0}
+  .eq{display:block;text-align:center;margin:14px auto;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-family:"Cambria Math",Cambria,Georgia,"Times New Roman",serif;font-size:1.1rem;overflow-x:auto;line-height:2}
+  .eq i{font-style:italic;padding:0 1px}
+  .fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 3px}
+  .fr>span{display:block;padding:0 5px;line-height:1.35}
+  .fr>span:first-child{border-bottom:1.5px solid currentColor}
+  /* --- 定量シミュレーション用コントロール --- */
+  .cpanel{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:4px 26px;max-width:640px;margin:16px auto 0}
+  .cpanel .ctl label{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;font-size:.9rem;margin:8px 0 2px;gap:8px}
+  .cpanel .ctl label output{font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .cpanel .ctl input[type=range]{width:100%;accent-color:var(--accent)}
+  canvas{max-width:100%;height:auto;display:block;border-radius:8px}
+  .rpanel{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;margin-top:12px;font-size:.92rem;color:var(--muted)}
+  .rpanel b{color:var(--ink);font-variant-numeric:tabular-nums}
 </style>
 
 <nav class="topnav">
@@ -71,30 +92,30 @@
 
   <!-- INTERACTIVE -->
   <div class="demo">
-    <h2>やってみよう ── 電気の力で曲がる？曲がらない？</h2>
-    <div class="hint">3種類の粒をボタンで発射します。電気を持つ粒は曲がり、中性子だけはまっすぐ進みます。</div>
-    <div class="xbox">
-      <svg id="ch" width="500" height="220" viewBox="0 0 500 220" role="img" aria-label="荷電粒子と中性子">
-        <rect x="150" y="34" width="200" height="9" rx="3" fill="#ff8a8a"/><text x="356" y="44" fill="#ff8a8a" font-size="13">＋</text>
-        <rect x="150" y="177" width="200" height="9" rx="3" fill="#8ab6ff"/><text x="356" y="187" fill="#8ab6ff" font-size="13">−</text>
-        <path id="track" d="" fill="none" stroke="#7ee787" stroke-width="3" stroke-dasharray="5 5" opacity="0.5"/>
-        <circle id="pt" cx="30" cy="110" r="10" fill="#7ee787"/>
-        <text id="ptl" x="30" y="114" font-size="11" text-anchor="middle" font-weight="bold"></text>
-      </svg>
+    <h2>実験してみよう ── 見えない粒子の質量を「はじき飛ばし」から求める</h2>
+    <div class="hint">正体不明の中性の放射線を<b>水素（陽子）</b>と<b>窒素</b>に当てたときの反跳の速さは測定できます。未知粒子の質量 m を仮定すると弾性衝突の式で反跳速度が予言できるので、<b>スライダーを動かして実測値と一致する質量を探して</b>ください──チャドウィックが実際にやった推理です。</div>
+    <div class="xbox"><canvas id="cv" width="640" height="280"></canvas></div>
+    <div class="cpanel">
+      <div class="ctl"><label>仮定する未知粒子の質量 m <output id="oM">0.50 u</output></label><input id="M" type="range" min="5" max="300" value="50"></div>
     </div>
-    <div class="btns">
-      <button data-k="p">陽子（＋）</button>
-      <button data-k="e">電子（−）</button>
-      <button data-k="n">中性子（0）</button>
-    </div>
-    <div class="readout" id="msg">粒を選んでください</div>
-    <div class="note">※ 中性子は電気を持たないので、電場を素通りしてまっすぐ進みます。だから発見が遅れました。模式図です。</div>
+    <div class="status no" id="st">–</div>
+    <div class="rpanel"><span>窒素の反跳の予言 <b id="rP">–</b></span><span>実測値 <b>4.7×10⁶ m/s</b></span><span>推定された質量 <b id="rM">–</b></span></div>
+    <div class="note">正面弾性衝突の式 u = 2mv/(m+M) を使っています。粒子の速さ v は未知なので、まず水素の反跳の実測値（3.3×10⁷ m/s）に合うように v を決め、その同じ v で窒素（質量14 u）の反跳を予言して実測と比べます。<b>2つの実測を同時に説明できる質量はほぼ 1 u だけ</b>──陽子とほぼ同じ重さで電荷ゼロの粒子、中性子の発見です（γ線＝質量0の光では水素をこの速さではじき飛ばせないことも決め手でした）。</div>
   </div>
 
   <section class="block">
     <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
     <p>中性子の発見で、原子核の姿（陽子＋中性子）がはっきりしました。電気で反発されない中性子は原子核に入りこみやすく、<b>核分裂</b>の発見（フェルミ、1938年の項）、そして<b>原子力</b>や<b>医療用の放射線</b>へとつながりました。中性子をぶつけて物質の中を調べる「中性子線」は、いまも材料研究の重要な道具です。</p>
   </section>
+
+  <details class="adv">
+    <summary>発展 ── もっと詳しく知りたい人へ（数式あり）</summary>
+    <div class="advbody">
+<p>質量 <i>m</i> の粒子が速さ <i>v</i> で質量 <i>M</i> の静止核に正面弾性衝突すると、核の反跳速度は</p>
+<div class="eq"><i>u</i> = <span class="fr"><span>2<i>m</i></span><span><i>m</i> + <i>M</i></span></span><i>v</i>　→　<span class="fr"><span><i>u</i><sub>H</sub></span><span><i>u</i><sub>N</sub></span></span> = <span class="fr"><span><i>m</i> + <i>M</i><sub>N</sub></span><span><i>m</i> + <i>M</i><sub>H</sub></span></span></div>
+<p>2種類の標的（水素と窒素）の反跳速度の<b>比</b>を取ると未知の入射速度 <i>v</i> が消え、質量 <i>m</i> だけが残る──これがチャドウィックの推理の数学的な骨格です。当時の対抗仮説「正体はγ線」では、質量ゼロの光子が陽子をあの速さではじくには50 MeV以上という不自然に大きなエネルギーが必要で、エネルギー収支が破綻していました。中性子（質量939.57 MeV/c²、陽子より0.14%重い）は電荷を持たないためクーロン障壁に阻まれず原子核に入り込めます。この性質がフェルミの遅い中性子（14番）、核分裂の連鎖反応、原子炉、そして中性子星（23番）へと直結しました。単独の中性子は平均寿命約15分で β崩壊（n → p + e⁻ + ν̄）します。</p>
+    </div>
+  </details>
 
   <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）1935年物理学賞ページ、一般向け科学史資料。</p>
 
@@ -105,25 +126,47 @@
 </div>
 
 <script>
-var track=document.getElementById('track'), pt=document.getElementById('pt'), ptl=document.getElementById('ptl'), msg=document.getElementById('msg');
-var btns=document.querySelectorAll('.btns button');
-var col={p:'#ff9a8a',e:'#8ab6ff',n:'#7ee787'}, lab={p:'p',e:'e',n:'n'};
-var dir={p:1,e:-1,n:0};                          // ＋は下(−極)へ、−は上(＋極)へ、中性子はまっすぐ
-var name={p:'陽子（＋）：−極のほうへ曲がった',e:'電子（−）：＋極のほうへ曲がった',n:'中性子（0）：曲がらずまっすぐ！'};
-var anim=null;
-function yAt(x,d){var f=Math.max(0,Math.min(1,(x-150)/200)); return 110+d*70*f*f;}
-function fire(k){
-  btns.forEach(function(b){b.classList.toggle('on',b.dataset.k===k);});
-  pt.setAttribute('fill',col[k]); ptl.textContent=lab[k]; ptl.setAttribute('fill','#04203f');
-  if(anim)cancelAnimationFrame(anim);
-  var d=dir[k], path='M30,110', xx;
-  for(xx=150;xx<=490;xx+=10){ path+=' L'+xx+','+yAt(xx,d).toFixed(1); }
-  track.setAttribute('d',path);
-  var x=30;
-  function step(){ x+=5; var y=yAt(x,d);
-    pt.setAttribute('cx',x); pt.setAttribute('cy',y); ptl.setAttribute('x',x); ptl.setAttribute('y',y+4);
-    if(x<490)anim=requestAnimationFrame(step); else msg.innerHTML='<b>'+name[k]+'</b>'; }
-  msg.innerHTML='発射…'; step();
+var cv=document.getElementById('cv'),g=cv.getContext('2d'),W=cv.width,H=cv.height;
+var Ms=document.getElementById('M'),st=document.getElementById('st');
+var UH=3.3e7,UN=4.7e6,MH=1.008,MN=14.003;   // 実測(想定)と標的質量
+function render(){
+  var m=+Ms.value/100;
+  document.getElementById('oM').textContent=m.toFixed(2)+' u';
+  // v0 を水素の実測に合わせて決める → 窒素を予言
+  var v0=UH*(m+MH)/(2*m);
+  var uN=2*m*v0/(m+MN);           // = UH*(m+MH)/(m+MN)
+  g.clearRect(0,0,W,H);g.font='12px sans-serif';
+  // 上: 衝突の図
+  g.fillStyle='#8b93a7';g.fillText('未知粒子 (m, v)',40,34);
+  g.fillStyle='#c4b5fd';g.beginPath();g.arc(60,60,Math.max(5,Math.min(16,8*Math.pow(m,1/3))),0,7);g.fill();
+  g.strokeStyle='#c4b5fd';g.beginPath();g.moveTo(80,60);g.lineTo(130,60);g.stroke();
+  g.fillStyle='#ff9a8a';g.beginPath();g.arc(180,60,7,0,7);g.fill();
+  g.fillStyle='#8b93a7';g.fillText('水素の核（陽子, 1u）',200,50);
+  g.fillText('→ 反跳 3.3×10⁷ m/s（実測）',200,70);
+  g.fillStyle='#79c0ff';g.beginPath();g.arc(180,110,13,0,7);g.fill();
+  g.fillStyle='#8b93a7';g.fillText('窒素の核（14u）',200,104);
+  g.fillText('→ 反跳は？',200,124);
+  // 下: 予言バー vs 実測バー
+  var BX=120,BW=W-200,BY1=180,BY2=225,SC=BW/6e6;   // 6e6 m/s フルスケール
+  g.fillStyle='#8b93a7';g.fillText('窒素の反跳速度',BX-100,BY1+13);
+  g.fillText('　（×10⁶ m/s）',BX-100,BY1+29);
+  // 目盛
+  for(var v=0;v<=6;v++){var x=BX+v*1e6*SC;
+    g.strokeStyle='#232b3d';g.beginPath();g.moveTo(x,BY1-14);g.lineTo(x,BY2+22);g.stroke();
+    g.fillStyle='#5c6470';g.fillText(v,x-3,BY2+36);}
+  var wP=Math.min(BW,uN*SC);
+  g.fillStyle='#c4b5fd';g.fillRect(BX,BY1-10,wP,20);
+  g.fillStyle='#e6e3d9';g.fillText('予言 '+(uN/1e6).toFixed(2),BX+wP+6,BY1+4);
+  g.fillStyle='#7ee787';g.fillRect(BX,BY2-10,UN*SC,20);
+  g.fillStyle='#e6e3d9';g.fillText('実測 4.70',BX+UN*SC+6,BY2+4);
+  var err=Math.abs(uN-UN)/UN;
+  document.getElementById('rP').textContent=(uN/1e6).toFixed(2)+'×10⁶ m/s';
+  if(err<0.03){st.className='status yes';
+    st.textContent='一致！ 質量 '+m.toFixed(2)+' u ── 陽子とほぼ同じ重さの中性粒子＝中性子だ';
+    document.getElementById('rM').textContent='約 '+m.toFixed(2)+' u（現代の値 1.0087 u）';}
+  else{st.className='status no';
+    st.textContent=uN>UN?'予言が実測より速すぎる ── 質量を'+(m>1?'（もっと）小さく':'調整')+'してみよう':'予言が実測より遅い ── 質量を大きくしてみよう';
+    document.getElementById('rM').textContent='まだ決まらない';}
 }
-btns.forEach(function(b){b.addEventListener('click',function(){fire(b.dataset.k);});});
+Ms.addEventListener('input',render);render();
 </script>

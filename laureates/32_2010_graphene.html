@@ -44,6 +44,27 @@
   .pager span{display:block;font-size:.75rem;color:var(--muted)}
   .src{font-size:.82rem;color:var(--muted);margin-top:24px}
   svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+  /* --- 発展セクション（数式あり） --- */
+  details.adv{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:16px;margin-top:22px;overflow:hidden}
+  details.adv summary{cursor:pointer;list-style:none;padding:18px 26px;font-weight:800;font-size:1.05rem;color:var(--accent)}
+  details.adv summary::-webkit-details-marker{display:none}
+  details.adv summary::before{content:"▸ "}
+  details.adv[open] summary::before{content:"▾ "}
+  .advbody{padding:0 26px 22px}
+  .advbody>p:first-child{margin-top:0}
+  .eq{display:block;text-align:center;margin:14px auto;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-family:"Cambria Math",Cambria,Georgia,"Times New Roman",serif;font-size:1.1rem;overflow-x:auto;line-height:2}
+  .eq i{font-style:italic;padding:0 1px}
+  .fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 3px}
+  .fr>span{display:block;padding:0 5px;line-height:1.35}
+  .fr>span:first-child{border-bottom:1.5px solid currentColor}
+  /* --- 定量シミュレーション用コントロール --- */
+  .cpanel{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:4px 26px;max-width:640px;margin:16px auto 0}
+  .cpanel .ctl label{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;font-size:.9rem;margin:8px 0 2px;gap:8px}
+  .cpanel .ctl label output{font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .cpanel .ctl input[type=range]{width:100%;accent-color:var(--accent)}
+  canvas{max-width:100%;height:auto;display:block;border-radius:8px}
+  .rpanel{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;margin-top:12px;font-size:.92rem;color:var(--muted)}
+  .rpanel b{color:var(--ink);font-variant-numeric:tabular-nums}
 </style>
 
 <nav class="topnav">
@@ -88,6 +109,15 @@
     <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
     <p>グラフェンは、折り曲げられる<b>画面やセンサー</b>、超高速の<b>電子部品</b>、軽くて強い<b>複合材料</b>、水をきれいにする<b>フィルター</b>など、幅広い応用が期待されています。「二次元物質」という新分野を切り開き、原子1枚の世界を舞台にした材料研究が世界中で進んでいます。</p>
   </section>
+
+  <details class="adv">
+    <summary>発展 ── もっと詳しく知りたい人へ（数式あり）</summary>
+    <div class="advbody">
+<p>グラフェンの蜂の巣格子では、伝導帯と価電子帯が点（ディラック点）で接し、その近くで電子のエネルギーは運動量に<b>比例</b>します。</p>
+<div class="eq"><i>E</i> = ±ħ<i>v</i><sub>F</sub>|<i>k</i>|,　<i>v</i><sub>F</sub> ≈ 10⁶ m/s　（質量ゼロのディラック粒子と同じ形）</div>
+<p>通常の電子（E ∝ k²）と違い、グラフェン中の電子は「有効質量ゼロの相対論的粒子」として振る舞います──光速の1/300で走るディラック方程式（12番）の実験室です。その署名が<b>半整数量子ホール効果</b>（ホール伝導度が σ<sub>xy</sub> = 4(n+½)e²/h に量子化）で、ガイムとノボセロフは発見翌年にこれを観測して「本物のディラック電子」を証明しました。厚さ原子1個で可視光の2.3%（=πα、微細構造定数！）を吸収する、鋼鉄の百倍の強度、室温で最高クラスの移動度など極端な物性が並びます。「セロハンテープで剥がす」という拍子抜けするほど単純な作製法が、トポロジカル物質（37番）や二層グラフェンの超伝導など、二次元物質という一大分野を開きました。</p>
+    </div>
+  </details>
 
   <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）2010年物理学賞ページ、一般向け科学史資料。</p>
 

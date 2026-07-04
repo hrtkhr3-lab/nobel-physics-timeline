@@ -44,6 +44,27 @@
   .pager span{display:block;font-size:.75rem;color:var(--muted)}
   .src{font-size:.82rem;color:var(--muted);margin-top:24px}
   svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+  /* --- 発展セクション（数式あり） --- */
+  details.adv{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:16px;margin-top:22px;overflow:hidden}
+  details.adv summary{cursor:pointer;list-style:none;padding:18px 26px;font-weight:800;font-size:1.05rem;color:var(--accent)}
+  details.adv summary::-webkit-details-marker{display:none}
+  details.adv summary::before{content:"▸ "}
+  details.adv[open] summary::before{content:"▾ "}
+  .advbody{padding:0 26px 22px}
+  .advbody>p:first-child{margin-top:0}
+  .eq{display:block;text-align:center;margin:14px auto;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-family:"Cambria Math",Cambria,Georgia,"Times New Roman",serif;font-size:1.1rem;overflow-x:auto;line-height:2}
+  .eq i{font-style:italic;padding:0 1px}
+  .fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 3px}
+  .fr>span{display:block;padding:0 5px;line-height:1.35}
+  .fr>span:first-child{border-bottom:1.5px solid currentColor}
+  /* --- 定量シミュレーション用コントロール --- */
+  .cpanel{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:4px 26px;max-width:640px;margin:16px auto 0}
+  .cpanel .ctl label{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;font-size:.9rem;margin:8px 0 2px;gap:8px}
+  .cpanel .ctl label output{font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .cpanel .ctl input[type=range]{width:100%;accent-color:var(--accent)}
+  canvas{max-width:100%;height:auto;display:block;border-radius:8px}
+  .rpanel{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;margin-top:12px;font-size:.92rem;color:var(--muted)}
+  .rpanel b{color:var(--ink);font-variant-numeric:tabular-nums}
 </style>
 
 <nav class="topnav">
@@ -92,6 +113,15 @@
     <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
     <p>QEDは、その後に自然界の力を統一的に理解する<b>場の量子論</b>のお手本になりました。弱い力・強い力の理論（1979・2013年の項）も、この考え方の上に築かれています。朝永は湯川に続く日本人2人目のノーベル物理学賞受賞者で、日本の理論物理を世界水準に押し上げました。</p>
   </section>
+
+  <details class="adv">
+    <summary>発展 ── もっと詳しく知りたい人へ（数式あり）</summary>
+    <div class="advbody">
+<p>量子電磁力学（QED）で電子の自己エネルギーなどを計算すると積分が無限大に発散します。くりこみ理論の処方は「発散を、実測される質量と電荷の<b>定義の中に吸収</b>する」ことです。裸の量（観測不能）と物理量を分離すると、残る補正はすべて有限になります。</p>
+<div class="eq">例：電子の異常磁気モーメント　<span class="fr"><span><i>g</i>−2</span><span>2</span></span> = <span class="fr"><span>α</span><span>2π</span></span> + … = 0.00115965…</div>
+<p>朝永の「超多時間理論」は、各点に固有の時間を与えることで理論を明白に相対論的共変な形に保ったまま、この分離を実行する枠組みでした（シュウィンガーの方法と等価、ファインマンの経路積分・ダイアグラムとも等価であることをダイソンが証明）。QEDの予言と実験は現在<b>10桁以上の精度で一致</b>し、物理学で最も精密に検証された理論です。くりこみは当初「発散の掃き寄せ」と批判されましたが、のちにウィルソン（1982年受賞）が「スケールごとの有効理論」として意味を与え、標準模型（25番）全体がくりこみ可能な理論として構成されています。戦後の焼け跡で世界最先端に伍した朝永グループの仕事は、日本の理論物理の伝統を築きました。</p>
+    </div>
+  </details>
 
   <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）1965年物理学賞ページ、一般向け科学史資料。</p>
 

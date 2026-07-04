@@ -44,6 +44,27 @@
   .pager span{display:block;font-size:.75rem;color:var(--muted)}
   .src{font-size:.82rem;color:var(--muted);margin-top:24px}
   svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+  /* --- 発展セクション（数式あり） --- */
+  details.adv{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:16px;margin-top:22px;overflow:hidden}
+  details.adv summary{cursor:pointer;list-style:none;padding:18px 26px;font-weight:800;font-size:1.05rem;color:var(--accent)}
+  details.adv summary::-webkit-details-marker{display:none}
+  details.adv summary::before{content:"▸ "}
+  details.adv[open] summary::before{content:"▾ "}
+  .advbody{padding:0 26px 22px}
+  .advbody>p:first-child{margin-top:0}
+  .eq{display:block;text-align:center;margin:14px auto;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-family:"Cambria Math",Cambria,Georgia,"Times New Roman",serif;font-size:1.1rem;overflow-x:auto;line-height:2}
+  .eq i{font-style:italic;padding:0 1px}
+  .fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 3px}
+  .fr>span{display:block;padding:0 5px;line-height:1.35}
+  .fr>span:first-child{border-bottom:1.5px solid currentColor}
+  /* --- 定量シミュレーション用コントロール --- */
+  .cpanel{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:4px 26px;max-width:640px;margin:16px auto 0}
+  .cpanel .ctl label{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;font-size:.9rem;margin:8px 0 2px;gap:8px}
+  .cpanel .ctl label output{font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .cpanel .ctl input[type=range]{width:100%;accent-color:var(--accent)}
+  canvas{max-width:100%;height:auto;display:block;border-radius:8px}
+  .rpanel{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;margin-top:12px;font-size:.92rem;color:var(--muted)}
+  .rpanel b{color:var(--ink);font-variant-numeric:tabular-nums}
 </style>
 
 <nav class="topnav">
@@ -71,28 +92,36 @@
 
   <!-- INTERACTIVE -->
   <div class="demo">
-    <h2>やってみよう ── 離れた2粒子を測る</h2>
-    <div class="hint">「測定する」を押すと、左右のもつれた粒子の結果が出ます。毎回ランダムですが、2つは必ず逆向き（強く相関）です。</div>
-    <div class="xbox">
-      <svg id="en2" width="440" height="170" viewBox="0 0 440 170" role="img" aria-label="量子もつれ">
-        <line x1="120" y1="85" x2="320" y2="85" stroke="#3a4356" stroke-dasharray="4 4"/>
-        <circle cx="60" cy="85" r="24" fill="#3b2f66" stroke="#c4b5fd"/>
-        <text id="lft" x="60" y="92" text-anchor="middle" font-size="20" fill="#e8edf3">?</text>
-        <circle cx="380" cy="85" r="24" fill="#3b2f66" stroke="#c4b5fd"/>
-        <text id="rgt" x="380" y="92" text-anchor="middle" font-size="20" fill="#e8edf3">?</text>
-        <text x="60" y="135" fill="#8b93a7" font-size="11" text-anchor="middle">粒子A</text>
-        <text x="380" y="135" fill="#8b93a7" font-size="11" text-anchor="middle">粒子B（遠く離れている）</text>
-      </svg>
+    <h2>実験してみよう ── もつれた光子で「ベル不等式」を破る</h2>
+    <div class="hint">光子ペアを2人（AとB）に送り、それぞれ偏光板の角度を決めて測ります。角度差に対する<b>相関の強さ E</b> が、量子力学と「隠れた変数」理論（測る前から答えが決まっている説）で違う──それを白黒つけるのがベルのテストです。角度を動かし、「測定」ボタンでデータを集めてみましょう。</div>
+    <div class="xbox"><canvas id="cv" width="640" height="300"></canvas></div>
+    <div class="cpanel">
+      <div class="ctl"><label>Aの偏光板の角度 <output id="oA">0°</output></label><input id="A" type="range" min="0" max="90" value="0"></div>
+      <div class="ctl"><label>Bの偏光板の角度 <output id="oB">22°</output></label><input id="B" type="range" min="0" max="90" value="22"></div>
     </div>
-    <div class="btns"><button id="meas">測定する</button></div>
-    <div class="readout" id="msg">測定回数：0　一致して逆向き：0</div>
-    <div class="note">※ 片方が上向きなら、もう片方は必ず下向き――遠く離れても結果は結びついています。ただし通信には使えません。模式図です。</div>
+    <div class="btns">
+      <button id="src" class="on">光源：量子もつれ</button>
+      <button id="meas">この角度で1000ペア測定</button>
+      <button id="chsh">ベルテスト（CHSHのSを測る）</button>
+    </div>
+    <div class="status" id="st">角度を決めて「測定」を押してみましょう</div>
+    <div class="rpanel"><span>いまの角度差 <b id="rD">–</b></span><span>相関 E の理論値 <b id="rE">–</b></span><span>CHSHの S <b id="rS">まだ測っていない</b></span></div>
+    <div class="note">量子力学の予言は E = cos2(a−b)、「隠れた変数」の代表的モデルは折れ線（グラフの点線）で、<b>CHSH量 S は隠れた変数なら必ず |S|≦2、量子力学なら最大 2√2 ≈ 2.83</b>。測定ボタンは実際に乱数で1000ペアを生成する本物のシミュレーションです（量子側は cos²で相関する乱数、古典側は共通の隠れた偏光 λ を持つ粒子ペア）。アスペらの実験は S>2 を確認し、「自然は測る前から答えを決めていない」ことを示しました。</div>
   </div>
 
   <section class="block">
     <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
     <p>量子もつれは、いまや<b>量子コンピュータ</b>・<b>量子暗号（盗聴を見破る通信）</b>・<b>量子テレポーテーション</b>といった量子情報技術の基盤です。かつては哲学的な論争だった話題が、実験を経て新しい産業技術になりました。「不気味な結びつき」は、これからの情報社会のカギになろうとしています。</p>
   </section>
+
+  <details class="adv">
+    <summary>発展 ── もっと詳しく知りたい人へ（数式あり）</summary>
+    <div class="advbody">
+<p>ベルのテストの標準形がCHSH不等式です。2人がそれぞれ2つの測定角度を使い、相関 E の組合せを作ると：</p>
+<div class="eq"><i>S</i> = <i>E</i>(a,b) − <i>E</i>(a,b′) + <i>E</i>(a′,b) + <i>E</i>(a′,b′),　局所実在論では |<i>S</i>| ≤ 2、量子力学は最大 2√2 ≈ 2.83</div>
+<p>「隠れた変数」＝測定前から結果が決まっているという仮定（局所実在論）だけから上限2が出るのに対し、もつれ状態の量子予言 E = cos 2(a−b) は2√2 に達します（この2√2 が量子力学の上限であることもチレルソンにより証明済み）。アスペ（1982）は測定角を光子の飛行中に切り替えて「装置間の通信」の抜け穴を塞ぎ、ツァイリンガーらは検出効率と自由選択の抜け穴も含む「ループホールフリー」検証（2015）や、もつれを使う<b>量子テレポーテーション</b>（未知の量子状態の転送）・もつれスワッピングを実現しました。重要な注意として、結果は各自ランダムなので<b>超光速通信には使えません</b>。それでも盗聴が原理的に検出できる量子暗号（E91プロトコル）、量子中継、分散量子計算など「第2次量子革命」の資源としてもつれは技術になりつつあります。</p>
+    </div>
+  </details>
 
   <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）2022年物理学賞ページ、一般向け科学史資料。</p>
 
@@ -103,14 +132,71 @@
 </div>
 
 <script>
-var meas=document.getElementById('meas'), lft=document.getElementById('lft'),
-    rgt=document.getElementById('rgt'), msg=document.getElementById('msg');
-var n=0, corr=0;
-meas.addEventListener('click',function(){ n++;
-  var up=Math.random()<0.5;
-  lft.textContent=up?'↑':'↓'; rgt.textContent=up?'↓':'↑';
-  lft.setAttribute('fill',up?'#7ec8ff':'#ff9a8a'); rgt.setAttribute('fill',up?'#ff9a8a':'#7ec8ff');
-  corr++;                                          // つねに逆向き
-  msg.innerHTML='測定回数：<b>'+n+'</b>　一致して逆向き：<b>'+corr+'</b>（いつも相関している）';
-});
+var cv=document.getElementById('cv'),g=cv.getContext('2d'),W=cv.width,H=cv.height;
+var As=document.getElementById('A'),Bs=document.getElementById('B'),st=document.getElementById('st');
+var quantum=true,pts=[],Sres=null;
+document.getElementById('src').addEventListener('click',function(){quantum=!quantum;
+  this.textContent='光源：'+(quantum?'量子もつれ':'古典粒子（隠れた変数）');
+  this.classList.toggle('on',quantum);pts=[];Sres=null;render();});
+function samplePair(a,b){ // 1ペアの測定結果 (+1/-1, +1/-1)
+  var ar=a*Math.PI/180,br=b*Math.PI/180;
+  if(quantum){ // もつれ状態: P(同じ)=cos²(a-b)
+    var A2=Math.random()<0.5?1:-1;
+    var same=Math.random()<Math.pow(Math.cos(ar-br),2);
+    return [A2,same?A2:-A2];
+  }else{ // 隠れた変数: 共通のλを持ち、偏光板と45°以内なら+1
+    var lam=Math.random()*Math.PI;
+    function det(t){var d=Math.abs(((t-lam)%Math.PI+Math.PI)%Math.PI);d=Math.min(d,Math.PI-d);
+      return d<Math.PI/4?1:-1;}
+    return [det(ar),det(br)];
+  }}
+function measureE(a,b,n){var s=0;for(var i=0;i<n;i++){var r=samplePair(a,b);s+=r[0]*r[1];}return s/n;}
+document.getElementById('meas').addEventListener('click',function(){
+  var a=+As.value,b=+Bs.value,E=measureE(a,b,1000);
+  pts.push([Math.abs(a-b),E]);
+  st.className='status yes';st.textContent='1000ペア測定 → E = '+E.toFixed(3)+'（グラフに点を打ちました）';
+  render();});
+document.getElementById('chsh').addEventListener('click',function(){
+  var E1=measureE(0,22.5,2000),E2=measureE(0,67.5,2000),E3=measureE(45,22.5,2000),E4=measureE(45,67.5,2000);
+  Sres=E1-E2+E3+E4;
+  if(Sres>2.05){st.className='status yes';st.textContent='S = '+Sres.toFixed(2)+' > 2 ── ベル不等式が破れた！ 隠れた変数では説明できない';}
+  else{st.className='status no';st.textContent='S = '+Sres.toFixed(2)+' ≦ 2 ── 隠れた変数の範囲内（古典光源では破れない）';}
+  render();});
+function render(){
+  var a=+As.value,b=+Bs.value,d=Math.abs(a-b);
+  document.getElementById('oA').textContent=a+'°';document.getElementById('oB').textContent=b+'°';
+  g.clearRect(0,0,W,H);g.font='12px sans-serif';
+  var X0=60,Y0=H/2+40,PWx=W-100,Aamp=H/2-60;
+  function xd(dd){return X0+PWx*dd/90;}
+  function ye(E){return Y0-Aamp*E;}
+  g.strokeStyle='#232b3d';g.beginPath();g.moveTo(X0,ye(0));g.lineTo(X0+PWx,ye(0));g.stroke();
+  g.strokeStyle='#8b93a7';g.beginPath();g.moveTo(X0,ye(1));g.moveTo(X0,ye(-1)+0);g.moveTo(X0,Y0+Aamp);g.moveTo(X0,ye(1));g.lineTo(X0,ye(-1));g.stroke();
+  g.fillStyle='#8b93a7';
+  [0,30,60,90].forEach(function(v){g.fillText(v+'°',xd(v)-8,ye(-1)+18);});
+  g.fillText('偏光板の角度差 |a−b|',X0+PWx/2-56,ye(-1)+36);
+  g.fillText('+1（いつも同じ結果）',X0+6,ye(1)-6);
+  g.fillText('−1（いつも逆）',X0+6,ye(-1)+12);
+  g.fillText('0（無関係）',X0+PWx-70,ye(0)-6);
+  // 量子: cos2Δ
+  g.strokeStyle='#7ee787';g.lineWidth=2.5;g.beginPath();
+  for(var px=0;px<=PWx;px++){var dd=90*px/PWx,E=Math.cos(2*dd*Math.PI/180);
+    var y=ye(E);if(px===0)g.moveTo(X0,y);else g.lineTo(X0+px,y);}
+  g.stroke();g.lineWidth=1;
+  g.fillStyle='#7ee787';g.fillText('量子力学 E=cos2(a−b)',xd(6),ye(0.92));
+  // 古典: 折れ線 1-4Δ/90... E=1-|Δ|/22.5? sawtooth 1→-1 at 90: E=1-2Δ/45? Δ=45→-1: E=1-Δ/22.5
+  g.strokeStyle='#ff9a8a';g.setLineDash([5,4]);g.lineWidth=2;g.beginPath();
+  for(px=0;px<=PWx;px++){var d2=90*px/PWx,Ec=1-d2/22.5;if(Ec<-1)Ec=-1;
+    if(d2>45)Ec=-1+(d2-45)/22.5;if(Ec>1)Ec=1;
+    var y2=ye(Ec);if(px===0)g.moveTo(X0,y2);else g.lineTo(X0+px,y2);}
+  g.stroke();g.setLineDash([]);g.lineWidth=1;
+  g.fillStyle='#ff9a8a';g.fillText('隠れた変数モデル（点線）',xd(40),ye(-0.55));
+  // 現在の角度差ライン
+  g.strokeStyle='#ffd257';g.setLineDash([3,4]);g.beginPath();g.moveTo(xd(d),ye(1));g.lineTo(xd(d),ye(-1));g.stroke();g.setLineDash([]);
+  // 測定点
+  pts.forEach(function(p){g.fillStyle='#ffd257';g.beginPath();g.arc(xd(p[0]),ye(p[1]),4.5,0,7);g.fill();});
+  document.getElementById('rD').textContent=d+'°';
+  document.getElementById('rE').textContent=(quantum?Math.cos(2*d*Math.PI/180):Math.max(-1,Math.min(1,d<=45?1-d/22.5:-1+(d-45)/22.5))).toFixed(3)+(quantum?'（量子）':'（古典）');
+  document.getElementById('rS').textContent=Sres===null?'まだ測っていない':Sres.toFixed(2)+'（古典の上限2 / 量子の最大2.83）';
+}
+[As,Bs].forEach(function(s){s.addEventListener('input',render);});render();
 </script>

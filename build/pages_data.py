@@ -3,6 +3,211 @@
 
 def register(page):
 
+    # ===== 01 レントゲン 1901 =====
+    page("01_1901_roentgen.html", "radiation", 1901,
+      "目に見えない光でからだの中を写す ── X線の発見",
+      "ヴィルヘルム・レントゲン（ドイツ）",
+      "のちに彼の名で呼ばれることになる、注目すべき「X線」の発見によって。",
+      "そのころ分かっていたこと",
+      r'''<p>1895年、レントゲンは<span class="term" data-tip="ガラス管の中の空気を抜き、両端に高い電圧をかけると内部に電流が流れる装置。中で電子の流れ（陰極線）が生じます。">真空放電管</span>を使って電気の実験をしていました。当時、管の中を流れる「陰極線（電子の流れ）」は研究者の注目の的でしたが、それが管の外まで届くとは考えられていませんでした。</p>''',
+      "偶然の光る紙",
+      r'''<p>管を黒い紙で完全に覆ったのに、少し離れた机の上の<span class="term" data-tip="光や放射線が当たると自分から光る性質を持つ物質を塗った紙。放射線の“見えないものを見える化”する道具でした。">蛍光紙</span>がぼんやり光ったのです。管から「何か見えない放射」が出て、黒い紙も木も通り抜けている──。正体不明なので、数学で未知数に使う「X」をとって<b>X線</b>と名づけました。</p>
+<p>やがて彼は、X線は<b>やわらかい肉は通り抜けるのに、骨は通しにくい</b>ことに気づきます。奥さんの手を写したところ、骨と指輪がくっきり影になって現れました。人類が初めて「生きた体の中」を切らずに見た瞬間です。</p>''',
+      r'''    <h2>やってみよう ── X線で手をのぞく</h2>
+    <div class="hint">スライダーを右に動かすと、あてるX線が増えて写真が「レントゲン写真」に変わります。</div>
+    <div class="xbox">
+      <svg id="hand" width="260" height="300" viewBox="0 0 260 300" role="img" aria-label="手のレントゲン図">
+        <rect id="film" x="0" y="0" width="260" height="300" rx="10" fill="#0b0d12" opacity="0"/>
+        <g id="skin" fill="#f0c3a0" stroke="#d89a72" stroke-width="2">
+          <rect x="86" y="150" width="96" height="110" rx="34"/>
+          <rect x="92"  y="60"  width="20" height="110" rx="10"/>
+          <rect x="118" y="44"  width="20" height="126" rx="10"/>
+          <rect x="144" y="58"  width="20" height="112" rx="10"/>
+          <rect x="170" y="82"  width="18" height="90"  rx="9"/>
+          <rect x="58"  y="150" width="18" height="74"  rx="9" transform="rotate(-32 67 187)"/>
+        </g>
+        <g id="bones" fill="#eef1f6" opacity="0.12">
+          <rect x="98"  y="66"  width="8" height="42" rx="4"/><rect x="98"  y="112" width="8" height="46" rx="4"/>
+          <rect x="124" y="50"  width="8" height="48" rx="4"/><rect x="124" y="102" width="8" height="54" rx="4"/>
+          <rect x="150" y="64"  width="8" height="44" rx="4"/><rect x="150" y="112" width="8" height="48" rx="4"/>
+          <rect x="175" y="88"  width="7" height="36" rx="3.5"/><rect x="175" y="128" width="7" height="38" rx="3.5"/>
+          <rect x="60"  y="156" width="7" height="52" rx="3.5" transform="rotate(-32 63 182)"/>
+          <rect x="100" y="160" width="7" height="72" rx="3.5"/>
+          <rect x="124" y="160" width="7" height="80" rx="3.5"/>
+          <rect x="150" y="160" width="7" height="74" rx="3.5"/>
+          <rect x="174" y="172" width="6" height="60" rx="3"/>
+          <rect id="ring" x="146" y="120" width="16" height="9" rx="3" fill="#ffd257" opacity="0"/>
+        </g>
+      </svg>
+    </div>
+    <div class="controls">
+      <label for="dose">あてるX線の量</label>
+      <input id="dose" type="range" min="0" max="100" value="0">
+      <div class="readout">今は <b id="doseTxt">ふつうの写真（X線ゼロ）</b></div>
+    </div>
+    <div class="note">※ これは仕組みを直感的につかむための<b>模式図</b>です。実際のレントゲン撮影は一瞬で、体に当てる量はごく少なく管理されています。骨が白く写るのは、骨がX線を通しにくく「影」になるためです。</div>''',
+      r'''<p>X線は発見のわずか数か月後には医療に使われ始めました。今日の<b>レントゲン検査・CTスキャン</b>、空港の<b>手荷物検査</b>、金属や建物の内部を壊さず調べる<b>非破壊検査</b>、さらに物質の並び方を調べる<span class="term" data-tip="X線を結晶に当てて、はね返り方から原子の並びを読み解く方法。DNAの二重らせん発見にも使われました。">X線回折</span>まで、「見えないものを見る」技術の出発点になりました。だからこそ第1回ノーベル物理学賞に選ばれたのです。</p>''',
+      r'''var dose=document.getElementById('dose'),film=document.getElementById('film'),skin=document.getElementById('skin'),bones=document.getElementById('bones'),ring=document.getElementById('ring'),txt=document.getElementById('doseTxt');
+function render(){var t=dose.value/100;
+  film.setAttribute('opacity',(t*0.96).toFixed(3));
+  skin.setAttribute('opacity',(1-0.9*t).toFixed(3));
+  bones.setAttribute('opacity',(0.12+0.85*t).toFixed(3));
+  ring.setAttribute('opacity',(t>0.3?Math.min(1,(t-0.3)*2):0).toFixed(3));
+  txt.textContent=t===0?'ふつうの写真（X線ゼロ）':t<0.5?'X線をあて始めた ── 骨がうっすら':t<0.9?'骨と指輪が見えてきた':'はっきりレントゲン写真！';}
+dose.addEventListener('input',render);render();''')
+
+    # ===== 02 キュリー夫妻・ベクレル 1903 =====
+    page("02_1903_curie.html", "radiation", 1903,
+      "石が勝手にエネルギーを出す ── 放射能の発見",
+      "アンリ・ベクレル ／ ピエール・キュリー ＆ マリー・キュリー（フランス）",
+      "ベクレルが発見した「自然放射能」の現象と、その放射線の共同研究に対して。",
+      "光らせる元は何？",
+      r'''<p>X線発見の翌1896年、ベクレルは「日光を当てた鉱物はX線を出すのでは」と考え、ウランを含む石を写真乾板の上に置いて実験しました。ところが<b>日光に当てなくても</b>乾板が黒く感光したのです。エネルギーの源は太陽ではなく、<b>石そのものの中</b>にありました。</p>''',
+      "新しい元素と「放射能」",
+      r'''<p>マリー・キュリーは、この「自分から放射線を出す性質」を<span class="term" data-tip="原子そのものが不安定で、勝手に放射線を出しながら別の原子へ変わっていく性質。マリー・キュリーが名づけました。">放射能</span>と名づけ、量ではかれることを示しました。夫ピエールと共に鉱石を大量に処理し、ウランよりずっと強く放射線を出す新元素<b>ポロニウム</b>と<b>ラジウム</b>を取り出します。</p>
+<p>やがて放射線には<b>種類</b>があり、通り抜ける力（透過力）が違うことが分かってきました。α（アルファ）線・β（ベータ）線・γ（ガンマ）線です。</p>''',
+      r'''    <h2>やってみよう ── 3種類の放射線、どこまで通り抜ける？</h2>
+    <div class="hint">ボタンを押すと放射線が飛び出します。紙・アルミの板・鉛の板の、どこで止まるか見てみましょう。</div>
+    <div class="xbox">
+      <svg id="rad" width="560" height="220" viewBox="0 0 560 220" role="img" aria-label="放射線の透過実験">
+        <circle cx="34" cy="110" r="18" fill="#7ee787"/>
+        <text x="34" y="150" fill="#8b93a7" font-size="12" text-anchor="middle">線源</text>
+        <g font-size="12" text-anchor="middle">
+          <rect x="180" y="40" width="8"  height="140" rx="2" fill="#e8d9b0"/>
+          <text x="184" y="200" fill="#cbb98a">紙</text>
+          <rect x="320" y="40" width="14" height="140" rx="2" fill="#9fb2c9"/>
+          <text x="327" y="200" fill="#9fb2c9">アルミ板</text>
+          <rect x="452" y="30" width="26" height="160" rx="2" fill="#5c6470"/>
+          <text x="465" y="205" fill="#8b93a7">鉛の板（厚い）</text>
+        </g>
+        <line id="ray" x1="52" y1="110" x2="52" y2="110" stroke="#ffb454" stroke-width="5" stroke-linecap="round"/>
+        <circle id="tip" cx="52" cy="110" r="7" fill="#ffd257" opacity="0"/>
+      </svg>
+    </div>
+    <div class="btns">
+      <button data-k="a">α線</button>
+      <button data-k="b">β線</button>
+      <button data-k="g">γ線</button>
+    </div>
+    <div class="readout" id="msg">ボタンを選んでください</div>
+    <div class="note">※ 透過力は <b>α &lt; β &lt; γ</b> の順。α線は紙1枚、β線は数mmのアルミ、γ線は厚い鉛でようやく弱まります。（γ線は鉛でも完全にはゼロにならず、大きく減らせる、というのが正確なところです。）これは仕組みをつかむための模式図です。</div>''',
+      r'''<p>放射能の研究は、原子が<b>変化しうるもの</b>だと示し、のちの原子物理学の扉を開きました。今日では<b>がんの放射線治療</b>、<b>レントゲン以外の医療画像</b>、<b>年代測定</b>（炭素14など）、<b>原子力</b>まで応用が広がっています。マリー・キュリーは1911年に化学賞も受け、<b>2つの分野でノーベル賞を得た初の人物</b>となりました。</p>''',
+      r'''var ray=document.getElementById('ray'),tip=document.getElementById('tip'),msg=document.getElementById('msg');
+var btns=document.querySelectorAll('.btns button');
+var stopX={a:184,b:327,g:465},color={a:'#ff7b72',b:'#79c0ff',g:'#d2a8ff'};
+var name={a:'α線（アルファ）',b:'β線（ベータ）',g:'γ線（ガンマ）'};
+var stopBy={a:'紙1枚で止まりました。',b:'紙は通ったけれど、アルミの板で止まりました。',g:'紙もアルミも通り抜け、厚い鉛でようやく弱まりました。'};
+var anim=null;
+function fire(k){
+  if(anim)cancelAnimationFrame(anim);
+  btns.forEach(function(b){b.classList.toggle('on',b.dataset.k===k)});
+  ray.setAttribute('stroke',color[k]);tip.setAttribute('fill',color[k]);
+  var x=52,target=stopX[k];
+  msg.innerHTML='<b>'+name[k]+'</b> を発射…';
+  tip.setAttribute('opacity','1');
+  function step(){x+=4;
+    if(x>=target){x=target;ray.setAttribute('x2',x);tip.setAttribute('cx',x);
+      msg.innerHTML='<b>'+name[k]+'</b>：'+stopBy[k];return;}
+    ray.setAttribute('x2',x);tip.setAttribute('cx',x);anim=requestAnimationFrame(step);}
+  ray.setAttribute('x2','52');tip.setAttribute('cx','52');step();}
+btns.forEach(function(b){b.addEventListener('click',function(){fire(b.dataset.k)})});''')
+
+    # ===== 03 J.J.トムソン 1906 =====
+    page("03_1906_thomson.html", "radiation", 1906,
+      "原子より小さな粒がある ── 電子の発見",
+      "ジョゼフ・ジョン・トムソン（イギリス）",
+      "気体の中を電気が流れるしくみについての、理論と実験による研究に対して。",
+      "「これ以上分けられない」はずだった原子",
+      r'''<p>19世紀の終わりごろ、物質のいちばん小さな単位は<b>原子</b>で、それより小さいものはないと考えられていました。いっぽうで、<span class="term" data-tip="ガラス管の空気を抜き、両端に高い電圧をかけると、マイナス極から反対側へ流れる正体不明の“線”。">陰極線（いんきょくせん）</span>という光る流れの正体が謎のまま残っていました。</p>''',
+      "曲がる線、それは「粒」だった",
+      r'''<p>トムソンは、陰極線に電気の力（電場）を加えると<b>プラス極のほうへ曲がる</b>ことを精密に測りました。曲がるということは、この線が<b>マイナスの電気を持った粒の流れ</b>だという証拠です。しかもその粒は、いちばん軽い原子（水素）よりも<b>2000分の1ほども軽い</b>。原子の中に、もっと小さな共通部品があったのです。これがのちに<span class="term" data-tip="すべての原子に共通してふくまれる、マイナスの電気を持つとても軽い粒。電気や電子回路の主役です。">電子</span>と呼ばれました。</p>''',
+      r'''    <h2>やってみよう ── 電気の力で線を曲げる</h2>
+    <div class="hint">スライダーで「電気の力（電圧）」を強くすると、まっすぐ飛んでいた線がプラス極のほうへ曲がります。</div>
+    <div class="xbox">
+      <svg id="crt" width="520" height="240" viewBox="0 0 520 240" role="img" aria-label="陰極線の実験">
+        <rect x="20" y="30" width="480" height="180" rx="16" fill="none" stroke="#2a3446" stroke-width="2"/>
+        <rect x="26" y="104" width="26" height="32" rx="4" fill="#8b93a7"/>
+        <text x="39" y="160" fill="#8b93a7" font-size="12" text-anchor="middle">−極</text>
+        <rect x="200" y="66" width="120" height="10" rx="3" fill="#ff8a8a"/>
+        <text x="330" y="76" fill="#ff8a8a" font-size="13">＋</text>
+        <rect x="200" y="164" width="120" height="10" rx="3" fill="#8ab6ff"/>
+        <text x="330" y="176" fill="#8ab6ff" font-size="13">−</text>
+        <rect x="486" y="40" width="8" height="160" rx="3" fill="#26343f"/>
+        <path id="beam" d="" fill="none" stroke="#7ee787" stroke-width="4" stroke-linecap="round"/>
+        <circle id="spot" r="7" fill="#b6ffcf"/>
+      </svg>
+    </div>
+    <div class="controls">
+      <label for="v">電気の力（電圧）</label>
+      <input id="v" type="range" min="0" max="100" value="0">
+      <div class="readout" id="msg">今は <b>電場オフ ── 線はまっすぐ</b></div>
+    </div>
+    <div class="note">※ 線がプラス極のほうへ曲がるのは、線がマイナスの電気を帯びた粒（電子）でできているから。これは仕組みをつかむための模式図で、曲がり方は誇張しています。</div>''',
+      r'''<p>電子の発見で、原子は「部品からできた世界」だと分かり、<b>原子の構造の研究</b>が一気に進みました。電子の流れを操る技術は、<b>真空管 → トランジスタ → あらゆる電子機器</b>へと発展し、テレビのブラウン管も、いまのスマホの中身も、すべて「電子を動かす」ことで成り立っています。おもしろいことに、息子のジョージ・トムソンは「電子が波でもある」ことを示して、のちにノーベル賞を受けています。</p>''',
+      r'''var v=document.getElementById('v'),beam=document.getElementById('beam'),spot=document.getElementById('spot'),msg=document.getElementById('msg');
+var x0=52,y0=120,xp1=200,xp2=320,x1=488;
+function render(){
+  var t=+v.value/100,d=68*t;
+  var yExit=y0-d,cx=(xp1+xp2)/2,cy=y0;
+  var slope=(yExit-y0)/((xp2-xp1)/2);
+  var yEnd=yExit+slope*(x1-xp2);
+  beam.setAttribute('d','M'+x0+','+y0+' L'+xp1+','+y0+' Q'+cx+','+cy+' '+xp2+','+yExit+' L'+x1+','+yEnd);
+  spot.setAttribute('cx',x1);spot.setAttribute('cy',yEnd);
+  msg.innerHTML=t===0?'今は <b>電場オフ ── 線はまっすぐ</b>':t<0.5?'<b>プラス極のほうへ曲がった</b> ── マイナスの粒だ！':'<b>強く曲がった</b> ── 陰極線＝電子の流れ';}
+v.addEventListener('input',render);render();''')
+
+    # ===== 06 アインシュタイン 1921 =====
+    page("06_1921_einstein.html", "quantum", 1921,
+      "光は「粒」でもある ── 光電効果の説明",
+      "アルベルト・アインシュタイン（ドイツ→スイス→アメリカ）",
+      "理論物理学への貢献、とくに<b>光電効果の法則の発見</b>に対して。（相対性理論ではありません）",
+      "光を当てると電子が飛ぶ、その不思議",
+      r'''<p>金属に光を当てると、表面から電子が飛び出すことが知られていました（<span class="term" data-tip="光を当てた金属から電子が飛び出す現象。太陽電池や光センサーの原理でもあります。">光電効果</span>）。当時、光は「波」と考えられていて、波なら<b>明るく（強く）すればいつか電子は飛ぶ</b>はず。ところが実験は違いました。</p>
+<p><b>赤い光はどれだけ明るくしても電子が飛ばず、青や紫の光ならわずかでも飛ぶ</b>──。波の考えでは説明できませんでした。</p>''',
+      "光は「エネルギーの粒」の集まり",
+      r'''<p>アインシュタインは、光は<span class="term" data-tip="光を作る小さなエネルギーの粒。振動数（色）が高いほど1粒のエネルギーが大きくなります。">光子（こうし）</span>という<b>粒の集まり</b>で、1粒のエネルギーは<b>光の色（振動数）で決まる</b>と考えました。青や紫の光子は1粒のエネルギーが大きく、電子をはじき出せる。赤い光子は1粒が弱く、いくら数を増やして（明るくして）も1粒では電子を押し出せない──こう考えるとすべて説明できたのです。</p>
+<p>「光は波であり粒でもある」。この考えは<b>量子力学</b>の出発点になりました。</p>''',
+      r'''    <h2>やってみよう ── 色と明るさを変えて電子を飛ばす</h2>
+    <div class="hint">上のスライダーで光の色（振動数）、下のスライダーで明るさを変えられます。「明るくするだけ」では飛ばないことを確かめてみて。</div>
+    <div class="xbox">
+      <canvas id="pe" width="520" height="240"></canvas>
+    </div>
+    <div class="controls">
+      <label for="freq">光の色（振動数）　← 赤　　　紫・紫外線 →</label>
+      <input id="freq" type="range" min="0" max="100" value="20">
+      <label for="bright">明るさ（光子の数）</label>
+      <input id="bright" type="range" min="10" max="100" value="55">
+    </div>
+    <div id="status" class="status no">赤っぽい光：明るくしても電子は飛び出しません</div>
+    <div class="note">※ しきい値より低い色（赤側）では、いくら明るくしても電子は出ません。しきい値を超えると、<b>色が紫に近いほど電子は勢いよく</b>飛び出します。仕組みをつかむための模式図です。</div>''',
+      r'''<p>この「光の粒」の考えは、<b>太陽電池</b>・<b>デジタルカメラのセンサー</b>・<b>光センサー</b>・<b>自動ドア</b>など、光を電気に変えるあらゆる技術の土台です。さらに「粒でも波でもある」という量子の世界観は、現代のエレクトロニクスから量子コンピュータまで続いています。</p>''',
+      r'''var cv=document.getElementById('pe'),g=cv.getContext('2d');
+var freq=document.getElementById('freq'),bright=document.getElementById('bright'),st=document.getElementById('status');
+var W=cv.width,H=cv.height,plateY=180,T=45;
+var photons=[],electrons=[],spawnAcc=0;
+function colorFor(f){var hue=f*2.7;return 'hsl('+hue+',85%,60%)';}
+function update(){
+  var f=+freq.value,b=+bright.value,above=f>=T;
+  spawnAcc+=b/60;
+  while(spawnAcc>=1){spawnAcc-=1;photons.push({x:30+Math.random()*(W-60),y:-6,c:colorFor(f),speed:3.4});}
+  g.clearRect(0,0,W,H);
+  g.fillStyle='#3a4356';g.fillRect(20,plateY,W-40,26);
+  g.fillStyle='#8b93a7';g.font='13px sans-serif';g.fillText('金属の板',26,plateY+18);
+  for(var i=photons.length-1;i>=0;i--){var p=photons[i];p.y+=p.speed;
+    g.beginPath();g.arc(p.x,p.y,4,0,7);g.fillStyle=p.c;g.fill();
+    if(p.y>=plateY){photons.splice(i,1);
+      if(above){var ke=(f-T)/(100-T);
+        electrons.push({x:p.x,y:plateY-2,vx:(Math.random()-0.5)*1.4,vy:-(1.6+ke*5.5)});}}}
+  for(var j=electrons.length-1;j>=0;j--){var e=electrons[j];e.x+=e.vx;e.y+=e.vy;
+    g.beginPath();g.arc(e.x,e.y,5,0,7);g.fillStyle='#ffd257';g.fill();
+    g.fillStyle='#111';g.font='bold 8px sans-serif';g.fillText('e',e.x-2.5,e.y+3);
+    if(e.y<-10)electrons.splice(j,1);}
+  if(!above){st.className='status no';st.textContent='赤っぽい光：明るくしても電子は飛び出しません';}
+  else{st.className='status yes';
+    st.textContent=f<70?'電子が飛び出した！（青い光：ほどよい勢い）':'電子が勢いよく飛び出した！（紫・紫外線：エネルギー大）';}
+  requestAnimationFrame(update);}
+update();''')
+
     # ===== 04 マイケルソン 1907 =====
     page("04_1907_michelson.html", "matter", 1907,
       "光の波を重ねて長さを測る ── 干渉計",

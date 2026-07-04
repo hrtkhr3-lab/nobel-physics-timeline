@@ -44,6 +44,27 @@
   .pager span{display:block;font-size:.75rem;color:var(--muted)}
   .src{font-size:.82rem;color:var(--muted);margin-top:24px}
   svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+  /* --- 発展セクション（数式あり） --- */
+  details.adv{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:16px;margin-top:22px;overflow:hidden}
+  details.adv summary{cursor:pointer;list-style:none;padding:18px 26px;font-weight:800;font-size:1.05rem;color:var(--accent)}
+  details.adv summary::-webkit-details-marker{display:none}
+  details.adv summary::before{content:"▸ "}
+  details.adv[open] summary::before{content:"▾ "}
+  .advbody{padding:0 26px 22px}
+  .advbody>p:first-child{margin-top:0}
+  .eq{display:block;text-align:center;margin:14px auto;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-family:"Cambria Math",Cambria,Georgia,"Times New Roman",serif;font-size:1.1rem;overflow-x:auto;line-height:2}
+  .eq i{font-style:italic;padding:0 1px}
+  .fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 3px}
+  .fr>span{display:block;padding:0 5px;line-height:1.35}
+  .fr>span:first-child{border-bottom:1.5px solid currentColor}
+  /* --- 定量シミュレーション用コントロール --- */
+  .cpanel{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:4px 26px;max-width:640px;margin:16px auto 0}
+  .cpanel .ctl label{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;font-size:.9rem;margin:8px 0 2px;gap:8px}
+  .cpanel .ctl label output{font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .cpanel .ctl input[type=range]{width:100%;accent-color:var(--accent)}
+  canvas{max-width:100%;height:auto;display:block;border-radius:8px}
+  .rpanel{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;margin-top:12px;font-size:.92rem;color:var(--muted)}
+  .rpanel b{color:var(--ink);font-variant-numeric:tabular-nums}
 </style>
 
 <nav class="topnav">
@@ -71,28 +92,36 @@
 
   <!-- INTERACTIVE -->
   <div class="demo">
-    <h2>やってみよう ── ガラスの糸を光が走る</h2>
-    <div class="hint">スライダーでガラスの純度を上げると、光は弱らずに遠くの受信機まで届きます。純度が低いと途中で消えます。</div>
-    <div class="xbox">
-      <svg id="fb" width="480" height="150" viewBox="0 0 480 150" role="img" aria-label="光ファイバー">
-        <rect x="20" y="55" width="410" height="40" rx="20" fill="#0b1a2a" stroke="#2a3446"/>
-        <path id="ray" d="" fill="none" stroke="#ffe066" stroke-width="3"/>
-        <circle id="rx" cx="445" cy="75" r="14" fill="#26343f"/>
-        <text x="445" y="118" fill="#8b93a7" font-size="11" text-anchor="middle">受信機</text>
-      </svg>
+    <h2>実験してみよう ── 光を100 km 先まで届ける</h2>
+    <div class="hint">光ファイバーの芯（コア）に光を入れる角度と、ガラスの透明度（減衰率）、届ける距離を変えてみましょう。カオが示した実用化の目安は「<b>20 dB/km 以下なら通信に使える</b>」でした。</div>
+    <div class="xbox"><canvas id="cv" width="640" height="300"></canvas></div>
+    <div class="cpanel">
+      <div class="ctl"><label>光を入れる角度（軸から） <output id="oA">4°</output></label><input id="A" type="range" min="0" max="16" value="4" step="0.5"></div>
+      <div class="ctl"><label>距離 <output id="oL">10 km</output></label><input id="L" type="range" min="0" max="100" value="40"></div>
     </div>
-    <div class="controls">
-      <label for="pur">ガラスの純度</label>
-      <input id="pur" type="range" min="0" max="100" value="30">
-      <div class="status no" id="st"></div>
+    <div class="btns">
+      <button data-a="1000">1965年の光学ガラス（1000 dB/km）</button>
+      <button data-a="20" class="on">カオの目標（20 dB/km）</button>
+      <button data-a="0.2">現代のファイバー（0.2 dB/km）</button>
     </div>
-    <div class="note">※ 光はガラスのかべで全反射をくり返して進みます。純度が高いほど遠くまで届く＝大容量の光通信。模式図です。</div>
+    <div class="status no" id="st">–</div>
+    <div class="rpanel"><span>全反射の条件 <b id="rC">–</b></span><span>減衰の合計 <b id="rA">–</b></span><span>届く光 <b id="rP">–</b></span></div>
+    <div class="note">全反射はスネルの法則（コア n₁=1.462、クラッド n₂=1.447 → 軸から約8.2°まで）、減衰は P = P₀·10<sup>−αL/10</sup> という実式です。カオの洞察は「ガラスが暗いのは宿命ではなく<b>不純物（鉄イオンなど）のせい</b>で、純化すれば20 dB/km を切れる」というもの。現代の 0.2 dB/km は理論限界（レイリー散乱）にほぼ到達した値で、100 km 先まで光の1%が届きます。</div>
   </div>
 
   <section class="block">
     <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
     <p>光ファイバーは、いまや世界中を結ぶ<b>インターネットの大動脈</b>です。海底ケーブルで大陸をつなぎ、動画も通話もこの細いガラスの糸を走る光が運んでいます。同時に受賞したCCDは<b>デジタルカメラの目</b>となり、スマホやハッブル宇宙望遠鏡の撮影を可能にしました。現代の情報社会そのものを支える発明です。</p>
   </section>
+
+  <details class="adv">
+    <summary>発展 ── もっと詳しく知りたい人へ（数式あり）</summary>
+    <div class="advbody">
+<p>光ファイバーの性能は減衰率 α（dB/km）で語られます。dB は対数の単位で、20 dB の損失＝パワー1/100 です。</p>
+<div class="eq"><i>P</i>(<i>L</i>) = <i>P</i><sub>0</sub>·10<sup>−αL/10</sup>,　開口数 NA = √(<i>n</i><sub>1</sub>² − <i>n</i><sub>2</sub>²)</div>
+<p>カオの1966年の論文の要点は2つ：①当時のガラスの1000 dB/km は鉄などの<b>不純物イオンの吸収</b>が原因で本質的でない、②純化すれば20 dB/km（中継器で実用になる目安）を切れる。実際コーニング社が1970年に20 dB/kmを達成し、現在は石英の理論限界（レイリー散乱 ∝ λ⁻⁴ と赤外吸収の谷間、波長1.55 μm）に迫る<b>0.2 dB/km</b>。100 km 走っても1%が残る透明度です。長距離用の単一モードファイバーはコア径約9 μmで、モード分散を避けるため「光の通り道を1本だけ」にしています（条件は規格化周波数 V = (2πa/λ)·NA &lt; 2.405）。エルビウム添加光増幅器と波長多重（WDM）を組み合わせ、1本の髪の毛ほどのガラスが毎秒数百テラビット──大陸間インターネットの物理層はこの技術でできています。</p>
+    </div>
+  </details>
 
   <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）2009年物理学賞ページ、一般向け科学史資料。</p>
 
@@ -103,18 +132,61 @@
 </div>
 
 <script>
-var pur=document.getElementById('pur'), ray=document.getElementById('ray'),
-    rx=document.getElementById('rx'), st=document.getElementById('st');
-function render(){ var p=+pur.value/100;
-  var reach=20+p*425;                              // 純度が高いほど遠くまで
-  var d='M20,75', x=20, up=true;
-  while(x<reach){ x+=34; up=!up; d+=' L'+Math.min(x,reach)+','+(up?60:90); }
-  ray.setAttribute('d',d);
-  ray.setAttribute('opacity',(0.35+0.65*p).toFixed(2));
-  var ok=reach>=430;
-  rx.setAttribute('fill', ok?'#ffe066':'#26343f');
-  if(ok){st.className='status yes';st.textContent='高純度：光が受信機まで届いた！ 情報が伝わる';}
-  else{st.className='status no';st.textContent='純度が低い：光が途中で消えて届かない';}
+var cv=document.getElementById('cv'),g=cv.getContext('2d'),W=cv.width,H=cv.height;
+var As=document.getElementById('A'),Ls=document.getElementById('L'),st=document.getElementById('st');
+var alpha=20;
+document.querySelectorAll('.btns button').forEach(function(b){
+  b.addEventListener('click',function(){alpha=+b.dataset.a;
+    document.querySelectorAll('.btns button').forEach(function(x){x.classList.toggle('on',x===b)});render();});});
+var N1=1.462,N2=1.447,THC=Math.acos(N2/N1)*180/Math.PI;   // ≈8.2°
+function render(){
+  var th=+As.value,Lkm=Math.max(0.1,Math.pow(10,+Ls.value/100*3-1)); // 0.1..100 km（対数）
+  document.getElementById('oA').textContent=th+'°';
+  document.getElementById('oL').textContent=Lkm>=10?Lkm.toFixed(0)+' km':Lkm.toFixed(1)+' km';
+  g.clearRect(0,0,W,H);g.font='12px sans-serif';
+  // ファイバー断面
+  var FX0=30,FX1=W-30,CY=110,CORE=34,CLAD=62;
+  g.fillStyle='#1b2334';g.fillRect(FX0,CY-CLAD,FX1-FX0,2*CLAD);
+  g.fillStyle='#24304d';g.fillRect(FX0,CY-CORE,FX1-FX0,2*CORE);
+  g.fillStyle='#8b93a7';g.fillText('コア n₁=1.462',FX0+8,CY+5);
+  g.fillText('クラッド n₂=1.447',FX0+8,CY-CORE-10);
+  var tir=th<=THC;
+  // 光線を反射させながら描く（減衰で薄く）
+  var x=FX0+4,y=CY,dir=1,rad=th*Math.PI/180;
+  var slope=Math.tan(rad);
+  var db=alpha*Lkm,P=Math.pow(10,-db/10);
+  g.lineWidth=2.6;
+  var segs=0,alph=1;
+  while(x<FX1&&segs<60){
+    var dy=(dir>0? (CY+CORE-y):(y-(CY-CORE)));
+    var dx=slope>1e-6?dy/slope:(FX1-x);
+    var nx=Math.min(FX1,x+dx),ny=(nx===x+dx)?(dir>0?CY+CORE:CY-CORE):y+dir*slope*(FX1-x);
+    // 徐々に減衰（表示用: 全長で P に）
+    var frac=(nx-FX0)/(FX1-FX0);var aa=Math.pow(Math.max(P,1e-4),frac);
+    g.strokeStyle='rgba(126,231,135,'+Math.max(0.06,aa).toFixed(3)+')';
+    g.beginPath();g.moveTo(x,y);g.lineTo(nx,ny);g.stroke();
+    if(!tir&&nx<FX1){ // 漏れ光
+      g.strokeStyle='rgba(255,123,114,'+Math.max(0.08,alph*0.5).toFixed(2)+')';
+      g.beginPath();g.moveTo(nx,ny);g.lineTo(nx+30,ny+(dir>0?26:-26));g.stroke();
+      alph*=0.45;}
+    x=nx;y=ny;dir=-dir;segs++;
+    if(!tir&&alph<0.05)break;}
+  g.lineWidth=1;
+  // 受信メーター
+  var MX=80,MW2=W-160,MY=232;
+  g.fillStyle='#8b93a7';g.fillText('届いた光（対数目盛: 100% → 0.0001%）',MX,MY-10);
+  g.strokeStyle='#3a4356';g.strokeRect(MX,MY,MW2,20);
+  var lg=Math.max(-6,Math.log(P)/Math.LN10);   // 0..-6
+  var wdt=MW2*(lg+6)/6;
+  g.fillStyle=P>0.01?'#7ee787':P>1e-4?'#ffd257':'#ff7b72';
+  if(tir)g.fillRect(MX+1,MY+1,Math.max(2,wdt-2),18);
+  document.getElementById('rC').textContent=tir?'OK（'+th+'° ≦ 臨界 8.2°）':'破れ！ 光がクラッドへ漏れる';
+  document.getElementById('rA').textContent=db>=1000?(db/1000).toFixed(1)+'×10³ dB':db.toFixed(1)+' dB';
+  var pTxt=P>=0.01?(P*100).toFixed(1)+' %':P>=1e-6?(P*100).toExponential(1)+' %':'ほぼゼロ';
+  document.getElementById('rP').textContent=tir?pTxt:'0 %（全反射の破れ）';
+  if(!tir){st.className='status no';st.textContent='角度が深すぎて全反射にならない ── 8.2°以下にしましょう';}
+  else if(db<=30){st.className='status yes';st.textContent='通信できる！ '+(alpha===0.2?'現代のファイバーなら海底ケーブルもこの原理':'この透明度なら実用になる（カオの基準クリア）');}
+  else{st.className='status no';st.textContent='暗すぎて信号が消えた ── ガラスを純化して減衰率を下げるしかない（カオの主張）';}
 }
-pur.addEventListener('input',render); render();
+[As,Ls].forEach(function(s){s.addEventListener('input',render);});render();
 </script>

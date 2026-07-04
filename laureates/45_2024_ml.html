@@ -44,6 +44,27 @@
   .pager span{display:block;font-size:.75rem;color:var(--muted)}
   .src{font-size:.82rem;color:var(--muted);margin-top:24px}
   svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+  /* --- 発展セクション（数式あり） --- */
+  details.adv{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:16px;margin-top:22px;overflow:hidden}
+  details.adv summary{cursor:pointer;list-style:none;padding:18px 26px;font-weight:800;font-size:1.05rem;color:var(--accent)}
+  details.adv summary::-webkit-details-marker{display:none}
+  details.adv summary::before{content:"▸ "}
+  details.adv[open] summary::before{content:"▾ "}
+  .advbody{padding:0 26px 22px}
+  .advbody>p:first-child{margin-top:0}
+  .eq{display:block;text-align:center;margin:14px auto;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-family:"Cambria Math",Cambria,Georgia,"Times New Roman",serif;font-size:1.1rem;overflow-x:auto;line-height:2}
+  .eq i{font-style:italic;padding:0 1px}
+  .fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 3px}
+  .fr>span{display:block;padding:0 5px;line-height:1.35}
+  .fr>span:first-child{border-bottom:1.5px solid currentColor}
+  /* --- 定量シミュレーション用コントロール --- */
+  .cpanel{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:4px 26px;max-width:640px;margin:16px auto 0}
+  .cpanel .ctl label{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;font-size:.9rem;margin:8px 0 2px;gap:8px}
+  .cpanel .ctl label output{font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .cpanel .ctl input[type=range]{width:100%;accent-color:var(--accent)}
+  canvas{max-width:100%;height:auto;display:block;border-radius:8px}
+  .rpanel{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;margin-top:12px;font-size:.92rem;color:var(--muted)}
+  .rpanel b{color:var(--ink);font-variant-numeric:tabular-nums}
 </style>
 
 <nav class="topnav">
@@ -71,20 +92,38 @@
 
   <!-- INTERACTIVE -->
   <div class="demo">
-    <h2>やってみよう ── ノイズから記憶を思い出す</h2>
-    <div class="hint">「ノイズを加える」で絵を乱し、「思い出す」を押すと、ネットワークが記憶した絵へと“落ち着いて”復元します。</div>
-    <div class="xbox">
-      <svg id="hp" width="220" height="220" viewBox="0 0 220 220" role="img" aria-label="連想記憶"></svg>
+    <h2>実験してみよう ── 壊れた記憶をエネルギー最小化で思い出す</h2>
+    <div class="hint">8×8のホップフィールド・ネットワークに「T」「X」「口」の3つのパターンを記憶させてあります。パターンを選んでノイズをかけ、「1ステップ想起」を押していくと──ネットワークが<b>エネルギーを下げながら</b>正しい記憶を復元します。</div>
+    <div class="xbox"><canvas id="cv" width="640" height="300"></canvas></div>
+    <div class="btns">
+      <button data-p="0" class="on">T</button><button data-p="1">X</button><button data-p="2">口</button>
     </div>
-    <div class="btns"><button id="noise">ノイズを加える</button><button id="recall">思い出す</button></div>
-    <div class="readout" id="msg">記憶した絵を表示中</div>
-    <div class="note">※ ノイズだらけの入力から、記憶したパターンへ“転がり落ちて”復元します（エネルギー最小化）。連想記憶の模式図です。</div>
+    <div class="cpanel">
+      <div class="ctl"><label>ノイズ（反転させる割合） <output id="oN">15 %</output></label><input id="N" type="range" min="0" max="45" value="15"></div>
+    </div>
+    <div class="btns">
+      <button id="noise">ノイズをかけ直す</button>
+      <button id="step">1ステップ想起</button>
+      <button id="run">最後まで想起</button>
+    </div>
+    <div class="status" id="st">–</div>
+    <div class="rpanel"><span>ネットワークのエネルギー <b id="rE">–</b></span><span>正解との一致 <b id="rM">–</b></span></div>
+    <div class="note">結合 W = Σξξᵀ（ヘッブ学習）、更新 s ← sign(Ws)、エネルギー E = −½sᵀWs という<b>本物のホップフィールド網（1982年のモデルそのもの）</b>を計算しています。1ステップごとにエネルギーが必ず下がり、記憶パターン＝エネルギーの谷に落ち込む──「記憶の想起」を物理学のエネルギー地形の問題に置き換えたこの発想が、スピングラス物理とニューラルネットをつなぎ、現代のAIへ続く出発点になりました。ノイズを45%にすると別の谷（間違った記憶や裏返しパターン）に落ちることもあります。</div>
   </div>
 
   <section class="block">
     <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
     <p>物理から生まれた「学ぶ機械」の考えは、いまや<b>画像認識・音声認識・自動翻訳・生成AI</b>など、社会のあらゆる場面で使われています。物理学賞がAIの基礎に贈られたことは、物理の考え方が分野を超えて世界を変えている証しです。この年表の最新の1ページであり、次の時代への入り口でもあります。</p>
   </section>
+
+  <details class="adv">
+    <summary>発展 ── もっと詳しく知りたい人へ（数式あり）</summary>
+    <div class="advbody">
+<p>ホップフィールド網は、ニューロン状態 s<sub>i</sub> = ±1 とヘッブ学習の結合で定義される<b>エネルギー関数を持つ力学系</b>です。</p>
+<div class="eq"><i>W</i><sub>ij</sub> = <span class="fr"><span>1</span><span><i>N</i></span></span>Σ<sub>p</sub> ξ<sub>i</sub><sup>p</sup>ξ<sub>j</sub><sup>p</sup>,　<i>E</i> = −<span class="fr"><span>1</span><span>2</span></span>Σ <i>W</i><sub>ij</sub><i>s</i><sub>i</sub><i>s</i><sub>j</sub>　（更新のたび E は非増加）</div>
+<p>記憶パターンがエネルギーの谷になり、壊れた入力から谷底へ転がる＝<b>連想記憶</b>。これはスピングラス（磁性体の無秩序系、パリージの2021年受賞分野）と数学的に同型で、記憶容量が約0.14N で飽和することも統計力学で計算できます。ヒントンのボルツマンマシンはこれに温度を入れた確率版（P ∝ e<sup>−E/T</sup>）で、データの確率分布そのものを学習する生成モデルの祖先です。制限ボルツマンマシンの積層事前学習（2006）が深層学習ブームの引き金になり、誤差逆伝播法・畳み込み網・Transformerへと続きます。物理学賞がAIの基礎に贈られたことには賛否もありましたが、「学習と記憶をエネルギー地形の問題として定式化した」という物理の貢献自体は揺るぎません。皮肉なことに、ヒントン自身が受賞時に語った主要テーマはAIの安全性への懸念でした。</p>
+    </div>
+  </details>
 
   <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）2024年物理学賞ページ、一般向け科学史資料。</p>
 
@@ -95,29 +134,74 @@
 </div>
 
 <script>
-var svg=document.getElementById('hp'), noise=document.getElementById('noise'),
-    recall=document.getElementById('recall'), msg=document.getElementById('msg');
-var NS='http://www.w3.org/2000/svg', G=7, cell=28, pad=12;
-// 記憶パターン（十字）
-var mem=[]; for(var y=0;y<G;y++){var row=[];for(var x=0;x<G;x++){ row.push((x===3||y===3)?1:0);} mem.push(row);}
-var state=mem.map(function(r){return r.slice();});
-var rects=[];
-for(var y=0;y<G;y++){rects.push([]);for(var x=0;x<G;x++){
-  var r=document.createElementNS(NS,'rect'); r.setAttribute('x',pad+x*cell); r.setAttribute('y',pad+y*cell);
-  r.setAttribute('width',cell-3); r.setAttribute('height',cell-3); r.setAttribute('rx',4); svg.appendChild(r); rects[y].push(r);}}
-function paint(){ for(var y=0;y<G;y++)for(var x=0;x<G;x++) rects[y][x].setAttribute('fill', state[y][x]?'#b388ff':'#20293a'); }
-noise.addEventListener('click',function(){ for(var k=0;k<16;k++){var x=(Math.random()*G)|0,y=(Math.random()*G)|0; state[y][x]=1-state[y][x];}
-  paint(); msg.innerHTML='ノイズを加えました（乱れた入力）'; });
-var timer=null;
-recall.addEventListener('click',function(){ if(timer)clearInterval(timer);
-  msg.innerHTML='記憶へ“落ち着いて”いく…';
-  timer=setInterval(function(){ var changed=false;
-    var x=(Math.random()*G)|0, y=(Math.random()*G)|0;
-    if(state[y][x]!==mem[y][x]){ state[y][x]=mem[y][x]; changed=true; }
-    paint();
-    var done=true; for(var yy=0;yy<G;yy++)for(var xx=0;xx<G;xx++) if(state[yy][xx]!==mem[yy][xx])done=false;
-    if(done){ clearInterval(timer); msg.innerHTML='<b>思い出した！</b> 記憶した絵にぴったり復元'; }
-  },60);
-});
-paint();
+var cv=document.getElementById('cv'),g=cv.getContext('2d'),W=cv.width,H=cv.height;
+var Ns=document.getElementById('N'),st=document.getElementById('st');
+var PT=[
+ ["########","...##...","...##...","...##...","...##...","...##...","...##...","...##..."],
+ ["#......#",".#....#.","..#..#..","...##...","...##...","..#..#..",".#....#.","#......#"],
+ ["########","#......#","#......#","#......#","#......#","#......#","#......#","########"]];
+var N2=64,pats=PT.map(function(p){var a=[];p.forEach(function(row){row.split('').forEach(function(ch){a.push(ch==='#'?1:-1);});});return a;});
+var Wm=[];for(var i=0;i<N2;i++){Wm.push([]);for(var j=0;j<N2;j++){var s=0;
+  if(i!==j)pats.forEach(function(p){s+=p[i]*p[j];});Wm[i].push(s/N2);}}
+var target=0,state=pats[0].slice(),hist=[];
+document.querySelectorAll('.btns button[data-p]').forEach(function(b){
+  b.addEventListener('click',function(){target=+b.dataset.p;
+    document.querySelectorAll('.btns button[data-p]').forEach(function(x){x.classList.toggle('on',x===b)});
+    doNoise();});});
+function energy(s){var e=0;for(var i=0;i<N2;i++)for(var j=0;j<N2;j++)e-=0.5*Wm[i][j]*s[i]*s[j];return e;}
+function overlap(s){var m=0;for(var i=0;i<N2;i++)m+=s[i]*pats[target][i];return m/N2;}
+function doNoise(){state=pats[target].slice();
+  var nf=+Ns.value/100;
+  for(var i=0;i<N2;i++)if(Math.random()<nf)state[i]*=-1;
+  hist=[energy(state)];
+  st.className='status no';st.textContent='ノイズをかけました ──「1ステップ想起」で復元してみましょう';
+  render();}
+function stepOnce(){var order=[];for(var i=0;i<N2;i++)order.push(i);
+  for(i=N2-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=order[i];order[i]=order[j];order[j]=t;}
+  var changed=0;
+  order.forEach(function(k){var h2=0;for(var j2=0;j2<N2;j2++)h2+=Wm[k][j2]*state[j2];
+    var nv=h2>=0?1:-1;if(nv!==state[k]){state[k]=nv;changed++;}});
+  hist.push(energy(state));
+  var ov=overlap(state);
+  if(changed===0){
+    if(Math.abs(ov)>0.99){st.className='status yes';st.textContent=ov>0?'完全に思い出した！ エネルギーの谷（記憶）に到達':'裏返しパターンの谷に落ちた（これも安定解）';}
+    else{st.className='status no';st.textContent='収束したが別の谷に落ちた ── ノイズが多すぎたかも';}}
+  else{st.className='status';st.style.background='#fff7e6';st.style.color='#8a5a00';st.textContent='想起中…（'+changed+' 個のニューロンが反転）';}
+  render();return changed;}
+document.getElementById('noise').addEventListener('click',doNoise);
+document.getElementById('step').addEventListener('click',stepOnce);
+document.getElementById('run').addEventListener('click',function(){var n=0;
+  (function go(){if(stepOnce()>0&&n++<20)setTimeout(go,220);})();});
+Ns.addEventListener('input',function(){document.getElementById('oN').textContent=Ns.value+' %';});
+function render(){
+  document.getElementById('oN').textContent=Ns.value+' %';
+  g.clearRect(0,0,W,H);g.font='12px sans-serif';
+  // 状態グリッド
+  var CS=28,GX=60,GY=36;
+  for(var i=0;i<N2;i++){var x=GX+(i%8)*CS,y=GY+Math.floor(i/8)*CS;
+    g.fillStyle=state[i]>0?'#7ee787':'#141a28';
+    g.fillRect(x,y,CS-2,CS-2);}
+  g.fillStyle='#8b93a7';g.fillText('ネットワークの状態（64ニューロン）',GX,GY-10);
+  // 正解（小さく）
+  var cs2=10,PX=330,PY=44;
+  g.fillText('記憶している正解',PX,PY-8);
+  for(i=0;i<N2;i++){var x2=PX+(i%8)*cs2,y2=PY+Math.floor(i/8)*cs2;
+    g.fillStyle=pats[target][i]>0?'#8ab6ff':'#141a28';
+    g.fillRect(x2,y2,cs2-1,cs2-1);}
+  // エネルギー推移
+  var EX=330,EY=270,EW=270,EH=100;
+  g.strokeStyle='#8b93a7';g.beginPath();g.moveTo(EX,EY-EH);g.lineTo(EX,EY);g.lineTo(EX+EW,EY);g.stroke();
+  g.fillStyle='#8b93a7';g.fillText('エネルギーの推移（ステップごと）',EX,EY-EH-8);
+  var e0=energy(pats[target]);   // 谷の底
+  if(hist.length>0){var emax=Math.max.apply(null,hist),emin=e0;
+    g.strokeStyle='#ffd257';g.lineWidth=2;g.beginPath();
+    hist.forEach(function(e,k){var x3=EX+EW*k/Math.max(6,hist.length-1);
+      var y3=EY-4-EH*0.9*(e-emin)/Math.max(1e-9,emax-emin);
+      if(k===0)g.moveTo(x3,y3);else g.lineTo(x3,y3);});
+    g.stroke();g.lineWidth=1;}
+  document.getElementById('rE').textContent=energy(state).toFixed(1)+'（記憶の谷の底: '+e0.toFixed(1)+'）';
+  var ov=overlap(state);
+  document.getElementById('rM').textContent=(ov*100).toFixed(0)+' %';
+}
+doNoise();
 </script>

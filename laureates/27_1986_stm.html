@@ -44,6 +44,27 @@
   .pager span{display:block;font-size:.75rem;color:var(--muted)}
   .src{font-size:.82rem;color:var(--muted);margin-top:24px}
   svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+  /* --- 発展セクション（数式あり） --- */
+  details.adv{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:16px;margin-top:22px;overflow:hidden}
+  details.adv summary{cursor:pointer;list-style:none;padding:18px 26px;font-weight:800;font-size:1.05rem;color:var(--accent)}
+  details.adv summary::-webkit-details-marker{display:none}
+  details.adv summary::before{content:"▸ "}
+  details.adv[open] summary::before{content:"▾ "}
+  .advbody{padding:0 26px 22px}
+  .advbody>p:first-child{margin-top:0}
+  .eq{display:block;text-align:center;margin:14px auto;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-family:"Cambria Math",Cambria,Georgia,"Times New Roman",serif;font-size:1.1rem;overflow-x:auto;line-height:2}
+  .eq i{font-style:italic;padding:0 1px}
+  .fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 3px}
+  .fr>span{display:block;padding:0 5px;line-height:1.35}
+  .fr>span:first-child{border-bottom:1.5px solid currentColor}
+  /* --- 定量シミュレーション用コントロール --- */
+  .cpanel{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:4px 26px;max-width:640px;margin:16px auto 0}
+  .cpanel .ctl label{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;font-size:.9rem;margin:8px 0 2px;gap:8px}
+  .cpanel .ctl label output{font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .cpanel .ctl input[type=range]{width:100%;accent-color:var(--accent)}
+  canvas{max-width:100%;height:auto;display:block;border-radius:8px}
+  .rpanel{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;margin-top:12px;font-size:.92rem;color:var(--muted)}
+  .rpanel b{color:var(--ink);font-variant-numeric:tabular-nums}
 </style>
 
 <nav class="topnav">
@@ -71,28 +92,31 @@
 
   <!-- INTERACTIVE -->
   <div class="demo">
-    <h2>やってみよう ── 針でなぞって原子を描く</h2>
-    <div class="hint">スライダーで針を左右に動かします。原子の真上ほどトンネル電流が強くなり、下の線が原子のデコボコを描きます。</div>
-    <div class="xbox">
-      <svg id="sm" width="480" height="230" viewBox="0 0 480 230" role="img" aria-label="STM">
-        <g id="atoms2"></g>
-        <path id="tip" d="" fill="#e8edf3"/>
-        <text x="20" y="205" fill="#8b93a7" font-size="11">電流の記録 →</text>
-        <polyline id="scan" points="" fill="none" stroke="#66bb6a" stroke-width="2"/>
-      </svg>
+    <h2>実験してみよう ── 原子1個分の凹凸を「電流」で感じる</h2>
+    <div class="hint">針（探針）と試料はくっついていないのに、すき間が1ナノメートル以下になると量子トンネル効果で電流が流れます。距離・電圧・材料（仕事関数）を変えて、電流計の変わり方を見てください。<b>縦軸は対数</b>です。</div>
+    <div class="xbox"><canvas id="cv" width="640" height="300"></canvas></div>
+    <div class="cpanel">
+      <div class="ctl"><label>探針と試料の距離 z <output id="oZ">0.50 nm</output></label><input id="Z" type="range" min="20" max="120" value="50"></div>
+      <div class="ctl"><label>バイアス電圧 <output id="oV">0.10 V</output></label><input id="V" type="range" min="1" max="200" value="10"></div>
+      <div class="ctl"><label>仕事関数 φ（材料） <output id="oP">4.5 eV</output></label><input id="P" type="range" min="20" max="60" value="45"></div>
     </div>
-    <div class="controls">
-      <label for="x">針の位置</label>
-      <input id="x" type="range" min="40" max="440" value="40">
-      <div class="readout" id="msg"></div>
-    </div>
-    <div class="note">※ 電子が“しみ出す”トンネル電流は距離に超敏感。だから原子のデコボコが読み取れます。模式図です。</div>
+    <div class="rpanel"><span>トンネル電流 <b id="rI">–</b></span><span>減衰定数 κ <b id="rK">–</b></span><span>0.1 nm 近づくと電流は <b id="rX">–</b></span></div>
+    <div class="note">I ∝ V·e<sup>−2κz</sup>、κ = √(2mφ)/ħ という真空トンネルの式です（電流の絶対値は典型的なSTMに合わせて規格化）。<b>距離がわずか0.1 nm（原子半径ほど）変わるだけで電流が約1桁変わる</b>──この鋭さこそ、STMが原子1個ずつを見分けられる理由です。実際の装置はこの電流が一定になるよう針の高さをフィードバック制御しながら表面をなぞり、原子の地形図を描きます。</div>
   </div>
 
   <section class="block">
     <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
     <p>STMは原子を見るだけでなく、針で<b>原子を1個ずつ動かして並べる</b>ことさえできます（原子で文字を書いた例も）。ナノテクノロジーの扉を開き、半導体・新素材・分子機械の研究に不可欠な道具になりました。2010年のグラフェン（原子1枚のシート）など、その後のナノ科学の土台です。</p>
   </section>
+
+  <details class="adv">
+    <summary>発展 ── もっと詳しく知りたい人へ（数式あり）</summary>
+    <div class="advbody">
+<p>電子の波動関数は障壁の中へ指数関数的に染み出します。トンネル電流はその重なりに比例し、距離に対して恐ろしく敏感です。</p>
+<div class="eq"><i>I</i> ∝ <i>V e</i><sup>−2κz</sup>,　κ = <span class="fr"><span>√(2<i>m</i>φ)</span><span>ħ</span></span> ≈ 5.1√φ[eV] nm⁻¹</div>
+<p>仕事関数 φ ≈ 4.5 eV なら 2κ ≈ 22 nm⁻¹：距離が0.1 nm 変わるだけで電流が約1桁変わります。この鋭さのおかげで、実際の探針が多少鈍っていても<b>最先端の原子1個</b>がほぼ全電流を運び、原子分解能が出ます。装置としては、ピエゾ素子によるpm精度の三次元走査と、トンネル電流を一定に保つフィードバック制御、そして振動絶縁が三種の神器です。STMが測るのは正確には表面の電子状態密度で、走査トンネル分光（STS）として超伝導ギャップ（22番）やトポロジカル表面状態（37番）の観測にも使われます。1990年、IBMのアイグラーはSTMの探針でキセノン原子35個を並べて「IBM」と書き、<b>原子を1個ずつ操る時代</b>を開きました。原子間力顕微鏡（AFM）など走査プローブ顕微鏡ファミリーの始祖です。</p>
+    </div>
+  </details>
 
   <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）1986年物理学賞ページ、一般向け科学史資料。</p>
 
@@ -103,22 +127,48 @@
 </div>
 
 <script>
-var svg=document.getElementById('sm'), atoms=document.getElementById('atoms2'),
-    tip=document.getElementById('tip'), scan=document.getElementById('scan'),
-    xr=document.getElementById('x'), msg=document.getElementById('msg');
-var NS='http://www.w3.org/2000/svg', centers=[100,170,240,310,380], surfY=150;
-centers.forEach(function(cx){var c=document.createElementNS(NS,'circle');
-  c.setAttribute('cx',cx);c.setAttribute('cy',surfY);c.setAttribute('r',26);c.setAttribute('fill','#2b3b52');
-  c.setAttribute('stroke','#3a4356');atoms.appendChild(c);});
-function current(x){var s=0;centers.forEach(function(cx){s+=Math.exp(-((x-cx)*(x-cx))/700);});return Math.min(1,s);}
-var trace=[];
-function render(){ var x=+xr.value, cur=current(x);
-  var ty=70 - cur*30;                              // 電流が強い（原子の上）ほど針が持ち上がる描画
-  tip.setAttribute('d','M'+(x-8)+',30 L'+(x+8)+',30 L'+x+','+(ty+18)+' Z');
-  trace.push([x, 200 - cur*34]);
-  trace.sort(function(a,b){return a[0]-b[0];});
-  scan.setAttribute('points', trace.map(function(p){return p[0]+','+p[1];}).join(' '));
-  msg.innerHTML = cur>0.6?'原子の真上：トンネル電流<b>強い</b>':'原子のあいだ：電流<b>弱い</b>';
+var cv=document.getElementById('cv'),g=cv.getContext('2d'),W=cv.width,H=cv.height;
+var Zs=document.getElementById('Z'),Vs=document.getElementById('V'),Ps=document.getElementById('P');
+function render(){
+  var z=+Zs.value/100,V=+Vs.value/100,phi=+Ps.value/10;
+  document.getElementById('oZ').textContent=z.toFixed(2)+' nm';
+  document.getElementById('oV').textContent=V.toFixed(2)+' V';
+  document.getElementById('oP').textContent=phi.toFixed(1)+' eV';
+  var kap=5.123*Math.sqrt(phi);                 // /nm
+  var I=5.26e5*V*Math.exp(-2*kap*z);            // nA
+  g.clearRect(0,0,W,H);g.font='12px sans-serif';
+  // 左: 探針と表面（原子）
+  var sy=210,scale=140;                          // 1nm = 140px
+  g.fillStyle='#26343f';g.fillRect(30,sy,300,60);
+  g.fillStyle='#3f83bf';
+  for(var ax=55;ax<=310;ax+=42){g.beginPath();g.arc(ax,sy,16,Math.PI,0);g.fill();}
+  g.fillStyle='#8b93a7';g.fillText('試料の表面原子',40,sy+44);
+  var tipY=sy-16-z*scale;
+  g.fillStyle='#9fb2c9';g.beginPath();
+  g.moveTo(180-38,tipY-90);g.lineTo(180+38,tipY-90);g.lineTo(180,tipY);g.closePath();g.fill();
+  g.fillStyle='#8b93a7';g.fillText('探針',150,tipY-98);
+  // トンネルする電子のイメージ
+  if(I>1e-5){g.fillStyle='rgba(255,210,87,0.9)';
+    var nDot=Math.min(8,Math.max(1,Math.round(Math.log10(I)+6)));
+    for(var d2=0;d2<nDot;d2++){g.beginPath();g.arc(176+8*Math.sin(d2*2.1),tipY+ (sy-16-tipY)*(d2+0.5)/nDot,2.5,0,7);g.fill();}}
+  g.strokeStyle='#3a4356';g.beginPath();g.moveTo(340,tipY);g.lineTo(360,tipY);g.moveTo(340,sy-16);g.lineTo(360,sy-16);g.stroke();
+  g.fillStyle='#e6e3d9';g.fillText('z',364,(tipY+sy)/2);
+  // 右: 対数電流メーター
+  var MX=420,MY0=250,MH=200,MW=54;
+  g.strokeStyle='#3a4356';g.strokeRect(MX,MY0-MH,MW,MH);
+  g.fillStyle='#8b93a7';g.fillText('トンネル電流（対数）',MX-10,MY0-MH-12);
+  var LGMIN=-6,LGMAX=3;                          // 1fA .. 1uA (nA基準: -6..3)
+  ['1 fA','1 pA','1 nA','1 μA'].forEach(function(lb,i){var lg=-6+i*3;
+    var yy=MY0-MH*(lg-LGMIN)/(LGMAX-LGMIN);
+    g.strokeStyle='#3a4356';g.beginPath();g.moveTo(MX,yy);g.lineTo(MX+MW,yy);g.stroke();
+    g.fillStyle='#5c6470';g.fillText(lb,MX+MW+6,yy+4);});
+  var lgI=Math.log(I)/Math.LN10;
+  var hh=Math.max(0,Math.min(MH,MH*(lgI-LGMIN)/(LGMAX-LGMIN)));
+  g.fillStyle=hh>0?'#7ee787':'#3a4356';g.fillRect(MX+3,MY0-hh,MW-6,hh);
+  var iTxt=I>=1000?(I/1000).toFixed(2)+' μA':I>=1?I.toFixed(2)+' nA':I>=1e-3?(I*1000).toFixed(2)+' pA':I>=1e-6?(I*1e6).toFixed(2)+' fA':'ほぼゼロ（離れすぎ）';
+  document.getElementById('rI').textContent=iTxt;
+  document.getElementById('rK').textContent=kap.toFixed(1)+' /nm';
+  document.getElementById('rX').textContent='×'+Math.exp(2*kap*0.1).toFixed(0)+' 倍';
 }
-xr.addEventListener('input',render); render();
+[Zs,Vs,Ps].forEach(function(s){s.addEventListener('input',render);});render();
 </script>

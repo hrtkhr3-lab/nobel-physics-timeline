@@ -44,6 +44,27 @@
   .pager span{display:block;font-size:.75rem;color:var(--muted)}
   .src{font-size:.82rem;color:var(--muted);margin-top:24px}
   svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+  /* --- 発展セクション（数式あり） --- */
+  details.adv{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:16px;margin-top:22px;overflow:hidden}
+  details.adv summary{cursor:pointer;list-style:none;padding:18px 26px;font-weight:800;font-size:1.05rem;color:var(--accent)}
+  details.adv summary::-webkit-details-marker{display:none}
+  details.adv summary::before{content:"▸ "}
+  details.adv[open] summary::before{content:"▾ "}
+  .advbody{padding:0 26px 22px}
+  .advbody>p:first-child{margin-top:0}
+  .eq{display:block;text-align:center;margin:14px auto;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-family:"Cambria Math",Cambria,Georgia,"Times New Roman",serif;font-size:1.1rem;overflow-x:auto;line-height:2}
+  .eq i{font-style:italic;padding:0 1px}
+  .fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 3px}
+  .fr>span{display:block;padding:0 5px;line-height:1.35}
+  .fr>span:first-child{border-bottom:1.5px solid currentColor}
+  /* --- 定量シミュレーション用コントロール --- */
+  .cpanel{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:4px 26px;max-width:640px;margin:16px auto 0}
+  .cpanel .ctl label{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;font-size:.9rem;margin:8px 0 2px;gap:8px}
+  .cpanel .ctl label output{font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .cpanel .ctl input[type=range]{width:100%;accent-color:var(--accent)}
+  canvas{max-width:100%;height:auto;display:block;border-radius:8px}
+  .rpanel{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;margin-top:12px;font-size:.92rem;color:var(--muted)}
+  .rpanel b{color:var(--ink);font-variant-numeric:tabular-nums}
 </style>
 
 <nav class="topnav">
@@ -95,6 +116,15 @@
     <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
     <p>不確定性原理は、量子の世界が確率で語られることを示し、現代物理の常識になりました。この「あいまいさ」は欠点ではなく、<b>トンネル効果</b>（半導体やSTM、2011年以降の量子技術）や<b>量子コンピュータ</b>など、新しい技術の源にもなっています。</p>
   </section>
+
+  <details class="adv">
+    <summary>発展 ── もっと詳しく知りたい人へ（数式あり）</summary>
+    <div class="advbody">
+<p>ハイゼンベルクの行列力学では、位置と運動量は数ではなく<b>順序を交換できない演算子</b>になります。この非可換性こそ量子力学の核心で、不確定性原理はそこから数学的に導かれる定理です。</p>
+<div class="eq">[<i>x̂</i>, <i>p̂</i>] = <i>x̂p̂</i> − <i>p̂x̂</i> = <i>i</i>ħ　→　Δ<i>x</i>·Δ<i>p</i> ≥ <span class="fr"><span>ħ</span><span>2</span></span></div>
+<p>これは測定器が下手だという話ではなく、<b>「位置も運動量も確定した状態」がそもそも存在しない</b>という自然の構造です。帰結の一例が零点エネルギー：粒子を狭い領域 Δx に閉じ込めると Δp ≥ ħ/2Δx の運動量ゆらぎが避けられず、絶対零度でも運動が止まりません（液体ヘリウムが凍らない理由、19番）。ハイゼンベルクの理論はボルン・ヨルダンの行列形式、シュレーディンガーの波動形式（12番）と数学的に等価であることが示され、ディラックが両者を統一しました。「観測できる量（スペクトルの振動数と強度）だけで理論を組む」という彼の方法論は、その後の物理学の規範になっています。</p>
+    </div>
+  </details>
 
   <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）1932年物理学賞ページ、一般向け科学史資料。</p>
 

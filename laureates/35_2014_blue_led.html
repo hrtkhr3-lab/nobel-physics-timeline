@@ -44,6 +44,27 @@
   .pager span{display:block;font-size:.75rem;color:var(--muted)}
   .src{font-size:.82rem;color:var(--muted);margin-top:24px}
   svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+  /* --- 発展セクション（数式あり） --- */
+  details.adv{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:16px;margin-top:22px;overflow:hidden}
+  details.adv summary{cursor:pointer;list-style:none;padding:18px 26px;font-weight:800;font-size:1.05rem;color:var(--accent)}
+  details.adv summary::-webkit-details-marker{display:none}
+  details.adv summary::before{content:"▸ "}
+  details.adv[open] summary::before{content:"▾ "}
+  .advbody{padding:0 26px 22px}
+  .advbody>p:first-child{margin-top:0}
+  .eq{display:block;text-align:center;margin:14px auto;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-family:"Cambria Math",Cambria,Georgia,"Times New Roman",serif;font-size:1.1rem;overflow-x:auto;line-height:2}
+  .eq i{font-style:italic;padding:0 1px}
+  .fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 3px}
+  .fr>span{display:block;padding:0 5px;line-height:1.35}
+  .fr>span:first-child{border-bottom:1.5px solid currentColor}
+  /* --- 定量シミュレーション用コントロール --- */
+  .cpanel{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:4px 26px;max-width:640px;margin:16px auto 0}
+  .cpanel .ctl label{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;font-size:.9rem;margin:8px 0 2px;gap:8px}
+  .cpanel .ctl label output{font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .cpanel .ctl input[type=range]{width:100%;accent-color:var(--accent)}
+  canvas{max-width:100%;height:auto;display:block;border-radius:8px}
+  .rpanel{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;margin-top:12px;font-size:.92rem;color:var(--muted)}
+  .rpanel b{color:var(--ink);font-variant-numeric:tabular-nums}
 </style>
 
 <nav class="topnav">
@@ -71,27 +92,31 @@
 
   <!-- INTERACTIVE -->
   <div class="demo">
-    <h2>やってみよう ── 光の三原色で白をつくる</h2>
-    <div class="hint">赤・緑・青のスライダーを動かして光を混ぜます。青を消すと、どうやっても白い光が作れないことを確かめて。</div>
-    <div class="xbox">
-      <svg id="rgb" width="360" height="200" viewBox="0 0 360 200" role="img" aria-label="光の三原色">
-        <circle id="mix" cx="180" cy="100" r="70" fill="#000"/>
-        <circle cx="180" cy="100" r="70" fill="none" stroke="#2a3446"/>
-      </svg>
+    <h2>実験してみよう ── 結晶の配合で光の色を設計する</h2>
+    <div class="hint">窒化ガリウム（GaN）にインジウム（In）を混ぜた In<sub>x</sub>Ga<sub>1−x</sub>N は、混ぜる割合 x で<b>バンドギャップ</b>（電子が落ちる段差）が変わり、発光色が決まります。In の割合と電流を変えて、青色LEDを「設計」してみましょう。</div>
+    <div class="xbox"><canvas id="cv" width="640" height="300"></canvas></div>
+    <div class="cpanel">
+      <div class="ctl"><label>In の割合 x <output id="oX">0.15</output></label><input id="X" type="range" min="0" max="35" value="15"></div>
+      <div class="ctl"><label>電流 <output id="oI">10 mA</output></label><input id="I" type="range" min="0" max="30" value="10"></div>
     </div>
-    <div class="controls">
-      <label for="rr">赤</label><input id="rr" type="range" min="0" max="255" value="255">
-      <label for="gg">緑</label><input id="gg" type="range" min="0" max="255" value="255">
-      <label for="bb">青</label><input id="bb" type="range" min="0" max="255" value="0">
-      <div class="status no" id="st"></div>
-    </div>
-    <div class="note">※ 光の三原色は赤・緑・青。3つそろって初めて白になります。青が最後まで作れなかったのです。模式図です。</div>
+    <div class="status" id="st">–</div>
+    <div class="rpanel"><span>バンドギャップ E<sub>g</sub> <b id="rE">–</b></span><span>発光波長 λ = 1240/E<sub>g</sub> <b id="rL">–</b></span><span>順方向電圧の目安 <b id="rV">–</b></span></div>
+    <div class="note">E<sub>g</sub>(x) = 3.42(1−x) + 0.77x − 1.43x(1−x) eV（ボーイング付きの実験式）と λ = 1240/E<sub>g</sub> nm による計算です。x≈0.15〜0.2 でちょうど<b>青（450 nm 前後）</b>になります。難題は物理より材料でした──良質な GaN 結晶の成長と p型化は「20世紀中は不可能」と言われ、赤﨑・天野が低温バッファ層と p型化を、中村が量産技術を突破。青が完成したことで（青＋蛍光体＝）白色LED照明が生まれました。</div>
   </div>
 
   <section class="block">
     <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
     <p>白色LEDは、白熱電球の何分の一もの電気で同じ明るさを出し、寿命も長いため、世界中の照明を置きかえて<b>大きな省エネ</b>をもたらしました。スマホやテレビの画面、信号機、植物工場の照明まで、青色LEDなしの現代生活は考えられません。日本発の発明が世界を明るくしました。</p>
   </section>
+
+  <details class="adv">
+    <summary>発展 ── もっと詳しく知りたい人へ（数式あり）</summary>
+    <div class="advbody">
+<p>LEDの発光色は半導体のバンドギャップで決まります。InGaN 混晶では In の割合 x で連続的に調整できます。</p>
+<div class="eq"><i>E</i><sub>g</sub>(x) = 3.42(1−x) + 0.77x − 1.43x(1−x) eV,　λ = <span class="fr"><span>1240</span><span><i>E</i><sub>g</sub>[eV]</span></span> nm</div>
+<p>青（450 nm）には E<sub>g</sub> ≈ 2.76 eV、x ≈ 0.15 の InGaN が必要です。難関は3つありました：①GaN はサファイア基板と格子定数が16%も違い良質な結晶が育たない → 赤﨑・天野の<b>低温堆積バッファ層</b>（1986）が突破。②p型GaNが作れない（Mg が水素で不活性化）→ 天野らの電子線照射（1989）と中村の熱アニールで解決。③発光層の量産 → 中村の<b>ツーフローMOCVD</b>が実現。現代の白色LEDは青LED＋黄色蛍光体（YAG:Ce）で、発光効率は300 lm/W 超と白熱電球（15 lm/W）の20倍。照明は世界の電力の約15%を占めるため、この発明の省エネ効果は発電所数百基分に相当します。窒化物半導体はいまやパワーデバイス（急速充電器のGaN）にも広がっています。</p>
+    </div>
+  </details>
 
   <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）2014年物理学賞ページ、一般向け科学史資料。</p>
 
@@ -102,13 +127,59 @@
 </div>
 
 <script>
-var rr=document.getElementById('rr'), gg=document.getElementById('gg'), bb=document.getElementById('bb'),
-    mix=document.getElementById('mix'), st=document.getElementById('st');
-function render(){ var r=+rr.value, g=+gg.value, b=+bb.value;
-  mix.setAttribute('fill','rgb('+r+','+g+','+b+')');
-  if(r>200&&g>200&&b>200){st.className='status yes';st.textContent='白色！ 赤・緑・青がそろって白色照明ができた';}
-  else if(b<40){st.className='status no';st.textContent='青がないと…どうやっても白い光にならない';}
-  else{st.className='status';st.style.background='#fff7e6';st.style.color='#8a5a00';st.textContent='混色中（3色をそろえてみよう）';}
+var cv=document.getElementById('cv'),g=cv.getContext('2d'),W=cv.width,H=cv.height;
+var Xs=document.getElementById('X'),Is=document.getElementById('I'),st=document.getElementById('st');
+function wl2rgb(w){var r=0,gg=0,b=0;
+  if(w<380)return [170,120,255];
+  if(w<440){r=-(w-440)/60;b=1;}else if(w<490){gg=(w-440)/50;b=1;}
+  else if(w<510){gg=1;b=-(w-510)/20;}else if(w<580){r=(w-510)/70;gg=1;}
+  else if(w<645){r=1;gg=-(w-645)/65;}else{r=1;}
+  return [Math.round(255*r),Math.round(255*gg),Math.round(255*b)];}
+function render(){
+  var x=+Xs.value/100,mA=+Is.value;
+  document.getElementById('oX').textContent=x.toFixed(2);
+  document.getElementById('oI').textContent=mA+' mA';
+  var Eg=3.42*(1-x)+0.77*x-1.43*x*(1-x);
+  var lam=1239.84/Eg;
+  var c=wl2rgb(lam),bri=Math.min(1,mA/12);
+  g.clearRect(0,0,W,H);g.font='12px sans-serif';
+  // 左: バンド図
+  var BX=60,BW2=200,VY=210,CY2=VY-Eg*36;
+  g.fillStyle='#3a4356';g.fillRect(BX,VY,BW2,14);g.fillRect(BX,CY2-14,BW2,14);
+  g.fillStyle='#8b93a7';g.fillText('伝導帯（電子）',BX+4,CY2-22);
+  g.fillText('価電子帯（正孔）',BX+4,VY+30);
+  g.strokeStyle='#e6e3d9';g.beginPath();g.moveTo(BX+BW2/2,CY2);g.lineTo(BX+BW2/2,VY-6);g.stroke();
+  g.beginPath();g.moveTo(BX+BW2/2,VY-6);g.lineTo(BX+BW2/2-5,VY-15);g.moveTo(BX+BW2/2,VY-6);g.lineTo(BX+BW2/2+5,VY-15);g.stroke();
+  g.fillStyle='#e6e3d9';g.fillText('Eg = '+Eg.toFixed(2)+' eV',BX+BW2/2+8,(CY2+VY)/2);
+  // 電子と正孔
+  if(mA>0){g.fillStyle='#79c0ff';g.beginPath();g.arc(BX+BW2/2,CY2-7,5,0,7);g.fill();
+    g.fillStyle='#ff9a8a';g.beginPath();g.arc(BX+BW2/2,VY+7,5,0,7);g.fill();}
+  // LED の光
+  var lx=430,ly=120;
+  if(mA>0){var glow=g.createRadialGradient(lx,ly,4,lx,ly,60+40*bri);
+    glow.addColorStop(0,'rgba('+c[0]+','+c[1]+','+c[2]+','+(0.95*bri)+')');
+    glow.addColorStop(1,'rgba('+c[0]+','+c[1]+','+c[2]+',0)');
+    g.fillStyle=glow;g.beginPath();g.arc(lx,ly,110,0,7);g.fill();}
+  g.fillStyle='rgba('+c[0]+','+c[1]+','+c[2]+','+(0.25+0.75*bri)+')';
+  g.beginPath();g.arc(lx,ly,20,Math.PI,0);g.fill();g.fillRect(lx-20,ly,40,26);
+  g.strokeStyle='#3a4356';g.beginPath();g.moveTo(lx-8,ly+26);g.lineTo(lx-8,ly+58);g.moveTo(lx+8,ly+26);g.lineTo(lx+8,ly+50);g.stroke();
+  g.fillStyle='#8b93a7';g.fillText('In'+x.toFixed(2)+'Ga'+(1-x).toFixed(2)+'N',lx-34,ly+78);
+  // 下: スペクトル帯
+  var SX=60,SW2=W-120,SY=H-40;
+  for(var px=0;px<=SW2;px++){var lam2=340+(700-340)*px/SW2,cc=wl2rgb(lam2);
+    g.fillStyle=lam2<380?'#2a2440':'rgb('+cc[0]+','+cc[1]+','+cc[2]+')';
+    g.fillRect(SX+px,SY,1.5,16);}
+  g.fillStyle='#8b93a7';
+  [350,400,450,500,550,600,650,700].forEach(function(l){g.fillText(l,SX+SW2*(l-340)/360-10,SY+30);});
+  var mx2=SX+SW2*(Math.min(700,Math.max(340,lam))-340)/360;
+  g.strokeStyle='#fff';g.lineWidth=2.5;g.beginPath();g.moveTo(mx2,SY-6);g.lineTo(mx2,SY+22);g.stroke();g.lineWidth=1;
+  document.getElementById('rE').textContent=Eg.toFixed(2)+' eV';
+  document.getElementById('rL').textContent=lam.toFixed(0)+' nm';
+  document.getElementById('rV').textContent='約 '+Eg.toFixed(1)+' V';
+  var name=lam<380?'紫外線（GaNそのもの）':lam<430?'紫':lam<490?'青 ── 20世紀の宿題！':lam<550?'緑':lam<590?'黄':'橙〜赤';
+  if(mA===0){st.className='status no';st.textContent='電流を流すと発光します';}
+  else if(lam>=430&&lam<490){st.className='status yes';st.textContent='青色LEDの完成！（'+name.replace(' ── 20世紀の宿題！','')+'・'+lam.toFixed(0)+' nm）これで光の三原色が揃った';}
+  else{st.className='status';st.style.background='#fff7e6';st.style.color='#8a5a00';st.textContent='いまの発光は「'+name+'」── In の割合を調整して青を狙おう';}
 }
-[rr,gg,bb].forEach(function(s){s.addEventListener('input',render);}); render();
+[Xs,Is].forEach(function(s){s.addEventListener('input',render);});render();
 </script>

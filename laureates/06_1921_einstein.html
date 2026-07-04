@@ -1,34 +1,38 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>1921 アインシュタイン — 光電効果と光の粒</title>
+<title>1921 アインシュタイン — 光電効果の説明</title>
 <style>
-  :root{--bg:#f5f4ef;--card:#fff;--ink:#20242e;--muted:#5b6472;--line:#e6e3d9;--accent:#7c3aed;--accent-soft:#f1ebff;}
+  :root{--bg:#f5f4ef;--card:#fff;--ink:#20242e;--muted:#5b6472;--line:#e6e3d9;--accent:#7c3aed;--accent-soft:#f1ebff;--hero:#4c1d95;}
   *{box-sizing:border-box}
-  body{margin:0;font-family:"Yu Gothic","Yu Gothic UI","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;
-       background:var(--bg);color:var(--ink);line-height:1.8;-webkit-font-smoothing:antialiased}
+  body{margin:0;font-family:"Yu Gothic","Yu Gothic UI","Hiragino Kaku Gothic ProN","Meiryo",sans-serif;background:var(--bg);color:var(--ink);line-height:1.8;-webkit-font-smoothing:antialiased}
   a{color:var(--accent);text-decoration:none}
   .wrap{max-width:860px;margin:0 auto;padding:0 20px 80px}
   .topnav{max-width:860px;margin:0 auto;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;font-size:.9rem}
   .topnav a{color:var(--muted)} .topnav a:hover{color:var(--accent)}
-  .hero{background:linear-gradient(135deg,var(--accent),#4c1d95);color:#fff;border-radius:20px;padding:34px 30px;margin-top:6px;box-shadow:0 12px 30px rgba(0,0,0,.12)}
+  .hero{background:linear-gradient(135deg,var(--accent),var(--hero));color:#fff;border-radius:20px;padding:34px 30px;margin-top:6px;box-shadow:0 12px 30px rgba(0,0,0,.12)}
   .year{display:inline-block;background:rgba(255,255,255,.22);padding:3px 14px;border-radius:999px;font-weight:700;letter-spacing:.05em;font-size:.9rem}
   .hero h1{margin:14px 0 6px;font-size:2rem;line-height:1.3}
   .hero .who{font-size:1.05rem;opacity:.95}
   .cite{margin-top:16px;padding:12px 16px;background:rgba(255,255,255,.14);border-radius:12px;font-size:.95rem}
   section.block{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 26px;margin-top:22px}
   section.block h2{margin:0 0 10px;font-size:1.15rem;display:flex;align-items:center;gap:10px}
-  section.block h2 .no{width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-size:.9rem;font-weight:800}
+  section.block h2 .no{width:28px;height:28px;border-radius:50%;background:var(--accent-soft);color:var(--accent);display:grid;place-items:center;font-size:.9rem;font-weight:800;flex:none}
   p{margin:.5em 0}
   .term{border-bottom:2px dotted var(--accent);cursor:help;position:relative}
-  .term:hover::after{content:attr(data-tip);position:absolute;left:0;bottom:135%;width:240px;background:#20242e;color:#fff;font-size:.8rem;line-height:1.6;padding:10px 12px;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,.25);z-index:5}
+  .term:hover::after{content:attr(data-tip);position:absolute;left:0;bottom:135%;width:250px;background:#20242e;color:#fff;font-size:.8rem;line-height:1.6;padding:10px 12px;border-radius:10px;box-shadow:0 8px 20px rgba(0,0,0,.25);z-index:5}
   .term:hover::before{content:"";position:absolute;left:14px;bottom:125%;border:6px solid transparent;border-top-color:#20242e;z-index:5}
   .demo{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px 26px;margin-top:22px}
   .demo h2{margin:0 0 4px;font-size:1.15rem}
   .demo .hint{color:var(--muted);font-size:.9rem;margin-bottom:16px}
-  .xbox{background:#0b0d16;border-radius:14px;padding:10px;display:flex;justify-content:center}
+  .xbox{background:#0f1420;border-radius:14px;padding:10px;display:flex;justify-content:center;overflow-x:auto}
   .controls{max-width:460px;margin:18px auto 0}
   .controls label{display:block;font-weight:700;margin:12px 0 6px;font-size:.95rem}
   input[type=range]{width:100%;accent-color:var(--accent)}
+  .btns{display:flex;gap:10px;justify-content:center;margin-top:18px;flex-wrap:wrap}
+  .btns button{border:2px solid var(--line);background:#fff;border-radius:999px;padding:9px 20px;font-size:1rem;font-weight:700;cursor:pointer;font-family:inherit;color:var(--ink)}
+  .btns button.on{background:var(--accent);border-color:var(--accent);color:#fff}
+  .readout{text-align:center;margin-top:14px;font-size:.98rem;color:var(--muted)}
+  .readout b{color:var(--ink)}
   .status{margin-top:16px;text-align:center;font-size:1rem;padding:12px;border-radius:12px;font-weight:700}
   .status.no{background:#fdecea;color:#b42318}
   .status.yes{background:#e7f8ee;color:#087443}
@@ -39,6 +43,28 @@
   .pager a:hover{border-color:var(--accent);color:var(--accent)}
   .pager span{display:block;font-size:.75rem;color:var(--muted)}
   .src{font-size:.82rem;color:var(--muted);margin-top:24px}
+  svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+  /* --- 発展セクション（数式あり） --- */
+  details.adv{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:16px;margin-top:22px;overflow:hidden}
+  details.adv summary{cursor:pointer;list-style:none;padding:18px 26px;font-weight:800;font-size:1.05rem;color:var(--accent)}
+  details.adv summary::-webkit-details-marker{display:none}
+  details.adv summary::before{content:"▸ "}
+  details.adv[open] summary::before{content:"▾ "}
+  .advbody{padding:0 26px 22px}
+  .advbody>p:first-child{margin-top:0}
+  .eq{display:block;text-align:center;margin:14px auto;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-family:"Cambria Math",Cambria,Georgia,"Times New Roman",serif;font-size:1.1rem;overflow-x:auto;line-height:2}
+  .eq i{font-style:italic;padding:0 1px}
+  .fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 3px}
+  .fr>span{display:block;padding:0 5px;line-height:1.35}
+  .fr>span:first-child{border-bottom:1.5px solid currentColor}
+  /* --- 定量シミュレーション用コントロール --- */
+  .cpanel{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:4px 26px;max-width:640px;margin:16px auto 0}
+  .cpanel .ctl label{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;font-size:.9rem;margin:8px 0 2px;gap:8px}
+  .cpanel .ctl label output{font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .cpanel .ctl input[type=range]{width:100%;accent-color:var(--accent)}
+  canvas{max-width:100%;height:auto;display:block;border-radius:8px}
+  .rpanel{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;margin-top:12px;font-size:.92rem;color:var(--muted)}
+  .rpanel b{color:var(--ink);font-variant-numeric:tabular-nums}
 </style>
 
 <nav class="topnav">
@@ -56,45 +82,48 @@
 
   <section class="block">
     <h2><span class="no">1</span>背景 ── 光を当てると電子が飛ぶ、その不思議</h2>
-    <p>金属に光を当てると、表面から電子が飛び出すことが知られていました（<span class="term" data-tip="光を当てた金属から電子が飛び出す現象。太陽電池や光センサーの原理でもあります。">光電効果</span>）。
-      当時、光は「波」と考えられていて、波なら<b>明るく（強く）すればいつか電子は飛ぶ</b>はず。ところが実験は違いました。</p>
-    <p><b>赤い光はどれだけ明るくしても電子が飛ばず、青や紫の光ならわずかでも飛ぶ</b>──。波の考えでは説明できませんでした。</p>
+    <p>金属に光を当てると、表面から電子が飛び出すことが知られていました（<span class="term" data-tip="光を当てた金属から電子が飛び出す現象。太陽電池や光センサーの原理でもあります。">光電効果</span>）。当時、光は「波」と考えられていて、波なら<b>明るく（強く）すればいつか電子は飛ぶ</b>はず。ところが実験は違いました。</p>
+<p><b>赤い光はどれだけ明るくしても電子が飛ばず、青や紫の光ならわずかでも飛ぶ</b>──。波の考えでは説明できませんでした。</p>
   </section>
 
   <section class="block">
     <h2><span class="no">2</span>発見 ── 光は「エネルギーの粒」の集まり</h2>
-    <p>アインシュタインは、光は
-      <span class="term" data-tip="光を作る小さなエネルギーの粒。振動数（色）が高いほど1粒のエネルギーが大きくなります。">光子（こうし）</span>
-      という<b>粒の集まり</b>で、1粒のエネルギーは<b>光の色（振動数）で決まる</b>と考えました。
-      青や紫の光子は1粒のエネルギーが大きく、電子をはじき出せる。赤い光子は1粒が弱く、
-      いくら数を増やして（明るくして）も1粒では電子を押し出せない──こう考えるとすべて説明できたのです。</p>
-    <p>「光は波であり粒でもある」。この考えは<b>量子力学</b>の出発点になりました。</p>
+    <p>アインシュタインは、光は<span class="term" data-tip="光を作る小さなエネルギーの粒。振動数（色）が高いほど1粒のエネルギーが大きくなります。">光子（こうし）</span>という<b>粒の集まり</b>で、1粒のエネルギーは<b>光の色（振動数）で決まる</b>と考えました。青や紫の光子は1粒のエネルギーが大きく、電子をはじき出せる。赤い光子は1粒が弱く、いくら数を増やして（明るくして）も1粒では電子を押し出せない──こう考えるとすべて説明できたのです。</p>
+<p>「光は波であり粒でもある」。この考えは<b>量子力学</b>の出発点になりました。</p>
   </section>
 
   <!-- INTERACTIVE -->
   <div class="demo">
-    <h2>やってみよう ── 色と明るさを変えて電子を飛ばす</h2>
-    <div class="hint">上のスライダーで光の色（振動数）、下のスライダーで明るさを変えられます。「明るくするだけ」では飛ばないことを確かめてみて。</div>
-    <div class="xbox">
-      <canvas id="pe" width="520" height="240"></canvas>
+    <h2>実験してみよう ── 光電効果の法則 K = hν − W を確かめる</h2>
+    <div class="hint">金属を選び、光の波長と明るさを変えて、飛び出す電子の最大運動エネルギー K<sub>max</sub>（＝阻止電圧×e）を測ります。グラフの横軸は振動数 ν。<b>点が乗る直線の傾きがプランク定数 h</b> になっている──これがアインシュタインの式です。</div>
+    <div class="xbox"><canvas id="cv" width="640" height="320"></canvas></div>
+    <div class="btns">
+      <button data-w="2.28" class="on">ナトリウム（W=2.28 eV）</button>
+      <button data-w="4.31">亜鉛（W=4.31 eV）</button>
+      <button data-w="5.65">白金（W=5.65 eV）</button>
     </div>
-    <div class="controls">
-      <label for="freq">光の色（振動数）　← 赤　　　紫・紫外線 →</label>
-      <input id="freq" type="range" min="0" max="100" value="20">
-      <label for="bright">明るさ（光子の数）</label>
-      <input id="bright" type="range" min="10" max="100" value="55">
+    <div class="cpanel">
+      <div class="ctl"><label>光の波長 λ <output id="oL">400 nm</output></label><input id="L" type="range" min="150" max="700" value="400"></div>
+      <div class="ctl"><label>明るさ（光子の数） <output id="oB">50 %</output></label><input id="B" type="range" min="10" max="100" value="50"></div>
     </div>
-    <div id="status" class="status no">赤っぽい光：明るくしても電子は飛び出しません</div>
-    <div class="note">※ しきい値より低い色（赤側）では、いくら明るくしても電子は出ません。しきい値を超えると、
-      <b>色が紫に近いほど電子は勢いよく</b>飛び出します。仕組みをつかむための模式図です。</div>
+    <div class="status no" id="st">–</div>
+    <div class="rpanel"><span>光子1個のエネルギー hν <b id="rE">–</b></span><span>K<sub>max</sub>（阻止電圧） <b id="rK">–</b></span><span>しきい波長 λ₀ <b id="rT">–</b></span><span>光電流 <b id="rI">–</b></span></div>
+    <div class="note">hν = 1240/λ[nm] eV、K<sub>max</sub> = hν − W という実式の計算です。<b>明るさを変えても K<sub>max</sub>（グラフの点）は動かず、電流だけが変わる</b>こと、金属を変えると直線が平行移動するだけで<b>傾き（h）は変わらない</b>ことを確かめてください。この直線の傾きから h を精密測定したのが1923年受賞のミリカンです。</div>
   </div>
 
   <section class="block">
     <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
-    <p>この「光の粒」の考えは、<b>太陽電池</b>・<b>デジタルカメラのセンサー</b>・<b>光センサー</b>・<b>自動ドア</b>など、
-      光を電気に変えるあらゆる技術の土台です。さらに「粒でも波でもある」という量子の世界観は、
-      現代のエレクトロニクスから量子コンピュータまで続いています。</p>
+    <p>この「光の粒」の考えは、<b>太陽電池</b>・<b>デジタルカメラのセンサー</b>・<b>光センサー</b>・<b>自動ドア</b>など、光を電気に変えるあらゆる技術の土台です。さらに「粒でも波でもある」という量子の世界観は、現代のエレクトロニクスから量子コンピュータまで続いています。</p>
   </section>
+
+  <details class="adv">
+    <summary>発展 ── もっと詳しく知りたい人へ（数式あり）</summary>
+    <div class="advbody">
+<p>アインシュタインの光量子仮説を式にすると、飛び出す電子の最大運動エネルギーは</p>
+<div class="eq"><i>K</i><sub>max</sub> = <i>hν</i> − <i>W</i>　（<i>W</i>: 仕事関数、<i>hν</i> = 1240/λ[nm] eV）</div>
+<p>となります。予言は3つ：①K<sub>max</sub> は光の強度によらない、②ν に対して直線で<b>傾きは金属によらず h</b>、③しきい振動数 ν₀ = W/h 未満では強くても電子は出ない。ミリカン（08番）は当初この理論を疑い、10年がかりの精密実験でむしろ完全に検証してしまい、h を0.5%の精度で決定しました。光子は運動量 <i>p</i> = <i>E</i>/<i>c</i> = <i>h</i>/λ も運びます──それが直接見えるのがコンプトン散乱（09番）です。なお1921年の受賞理由に相対性理論が含まれないのは、当時まだ「実験的検証が十分でない」と見なされていたため。委員会は慎重に「光電効果の法則の発見」に絞りました。</p>
+    </div>
+  </details>
 
   <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）1921年物理学賞ページ、一般向け科学史資料。</p>
 
@@ -105,43 +134,53 @@
 </div>
 
 <script>
-  var cv=document.getElementById('pe'), g=cv.getContext('2d');
-  var freq=document.getElementById('freq'), bright=document.getElementById('bright'), st=document.getElementById('status');
-  var W=cv.width, H=cv.height, plateY=180, T=45; // threshold on freq scale
-  var photons=[], electrons=[], spawnAcc=0;
-  function colorFor(f){ var hue=f*2.7; return 'hsl('+hue+',85%,60%)'; } // 0 red -> 270 violet
-  function update(){
-    var f=+freq.value, b=+bright.value, above=f>=T;
-    // spawn photons
-    spawnAcc += b/60;
-    while(spawnAcc>=1){ spawnAcc-=1;
-      photons.push({x:30+Math.random()*(W-60), y:-6, c:colorFor(f), speed:3.4});
-    }
-    g.clearRect(0,0,W,H);
-    // metal plate
-    g.fillStyle='#3a4356'; g.fillRect(20,plateY,W-40,26);
-    g.fillStyle='#8b93a7'; g.font='13px sans-serif'; g.fillText('金属の板',26,plateY+18);
-    // photons
-    for(var i=photons.length-1;i>=0;i--){var p=photons[i]; p.y+=p.speed;
-      g.beginPath(); g.arc(p.x,p.y,4,0,7); g.fillStyle=p.c; g.fill();
-      if(p.y>=plateY){ photons.splice(i,1);
-        if(above){ var ke=(f-T)/(100-T); // 0..1
-          electrons.push({x:p.x,y:plateY-2,vx:(Math.random()-0.5)*1.4,vy:-(1.6+ke*5.5)});
-        }
-      }
-    }
-    // electrons
-    for(var j=electrons.length-1;j>=0;j--){var e=electrons[j]; e.x+=e.vx; e.y+=e.vy;
-      g.beginPath(); g.arc(e.x,e.y,5,0,7); g.fillStyle='#ffd257'; g.fill();
-      g.fillStyle='#111'; g.font='bold 8px sans-serif'; g.fillText('e',e.x-2.5,e.y+3);
-      if(e.y<-10) electrons.splice(j,1);
-    }
-    // status
-    if(!above){ st.className='status no'; st.textContent='赤っぽい光：明るくしても電子は飛び出しません'; }
-    else { st.className='status yes';
-      st.textContent = f<70 ? '電子が飛び出した！（青い光：ほどよい勢い）'
-                            : '電子が勢いよく飛び出した！（紫・紫外線：エネルギー大）'; }
-    requestAnimationFrame(update);
-  }
-  update();
+var cv=document.getElementById('cv'),g=cv.getContext('2d'),W=cv.width,H=cv.height;
+var Ls=document.getElementById('L'),Bs=document.getElementById('B'),st=document.getElementById('st');
+var Wf=2.28,btns=document.querySelectorAll('.btns button');
+btns.forEach(function(b){b.addEventListener('click',function(){Wf=+b.dataset.w;
+  btns.forEach(function(x){x.classList.toggle('on',x===b)});render();});});
+var PX0=60,PY0=H-42,PW=W-96,PH=H-76,FMAX=2.1,KMAX=5.5;  // ν 0..2.1 PHz, K 0..5.5 eV
+function fx(f){return PX0+PW*f/FMAX;} function ky(k){return PY0-PH*k/KMAX;}
+function render(){
+  var lam=+Ls.value,bri=+Bs.value;
+  var f=299.79/lam;         // ν (×10^15 Hz)
+  var E=1239.84/lam;        // eV
+  var K=E-Wf;
+  document.getElementById('oL').textContent=lam+' nm';
+  document.getElementById('oB').textContent=bri+' %';
+  g.clearRect(0,0,W,H);
+  g.font='12px sans-serif';
+  // 軸
+  g.strokeStyle='#8b93a7';g.beginPath();g.moveTo(PX0,PY0-PH);g.lineTo(PX0,PY0);g.lineTo(PX0+PW,PY0);g.stroke();
+  g.fillStyle='#8b93a7';
+  for(var i=0;i<=2;i+=0.5)g.fillText(i.toFixed(1),fx(i)-8,PY0+16);
+  g.fillText('振動数 ν (×10¹⁵ Hz)',W/2-50,H-6);
+  for(var k=0;k<=5;k++){g.fillText(k,PX0-16,ky(k)+4);
+    g.strokeStyle='#232b3d';g.beginPath();g.moveTo(PX0,ky(k));g.lineTo(PX0+PW,ky(k));g.stroke();}
+  g.save();g.translate(14,H/2+30);g.rotate(-Math.PI/2);g.fillText('Kmax = e×阻止電圧 (eV)',0,0);g.restore();
+  // 3金属の直線 K=hν−W（h=4.136 eV/PHz）
+  var METALS=[[2.28,'#ffd257','Na'],[4.31,'#79c0ff','Zn'],[5.65,'#d2a8ff','Pt']];
+  METALS.forEach(function(mm){var w0=mm[0],f0=w0/4.1357;
+    g.strokeStyle=mm[1];g.globalAlpha=(Math.abs(w0-Wf)<0.01?1:0.3);g.lineWidth=(Math.abs(w0-Wf)<0.01?2.5:1.5);
+    g.beginPath();g.moveTo(fx(f0),ky(0));
+    var fEnd=FMAX,kEnd=4.1357*fEnd-w0;if(kEnd>KMAX){kEnd=KMAX;fEnd=(kEnd+w0)/4.1357;}
+    g.lineTo(fx(fEnd),ky(kEnd));g.stroke();
+    g.fillStyle=mm[1];g.fillText(mm[2]+' (W='+w0+'eV)',fx(f0)+4,PY0-10);
+    g.globalAlpha=1;g.lineWidth=1;});
+  g.fillStyle='#8b93a7';g.fillText('傾き = プランク定数 h',PX0+PW-160,ky(KMAX)+18);
+  // 現在の測定点
+  if(K>0){g.fillStyle='#7ee787';g.beginPath();g.arc(fx(f),ky(Math.min(K,KMAX)),7,0,7);g.fill();}
+  else{g.fillStyle='#ff7b72';g.beginPath();g.arc(fx(f),ky(0),7,0,7);g.fill();}
+  document.getElementById('rE').textContent=E.toFixed(2)+' eV';
+  document.getElementById('rT').textContent=(1239.84/Wf).toFixed(0)+' nm';
+  if(K>0){st.className='status yes';
+    st.textContent='電子が飛び出す！ 阻止電圧 '+K.toFixed(2)+' V までの電子が観測される';
+    document.getElementById('rK').textContent=K.toFixed(2)+' eV（'+K.toFixed(2)+' V）';
+    document.getElementById('rI').textContent='明るさに比例（相対値 '+bri+'）';}
+  else{st.className='status no';
+    st.textContent='hν < W ── どれだけ明るくしても電子は1個も出ない（波の理論では説明不可能）';
+    document.getElementById('rK').textContent='0（放出なし）';
+    document.getElementById('rI').textContent='0';}
+}
+[Ls,Bs].forEach(function(s){s.addEventListener('input',render);});render();
 </script>

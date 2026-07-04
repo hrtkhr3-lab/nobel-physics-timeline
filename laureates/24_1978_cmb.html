@@ -44,6 +44,27 @@
   .pager span{display:block;font-size:.75rem;color:var(--muted)}
   .src{font-size:.82rem;color:var(--muted);margin-top:24px}
   svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+  /* --- 発展セクション（数式あり） --- */
+  details.adv{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:16px;margin-top:22px;overflow:hidden}
+  details.adv summary{cursor:pointer;list-style:none;padding:18px 26px;font-weight:800;font-size:1.05rem;color:var(--accent)}
+  details.adv summary::-webkit-details-marker{display:none}
+  details.adv summary::before{content:"▸ "}
+  details.adv[open] summary::before{content:"▾ "}
+  .advbody{padding:0 26px 22px}
+  .advbody>p:first-child{margin-top:0}
+  .eq{display:block;text-align:center;margin:14px auto;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-family:"Cambria Math",Cambria,Georgia,"Times New Roman",serif;font-size:1.1rem;overflow-x:auto;line-height:2}
+  .eq i{font-style:italic;padding:0 1px}
+  .fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 3px}
+  .fr>span{display:block;padding:0 5px;line-height:1.35}
+  .fr>span:first-child{border-bottom:1.5px solid currentColor}
+  /* --- 定量シミュレーション用コントロール --- */
+  .cpanel{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:4px 26px;max-width:640px;margin:16px auto 0}
+  .cpanel .ctl label{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;font-size:.9rem;margin:8px 0 2px;gap:8px}
+  .cpanel .ctl label output{font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .cpanel .ctl input[type=range]{width:100%;accent-color:var(--accent)}
+  canvas{max-width:100%;height:auto;display:block;border-radius:8px}
+  .rpanel{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;margin-top:12px;font-size:.92rem;color:var(--muted)}
+  .rpanel b{color:var(--ink);font-variant-numeric:tabular-nums}
 </style>
 
 <nav class="topnav">
@@ -71,30 +92,29 @@
 
   <!-- INTERACTIVE -->
   <div class="demo">
-    <h2>やってみよう ── どの方向を向いても同じ</h2>
-    <div class="hint">スライダーでアンテナの向きを変えてみましょう。空のどこを向いても、受信する電波の強さ（温度）は同じです。</div>
-    <div class="xbox">
-      <svg id="cm" width="440" height="220" viewBox="0 0 440 220" role="img" aria-label="宇宙背景放射">
-        <g id="stars"></g>
-        <g id="dish" transform="rotate(0 220 200)">
-          <line x1="220" y1="200" x2="220" y2="120" stroke="#e8edf3" stroke-width="4"/>
-          <path d="M195,120 A40,40 0 0 1 245,120 Z" fill="#9fb2c9"/>
-        </g>
-        <rect x="150" y="200" width="140" height="12" rx="4" fill="#26343f"/>
-      </svg>
+    <h2>実験してみよう ── 宇宙をさかのぼって「昔の光」を見る</h2>
+    <div class="hint">ペンジアスとウィルソンが見つけた宇宙マイクロ波背景放射（CMB）は、いまは 2.725 K の黒体放射です。スライダーで宇宙をさかのぼる（赤方偏移 z を上げる）と、宇宙の温度とスペクトルがどう変わるか見てみましょう。</div>
+    <div class="xbox"><canvas id="cv" width="640" height="310"></canvas></div>
+    <div class="cpanel">
+      <div class="ctl"><label>赤方偏移 z（どれだけ昔か） <output id="oZ">0</output></label><input id="Z" type="range" min="0" max="1100" value="0"></div>
     </div>
-    <div class="controls">
-      <label for="dir">アンテナの向き</label>
-      <input id="dir" type="range" min="-70" max="70" value="0">
-      <div class="readout" id="msg">受信温度：<b>約 2.7 K（−270℃）</b> ── どこでも同じ</div>
-    </div>
-    <div class="note">※ 全天からほぼ均一に届くのがこの放射の特徴。だからビッグバンが宇宙全体で起きた証拠になります。模式図です。</div>
+    <div class="rpanel"><span>宇宙の温度 T = 2.725(1+z) <b id="rT">–</b></span><span>ピーク波長 <b id="rL">–</b></span><span>およその時代 <b id="rA">–</b></span></div>
+    <div class="note">宇宙が膨張すると光の波長は (1+z) 倍に引き伸ばされ、黒体放射は<b>黒体放射のまま温度だけ 1/(1+z) に下がります</b>。z=1100（約38万歳の宇宙）では T≈3000 K──「晴れ上がり」直後のオレンジ色に光る宇宙の光が、138億年かけて引き伸ばされてマイクロ波として届いているのがCMBです。z=0 の点は COBE 衛星の実測（波長1 mm付近）のイメージで、プランクの式との一致は0.005%以内という「宇宙一完璧な黒体」でした。年代は物質優勢近似 t∝(1+z)^{-3/2} の概算です。</div>
   </div>
 
   <section class="block">
     <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
     <p>この放射のごくわずかな“むら”を精密に測ることで、宇宙の年齢・成分・生い立ちが分かるようになりました（のちのCOBE・WMAP・Planck衛星）。宇宙論は「哲学」から「精密科学」へと変わり、ダークマターやダークエネルギー（2011年の項）の研究へとつながっています。</p>
   </section>
+
+  <details class="adv">
+    <summary>発展 ── もっと詳しく知りたい人へ（数式あり）</summary>
+    <div class="advbody">
+<p>宇宙膨張で光の波長はスケール因子に比例して伸び、黒体分布は<b>黒体分布のまま温度だけ下がります</b>。</p>
+<div class="eq"><i>T</i>(<i>z</i>) = <i>T</i><sub>0</sub>(1+<i>z</i>),　<i>T</i><sub>0</sub> = 2.725 K,　ν<sub>peak</sub> ≈ 160 GHz</div>
+<p>CMBは z ≈ 1100（宇宙年齢38万年、T ≈ 3000 K）で電子と陽子が結合して宇宙が透明になった瞬間の光です。ペンジアスとウィルソンが検出したのは全天から等方的に届く超過雑音でしたが、まさに同じころプリンストンのディッケらが「ビッグバンの残光」を探すアンテナを建設中で、両者の論文は背中合わせで出版されました。COBE衛星（2006年受賞）はスペクトルがプランク分布と0.005%で一致することと、10<sup>−5</sup>の温度ゆらぎ（銀河の種）を発見。ゆらぎの精密地図（WMAP・Planck）から宇宙の年齢138億年、組成（原子5%・ダークマター27%・ダークエネルギー68%＝33番）が読み取られました。CMBは「初期宇宙の写真」として現代宇宙論の最重要データです。</p>
+    </div>
+  </details>
 
   <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）1978年物理学賞ページ、一般向け科学史資料。</p>
 
@@ -105,12 +125,50 @@
 </div>
 
 <script>
-var dir=document.getElementById('dir'), dish=document.getElementById('dish'), stars=document.getElementById('stars');
-var NS='http://www.w3.org/2000/svg';
-for(var i=0;i<90;i++){var c=document.createElementNS(NS,'circle');
-  c.setAttribute('cx',Math.random()*440);c.setAttribute('cy',Math.random()*180);
-  c.setAttribute('r',1+Math.random()*1.5);c.setAttribute('fill','#5c9dff');
-  c.setAttribute('opacity',(0.3+Math.random()*0.5).toFixed(2));stars.appendChild(c);}
-function render(){ dish.setAttribute('transform','rotate('+dir.value+' 220 200)'); }
-dir.addEventListener('input',render); render();
+var cv=document.getElementById('cv'),g=cv.getContext('2d'),W=cv.width,H=cv.height;
+var Zs=document.getElementById('Z');
+function bbColor(T){var t=T/100,r,gg,b;
+  if(T<1000)return '#20242e';
+  r=t<=66?255:Math.min(255,Math.max(0,329.7*Math.pow(t-60,-0.133)));
+  gg=t<=66?Math.min(255,Math.max(0,99.47*Math.log(t)-161.1)):Math.min(255,Math.max(0,288.1*Math.pow(t-60,-0.0755)));
+  b=t>=66?255:(t<=19?0:Math.min(255,Math.max(0,138.5*Math.log(t-10)-305)));
+  return 'rgb('+Math.round(r)+','+Math.round(gg)+','+Math.round(b)+')';}
+var PX0=60,PY0=0,PW=0,PH=0;
+function render(){
+  var z=+Zs.value,T=2.725*(1+z);
+  document.getElementById('oZ').textContent=z;
+  g.clearRect(0,0,W,H);g.font='12px sans-serif';
+  var X0=60,Y0=H-44,PWi=W-100,PHi=H-84;
+  // x軸: ν/νpeak 0..4 （形は温度によらず同じ＝黒体のまま、が要点）
+  g.strokeStyle='#8b93a7';g.beginPath();g.moveTo(X0,Y0-PHi);g.moveTo(X0,Y0);g.lineTo(X0+PWi,Y0);g.stroke();
+  var npk=160.23*(1+z);  // GHz
+  g.fillStyle='#8b93a7';
+  for(var i=0;i<=4;i++){var lb=npk*i;
+    g.fillText(lb>=1e6?(lb/1e6).toFixed(1)+'PHz':lb>=1000?(lb/1000).toFixed(0)+'THz':lb.toFixed(0)+'GHz',X0+PWi*i/4-18,Y0+18);}
+  g.fillText('周波数',W/2-20,H-6);
+  g.save();g.translate(14,H/2+40);g.rotate(-Math.PI/2);g.fillText('強さ（相対値）',0,0);g.restore();
+  // プランク曲線（無次元形状 x³/(e^x−1), ピーク x≈2.82）
+  function shape(u){return u*u*u/(Math.exp(u)-1);}
+  var pk=shape(2.821);
+  g.strokeStyle=z<50?'#7ee787':bbColor(T);if(z>=50&&T<1000)g.strokeStyle='#ff9a8a';
+  g.lineWidth=3;g.beginPath();
+  for(var px=1;px<=PWi;px++){var u=2.821*4*px/PWi;var y=Y0-PHi*0.92*shape(u)/pk;
+    if(px===1)g.moveTo(X0+px,y);else g.lineTo(X0+px,y);}
+  g.stroke();g.lineWidth=1;
+  // z=0 のとき COBE 実測点(イメージ)
+  if(z===0){g.fillStyle='#ffd257';
+    for(var k=1;k<=12;k++){var u2=2.821*4*k/13,xx=X0+PWi*k/13,yy=Y0-PHi*0.92*shape(u2)/pk;
+      g.beginPath();g.arc(xx,yy,3.5,0,7);g.fill();}
+    g.fillText('● COBE衛星の実測イメージ ── 完璧な黒体',X0+PWi-280,Y0-PHi+16);}
+  // 宇宙の色見本
+  g.fillStyle=bbColor(T);g.fillRect(W-90,20,54,30);
+  g.strokeStyle='#3a4356';g.strokeRect(W-90,20,54,30);
+  g.fillStyle='#8b93a7';g.fillText('宇宙の色',W-88,66);
+  document.getElementById('rT').textContent=T>=1000?T.toFixed(0)+' K':T.toFixed(1)+' K';
+  var lpk=1.063/(1+z);   // mm
+  document.getElementById('rL').textContent=lpk>=0.01?lpk.toFixed(3)+' mm（マイクロ波）':(lpk*1e6).toFixed(0)+' nm';
+  var age=13.8e9/Math.pow(1+z,1.5);
+  document.getElementById('rA').textContent=z===0?'現在（138億歳）':z>=1050?'晴れ上がり（約38万歳）':(age>=1e8?(age/1e8).toFixed(1)+'億歳ころ':(age/1e4).toFixed(0)+'万歳ころ');
+}
+Zs.addEventListener('input',render);render();
 </script>

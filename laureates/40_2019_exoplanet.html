@@ -44,6 +44,27 @@
   .pager span{display:block;font-size:.75rem;color:var(--muted)}
   .src{font-size:.82rem;color:var(--muted);margin-top:24px}
   svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+  /* --- 発展セクション（数式あり） --- */
+  details.adv{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:16px;margin-top:22px;overflow:hidden}
+  details.adv summary{cursor:pointer;list-style:none;padding:18px 26px;font-weight:800;font-size:1.05rem;color:var(--accent)}
+  details.adv summary::-webkit-details-marker{display:none}
+  details.adv summary::before{content:"▸ "}
+  details.adv[open] summary::before{content:"▾ "}
+  .advbody{padding:0 26px 22px}
+  .advbody>p:first-child{margin-top:0}
+  .eq{display:block;text-align:center;margin:14px auto;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-family:"Cambria Math",Cambria,Georgia,"Times New Roman",serif;font-size:1.1rem;overflow-x:auto;line-height:2}
+  .eq i{font-style:italic;padding:0 1px}
+  .fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 3px}
+  .fr>span{display:block;padding:0 5px;line-height:1.35}
+  .fr>span:first-child{border-bottom:1.5px solid currentColor}
+  /* --- 定量シミュレーション用コントロール --- */
+  .cpanel{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:4px 26px;max-width:640px;margin:16px auto 0}
+  .cpanel .ctl label{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;font-size:.9rem;margin:8px 0 2px;gap:8px}
+  .cpanel .ctl label output{font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .cpanel .ctl input[type=range]{width:100%;accent-color:var(--accent)}
+  canvas{max-width:100%;height:auto;display:block;border-radius:8px}
+  .rpanel{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;margin-top:12px;font-size:.92rem;color:var(--muted)}
+  .rpanel b{color:var(--ink);font-variant-numeric:tabular-nums}
 </style>
 
 <nav class="topnav">
@@ -71,27 +92,33 @@
 
   <!-- INTERACTIVE -->
   <div class="demo">
-    <h2>やってみよう ── 星のふらつきで惑星を見つける</h2>
-    <div class="hint">惑星が星をまわると、星も小さく揺れます。近づくと青、遠ざかると赤――この色ずれが惑星の証拠です。</div>
-    <div class="xbox">
-      <svg id="ex" width="360" height="240" viewBox="0 0 360 240" role="img" aria-label="系外惑星">
-        <circle id="star" cx="180" cy="120" r="26" fill="#ffe066"/>
-        <circle id="planet" cx="180" cy="120" r="8" fill="#8ab6ff"/>
-        <rect x="120" y="212" width="120" height="16" rx="4" fill="#26343f"/>
-        <rect id="dop" x="180" y="212" width="4" height="16" fill="#fff"/>
-        <text x="126" y="208" fill="#8ab6ff" font-size="10">青（近づく）</text>
-        <text x="196" y="208" fill="#ff9a8a" font-size="10">赤（遠ざかる）</text>
-      </svg>
+    <h2>実験してみよう ── 星の「ふらつき」から見えない惑星を見つける</h2>
+    <div class="hint">惑星が恒星を引っぱるので、恒星もわずかに円を描いて「ふらつき」ます。そのふらつきの速さ K を、星の光のドップラー効果で測るのが視線速度法。惑星の質量と軌道を変えて、<b>1995年の装置（精度13 m/s）で見つけられる惑星</b>を探してみましょう。</div>
+    <div class="xbox"><canvas id="cv" width="640" height="300"></canvas></div>
+    <div class="cpanel">
+      <div class="ctl"><label>惑星の質量 <output id="oM">1.0 木星質量</output></label><input id="M" type="range" min="5" max="1300" value="100"></div>
+      <div class="ctl"><label>軌道半径 <output id="oA">1.00 au</output></label><input id="A" type="range" min="0" max="100" value="67"></div>
+      <div class="ctl"><label>恒星の質量 <output id="oS">1.0 太陽質量</output></label><input id="S" type="range" min="70" max="150" value="100"></div>
     </div>
-    <div class="btns"><button id="play4">動かす</button><button id="stop4">止める</button></div>
-    <div class="readout" id="msg">ボタンで惑星をまわしてみましょう</div>
-    <div class="note">※ 惑星は見えなくても、星の“揺れ”と光の色ずれから存在が分かります。模式図です。</div>
+    <div class="btns"><button id="peg">ペガスス座51番星b（1995年発見）にセット</button></div>
+    <div class="status no" id="st">–</div>
+    <div class="rpanel"><span>公転周期 <b id="rP">–</b></span><span>星のふらつき速度 K <b id="rK">–</b></span></div>
+    <div class="note">ケプラーの第3法則 P² = a³/M<sub>★</sub> と、視線速度の半振幅 K = 28.4 (M<sub>p</sub>/M<sub>木</sub>)(P/年)<sup>−1/3</sup>(M<sub>★</sub>/M<sub>☉</sub>)<sup>−2/3</sup> m/s（円軌道・真横から見た場合）による計算です。木星でも太陽を 12.5 m/s しか揺らせないのに、マイヨールとケローが見つけた51 Peg b は「4日で1周する灼熱の巨大惑星」だったので K≈56 m/s と大きく、当時の精度でも見えた──「惑星は星の近くに巨大ガス惑星を作らない」という常識を壊した発見でした。</div>
   </div>
 
   <section class="block">
     <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
     <p>この発見以来、<b>5000個以上</b>の系外惑星が見つかり、「宇宙に地球のような星はあるのか」「生命はいるのか」という問いが現実の研究テーマになりました。ピーブルスの宇宙論と合わせ、私たちの宇宙観を大きく広げた受賞です。</p>
   </section>
+
+  <details class="adv">
+    <summary>発展 ── もっと詳しく知りたい人へ（数式あり）</summary>
+    <div class="advbody">
+<p>視線速度法で測る恒星のふらつきの半振幅は、ケプラーの第3法則 <i>P</i>² = <i>a</i>³/<i>M</i><sub>★</sub>（年・au・太陽質量）と組み合わせて：</p>
+<div class="eq"><i>K</i> = 28.4·<span class="fr"><span><i>M</i><sub>p</sub></span><span><i>M</i><sub>木</sub></span></span>·<span class="fr"><span>(<i>M</i><sub>★</sub>/<i>M</i><sub>☉</sub>)<sup>−2/3</sup></span><span>(<i>P</i>/年)<sup>1/3</sup></span></span> m/s　（円軌道・真横視）</div>
+<p>木星が太陽に与える K はわずか12.5 m/s、地球なら0.09 m/s。マイヨールとケローの分光器ELODIEの精度13 m/s では通常の木星型は見えないはずでしたが、51 Peg b は<b>0.05 au を4.2日で回る灼熱巨大惑星</b>で K ≈ 56 m/s──「巨大惑星は雪線の外で生まれる」という定説の外側にいたからこそ見つかった、という逆説的な発見でした（誕生後に内側へ移動したと考えられています）。実際に測れるのは軌道傾斜角 i との積 M<sub>p</sub> sin i で、質量は下限値です。現在はトランジット法（ケプラー衛星・TESS）が数で圧倒し、確認済み系外惑星は5000個超。視線速度＋トランジットで密度が、透過分光で大気組成が測れる時代になり、目標は「生命の兆候（バイオシグネチャー）の分光検出」へ移っています。ジェームズ・ピーブルスとの共同受賞は「宇宙における人類の位置の理解を変えた」ことへの賞でした。</p>
+    </div>
+  </details>
 
   <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）2019年物理学賞ページ、一般向け科学史資料。</p>
 
@@ -102,21 +129,55 @@
 </div>
 
 <script>
-var star=document.getElementById('star'), planet=document.getElementById('planet'),
-    dop=document.getElementById('dop'), play=document.getElementById('play4'),
-    stop=document.getElementById('stop4'), msg=document.getElementById('msg');
-var ang=0, running=false;
-function frame(){ if(!running)return; ang+=0.05;
-  var px=180+90*Math.cos(ang), py=120+50*Math.sin(ang);
-  planet.setAttribute('cx',px); planet.setAttribute('cy',py);
-  var sx=180-10*Math.cos(ang), sy=120-6*Math.sin(ang);       // 星の反対向きの揺れ
-  star.setAttribute('cx',sx); star.setAttribute('cy',sy);
-  var vx=Math.sin(ang);                                       // 星の視線速度（右=遠ざかる）
-  dop.setAttribute('x',180+vx*56);
-  dop.setAttribute('fill', vx>0.1?'#ff9a8a':vx<-0.1?'#8ab6ff':'#fff');
-  msg.innerHTML = vx>0.1?'星は<b>遠ざかる</b>（光が赤へ）':vx<-0.1?'星は<b>近づく</b>（光が青へ）':'星は真横に移動中';
-  requestAnimationFrame(frame);
+var cv=document.getElementById('cv'),g=cv.getContext('2d'),W=cv.width,H=cv.height;
+var Ms=document.getElementById('M'),As=document.getElementById('A'),Ss=document.getElementById('S'),st=document.getElementById('st');
+document.getElementById('peg').addEventListener('click',function(){Ms.value=47;As.value=14;Ss.value=106;render();});
+var t0=0;
+function render(){
+  var mp=+Ms.value/100,ms=+Ss.value/100;
+  var a=Math.pow(10,-1.7+2.4*(+As.value)/100);         // 0.02 .. 5 au（対数）
+  document.getElementById('oM').textContent=mp.toFixed(2)+' 木星質量';
+  document.getElementById('oA').textContent=a<0.1?a.toFixed(3)+' au':a.toFixed(2)+' au';
+  document.getElementById('oS').textContent=ms.toFixed(1)+' 太陽質量';
+  var P=Math.sqrt(a*a*a/ms);                            // 年
+  var K=28.4*mp*Math.pow(P,-1/3)*Math.pow(ms,-2/3);     // m/s
+  g.clearRect(0,0,W,H);g.font='12px sans-serif';
+  // 左: 軌道アニメ（重心のまわり）
+  var cx=130,cy=110,orbP=Math.max(30,Math.min(90,20+30*Math.log(a/0.02)));
+  var th=t0;
+  g.strokeStyle='#2a3446';g.beginPath();g.arc(cx,cy,orbP,0,7);g.stroke();
+  var pr=Math.max(3,Math.min(9,3+3*Math.log(mp+1)));
+  g.fillStyle='#79c0ff';g.beginPath();g.arc(cx+orbP*Math.cos(th),cy+orbP*Math.sin(th),pr,0,7);g.fill();
+  var so=Math.min(14,orbP*mp/(ms*1047)*40+2);           // 星のふらつき（誇張表示）
+  var sx=cx-so*Math.cos(th),sy=cy-so*Math.sin(th);
+  var vlos=Math.sin(th);                                // 視線方向成分（下向きを視線とする）
+  var col=vlos>0.1?'#ff9a8a':vlos<-0.1?'#8ab6ff':'#ffd257';
+  g.fillStyle=col;g.beginPath();g.arc(sx,sy,16,0,7);g.fill();
+  g.fillStyle='#8b93a7';g.fillText('恒星（ふらつき誇張）',cx-56,cy+orbP+30);
+  g.fillText('↓ 地球はこちら',cx-36,cy+orbP+48);
+  g.fillText(vlos>0.1?'遠ざかる→赤っぽく':vlos<-0.1?'近づく→青っぽく':'',cx-50,30);
+  // 右: 視線速度カーブ
+  var X0=290,Y0=150,PWx=W-X0-30,Aamp=90;
+  var KMAX=Math.max(15,K*1.2);
+  g.strokeStyle='#232b3d';g.beginPath();g.moveTo(X0,Y0);g.lineTo(X0+PWx,Y0);g.stroke();
+  // 精度の帯
+  g.fillStyle='rgba(255,210,87,0.12)';g.fillRect(X0,Y0-Aamp*13/KMAX,PWx,2*Aamp*13/KMAX);
+  g.fillStyle='#8b93a7';g.fillText('1995年の測定精度 ±13 m/s',X0+6,Y0-Aamp*13/KMAX-4);
+  g.strokeStyle='#7ee787';g.lineWidth=2.5;g.beginPath();
+  for(var px=0;px<=PWx;px++){var ph=4*Math.PI*px/PWx-t0;
+    var y=Y0-Aamp*(K*Math.sin(ph))/KMAX;
+    if(px===0)g.moveTo(X0,y);else g.lineTo(X0+px,y);}
+  g.stroke();g.lineWidth=1;
+  g.fillStyle='#8b93a7';g.fillText('時間（2周期分）→',X0+PWx-110,Y0+Aamp+24);
+  g.fillText('視線速度',X0,Y0-Aamp-14);
+  g.fillText('+'+K.toFixed(1)+' m/s',X0+PWx-70,Y0-Aamp*K/KMAX-4);
+  var pd=P*365.25;
+  document.getElementById('rP').textContent=pd<60?pd.toFixed(1)+' 日':P<1?(P*12).toFixed(1)+' か月':P.toFixed(1)+' 年';
+  document.getElementById('rK').textContent=K.toFixed(1)+' m/s（'+(K>3?'自転車':K>0.3?'カメ':'カタツムリ')+'なみ）';
+  if(K>13){st.className='status yes';st.textContent='1995年の装置で検出できる！ 短周期の巨大惑星ほど見つけやすい';}
+  else if(K>1){st.className='status';st.style.background='#fff7e6';st.style.color='#8a5a00';st.textContent='当時は無理でも現代の装置（精度〜1 m/s）なら検出できる';}
+  else{st.className='status no';st.textContent='ふらつきが小さすぎる ── 地球型惑星の検出が難しい理由';}
 }
-play.addEventListener('click',function(){if(!running){running=true;frame();}});
-stop.addEventListener('click',function(){running=false;});
+[Ms,As,Ss].forEach(function(s){s.addEventListener('input',render);});
+setInterval(function(){t0+=0.03;render();},33);
 </script>

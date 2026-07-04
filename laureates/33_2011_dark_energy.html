@@ -44,6 +44,27 @@
   .pager span{display:block;font-size:.75rem;color:var(--muted)}
   .src{font-size:.82rem;color:var(--muted);margin-top:24px}
   svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+  /* --- 発展セクション（数式あり） --- */
+  details.adv{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:16px;margin-top:22px;overflow:hidden}
+  details.adv summary{cursor:pointer;list-style:none;padding:18px 26px;font-weight:800;font-size:1.05rem;color:var(--accent)}
+  details.adv summary::-webkit-details-marker{display:none}
+  details.adv summary::before{content:"▸ "}
+  details.adv[open] summary::before{content:"▾ "}
+  .advbody{padding:0 26px 22px}
+  .advbody>p:first-child{margin-top:0}
+  .eq{display:block;text-align:center;margin:14px auto;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-family:"Cambria Math",Cambria,Georgia,"Times New Roman",serif;font-size:1.1rem;overflow-x:auto;line-height:2}
+  .eq i{font-style:italic;padding:0 1px}
+  .fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 3px}
+  .fr>span{display:block;padding:0 5px;line-height:1.35}
+  .fr>span:first-child{border-bottom:1.5px solid currentColor}
+  /* --- 定量シミュレーション用コントロール --- */
+  .cpanel{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:4px 26px;max-width:640px;margin:16px auto 0}
+  .cpanel .ctl label{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;font-size:.9rem;margin:8px 0 2px;gap:8px}
+  .cpanel .ctl label output{font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .cpanel .ctl input[type=range]{width:100%;accent-color:var(--accent)}
+  canvas{max-width:100%;height:auto;display:block;border-radius:8px}
+  .rpanel{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;margin-top:12px;font-size:.92rem;color:var(--muted)}
+  .rpanel b{color:var(--ink);font-variant-numeric:tabular-nums}
 </style>
 
 <nav class="topnav">
@@ -71,20 +92,31 @@
 
   <!-- INTERACTIVE -->
   <div class="demo">
-    <h2>やってみよう ── 広がる宇宙</h2>
-    <div class="hint">「時間を進める」を押すと銀河どうしが離れていきます。しかも、離れる速さがどんどん増していきます（加速）。</div>
-    <div class="xbox">
-      <svg id="de" width="300" height="240" viewBox="0 0 300 240" role="img" aria-label="加速膨張"></svg>
+    <h2>実験してみよう ── 超新星のデータに宇宙モデルを合わせる</h2>
+    <div class="hint">Ia型超新星は明るさの揃った「標準光源」。遠さ（見かけの暗さ）と赤方偏移の関係は、宇宙に何がどれだけ入っているかで変わります。<b>物質 Ω<sub>m</sub> と ダークエネルギー Ω<sub>Λ</sub> のスライダーを動かして、観測点（1998年ごろの観測のイメージ）に合う宇宙を探して</b>ください。</div>
+    <div class="xbox"><canvas id="cv" width="640" height="320"></canvas></div>
+    <div class="cpanel">
+      <div class="ctl"><label>物質の量 Ω<sub>m</sub> <output id="oM">1.00</output></label><input id="M" type="range" min="0" max="100" value="100" step="5"></div>
+      <div class="ctl"><label>ダークエネルギー Ω<sub>Λ</sub> <output id="oL">0.00</output></label><input id="L" type="range" min="0" max="100" value="0" step="5"></div>
     </div>
-    <div class="btns"><button id="play">時間を進める</button><button id="rs3">最初にもどす</button></div>
-    <div class="readout" id="msg">銀河どうしの間隔：×1.0</div>
-    <div class="note">※ 重力だけなら膨張は減速するはず。実際は加速――だから未知のエネルギーがあると考えます。模式図です。</div>
+    <div class="status no" id="st">–</div>
+    <div class="rpanel"><span>データとのずれ（χ²/点数） <b id="rX">–</b></span><span>減速パラメータ q₀ = Ω<sub>m</sub>/2 − Ω<sub>Λ</sub> <b id="rQ">–</b></span></div>
+    <div class="note">曲線は光度距離 d<sub>L</sub>(z) をフリードマン方程式（H(z) = H₀√(Ω<sub>m</sub>(1+z)³+Ω<sub>k</sub>(1+z)²+Ω<sub>Λ</sub>)）から数値積分した本物の宇宙論計算です。縦軸は「物質だけの宇宙 (Ω<sub>m</sub>=1)」と比べた明るさの差（等級）。観測された超新星は物質だけの宇宙の予想より<b>約0.2〜0.5等級暗い＝遠い</b>──膨張が加速していないと説明できません。q₀&lt;0 が加速膨張の条件です（データ点は Ω<sub>m</sub>=0.3, Ω<sub>Λ</sub>=0.7 の宇宙から生成した模擬観測）。</div>
   </div>
 
   <section class="block">
     <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
     <p>ダークエネルギーの発見は、宇宙の中身のほとんどが<b>正体不明</b>（ダークエネルギー約7割＋ダークマター約2割半）だという衝撃をもたらしました。宇宙の未来（永遠に薄まっていく？）を左右する大問題であり、その正体解明は現代物理学・宇宙論の最大の謎のひとつです。</p>
   </section>
+
+  <details class="adv">
+    <summary>発展 ── もっと詳しく知りたい人へ（数式あり）</summary>
+    <div class="advbody">
+<p>膨張宇宙の距離と赤方偏移の関係は、フリードマン方程式の展開率 H(z) で決まります。超新星で測るのは光度距離 d<sub>L</sub> です。</p>
+<div class="eq"><i>H</i>²(<i>z</i>) = <i>H</i><sub>0</sub>²[Ω<sub>m</sub>(1+<i>z</i>)³ + Ω<sub>Λ</sub>],　<i>q</i><sub>0</sub> = <span class="fr"><span>Ω<sub>m</sub></span><span>2</span></span> − Ω<sub>Λ</sub></div>
+<p>Ia型超新星（26番のチャンドラセカール限界爆発）は素の明るさが揃い、さらに「明るいものほどゆっくり減光する」というフィリップス関係で補正すると距離指標として7%まで較正できます。1998年、2チームが独立に「遠方の超新星が予想より約0.25等暗い＝遠い」ことを発見し、減速パラメータ q₀ &lt; 0、すなわち<b>膨張の加速</b>が確定しました。加速の犯人ダークエネルギーは、アインシュタインが導入して撤回した宇宙定数 Λ（状態方程式 w = p/ρc² = −1）と現在も無矛盾です。CMB（24番）と銀河分布から独立に Ω<sub>Λ</sub> ≈ 0.7 が支持され、宇宙の組成の68%を占める「正体不明の主成分」という現代物理最大級の宿題になっています。場の量子論が示唆する真空エネルギーは観測値より約120桁大きい──この不一致は「宇宙定数問題」と呼ばれます。</p>
+    </div>
+  </details>
 
   <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）2011年物理学賞ページ、一般向け科学史資料。</p>
 
@@ -95,19 +127,62 @@
 </div>
 
 <script>
-var svg=document.getElementById('de'), play=document.getElementById('play'),
-    rs3=document.getElementById('rs3'), msg=document.getElementById('msg');
-var NS='http://www.w3.org/2000/svg', gal=[], t=0, running=false;
-for(var i=0;i<7;i++){ var a=Math.random()*6.28, r=20+Math.random()*90;
-  var g=document.createElementNS(NS,'circle'); g.setAttribute('r',5+Math.random()*4);
-  g.setAttribute('fill','#5c9dff'); svg.appendChild(g);
-  gal.push({el:g, dx:Math.cos(a)*r, dy:Math.sin(a)*r}); }
-function place(scale){ gal.forEach(function(gg){ gg.el.setAttribute('cx',150+gg.dx*scale); gg.el.setAttribute('cy',120+gg.dy*scale); }); }
-function frame(){ if(!running)return; t+=0.02; var scale=1+0.3*t+0.25*t*t;   // 加速
-  place(scale); msg.innerHTML='銀河どうしの間隔：×<b>'+scale.toFixed(2)+'</b>（速さが増していく）';
-  if(scale<2.6)requestAnimationFrame(frame); else running=false;
+var cv=document.getElementById('cv'),g=cv.getContext('2d'),W=cv.width,H=cv.height;
+var Ms=document.getElementById('M'),Ls=document.getElementById('L'),st=document.getElementById('st');
+function dc(z,om,ol){ // 共動距離 (c/H0=1)
+  var ok=1-om-ol,n=200,s=0;
+  for(var i=0;i<n;i++){var zz=z*(i+0.5)/n;
+    var e=Math.sqrt(Math.max(1e-9,om*Math.pow(1+zz,3)+ok*Math.pow(1+zz,2)+ol));
+    s+=1/e;}
+  s*=z/n;
+  if(ok>1e-6)s=Math.sinh(Math.sqrt(ok)*s)/Math.sqrt(ok);
+  else if(ok<-1e-6)s=Math.sin(Math.sqrt(-ok)*s)/Math.sqrt(-ok);
+  return s;}
+function mu(z,om,ol){return 5*Math.log(Math.max(1e-9,(1+z)*dc(z,om,ol)))/Math.LN10;}
+function dmu(z,om,ol){return mu(z,om,ol)-mu(z,1,0);}   // 基準: 物質だけの宇宙
+// 模擬観測点（Ωm=0.3, ΩΛ=0.7 + ノイズ）
+var DATA=[],seeds=[0.32,-0.55,0.11,0.72,-0.23,0.48,-0.61,0.05,0.66,-0.38,0.21,-0.12,0.53,-0.44,0.30,0.02];
+for(var i2=0;i2<16;i2++){var zz2=0.05+0.9*i2/15;
+  DATA.push([zz2,dmu(zz2,0.3,0.7)+seeds[i2]*0.09,0.12]);}
+var PX0=64,PY0=0,PWi=0;
+function render(){
+  var om=+Ms.value/100,ol=+Ls.value/100;
+  document.getElementById('oM').textContent=om.toFixed(2);
+  document.getElementById('oL').textContent=ol.toFixed(2);
+  g.clearRect(0,0,W,H);g.font='12px sans-serif';
+  var X0=64,Y0=H-46,PWx=W-104,PHx=H-86,YMIN=-0.35,YMAX=0.75;
+  function xz(z){return X0+PWx*z/1.0;}
+  function ym(m){return Y0-PHx*(m-YMIN)/(YMAX-YMIN);}
+  g.strokeStyle='#232b3d';g.beginPath();
+  for(var yy=-0.2;yy<=0.7;yy+=0.2){g.moveTo(X0,ym(yy));g.lineTo(X0+PWx,ym(yy));}
+  g.stroke();
+  g.strokeStyle='#8b93a7';g.beginPath();g.moveTo(X0,ym(YMAX));g.moveTo(X0,Y0);g.lineTo(X0+PWx,Y0);g.stroke();
+  g.strokeStyle='#5c6470';g.beginPath();g.moveTo(X0,ym(0));g.lineTo(X0+PWx,ym(0));g.stroke();
+  g.fillStyle='#8b93a7';
+  for(var z3=0;z3<=1.01;z3+=0.2)g.fillText(z3.toFixed(1),xz(z3)-8,Y0+16);
+  g.fillText('赤方偏移 z（遠さ）',W/2-50,H-6);
+  g.save();g.translate(14,H/2+80);g.rotate(-Math.PI/2);g.fillText('物質だけの宇宙より暗い ←→ 明るい（等級差）',0,0);g.restore();
+  for(var yv=-0.2;yv<=0.75;yv+=0.2)g.fillText((yv>0?'+':'')+yv.toFixed(1),X0-34,ym(yv)+4);
+  g.fillText('基準: Ωm=1 の宇宙',X0+PWx-130,ym(0)-6);
+  // 観測点
+  DATA.forEach(function(d){var x=xz(d[0]),y=ym(d[1]);
+    g.strokeStyle='#8b93a7';g.beginPath();g.moveTo(x,ym(d[1]-d[2]));g.lineTo(x,ym(d[1]+d[2]));g.stroke();
+    g.fillStyle='#ffd257';g.beginPath();g.arc(x,y,4,0,7);g.fill();});
+  // ユーザーの宇宙
+  g.strokeStyle='#7ee787';g.lineWidth=2.5;g.beginPath();var st3=false;
+  for(var px=2;px<=PWx;px+=3){var z4=px/PWx;var y4=ym(dmu(z4,om,ol));
+    if(!st3){g.moveTo(X0+px,y4);st3=true;}else g.lineTo(X0+px,y4);}
+  g.stroke();g.lineWidth=1;
+  g.fillStyle='#7ee787';g.fillText('あなたの宇宙モデル',X0+8,ym(dmu(0.15,om,ol))-10);
+  // χ²
+  var chi=0;DATA.forEach(function(d){var r=(dmu(d[0],om,ol)-d[1])/d[2];chi+=r*r;});
+  chi/=DATA.length;
+  var q0=om/2-ol;
+  document.getElementById('rX').textContent=chi.toFixed(2)+(chi<1.5?'（よく合う！）':chi<4?'（おしい）':'（合わない）');
+  document.getElementById('rQ').textContent=q0.toFixed(2)+(q0<0?'（加速膨張）':'（減速膨張）');
+  if(chi<1.5&&q0<0){st.className='status yes';st.textContent='データと一致！ ダークエネルギーが優勢な「加速する宇宙」だけが超新星を説明できる';}
+  else if(chi<1.5){st.className='status yes';st.textContent='ほぼ一致…だがまだ改善の余地あり';}
+  else{st.className='status no';st.textContent=q0>=0?'この宇宙は減速膨張 ── 観測より明るすぎる予言になっている':'まだデータと合わない ── スライダーを調整してみよう';}
 }
-play.addEventListener('click',function(){ if(!running){running=true;frame();} });
-rs3.addEventListener('click',function(){ running=false;t=0;place(1);msg.innerHTML='銀河どうしの間隔：×1.0'; });
-place(1);
+[Ms,Ls].forEach(function(s){s.addEventListener('input',render);});render();
 </script>

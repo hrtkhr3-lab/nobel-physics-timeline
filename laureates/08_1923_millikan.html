@@ -44,6 +44,27 @@
   .pager span{display:block;font-size:.75rem;color:var(--muted)}
   .src{font-size:.82rem;color:var(--muted);margin-top:24px}
   svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+  /* --- 発展セクション（数式あり） --- */
+  details.adv{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:16px;margin-top:22px;overflow:hidden}
+  details.adv summary{cursor:pointer;list-style:none;padding:18px 26px;font-weight:800;font-size:1.05rem;color:var(--accent)}
+  details.adv summary::-webkit-details-marker{display:none}
+  details.adv summary::before{content:"▸ "}
+  details.adv[open] summary::before{content:"▾ "}
+  .advbody{padding:0 26px 22px}
+  .advbody>p:first-child{margin-top:0}
+  .eq{display:block;text-align:center;margin:14px auto;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-family:"Cambria Math",Cambria,Georgia,"Times New Roman",serif;font-size:1.1rem;overflow-x:auto;line-height:2}
+  .eq i{font-style:italic;padding:0 1px}
+  .fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 3px}
+  .fr>span{display:block;padding:0 5px;line-height:1.35}
+  .fr>span:first-child{border-bottom:1.5px solid currentColor}
+  /* --- 定量シミュレーション用コントロール --- */
+  .cpanel{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:4px 26px;max-width:640px;margin:16px auto 0}
+  .cpanel .ctl label{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;font-size:.9rem;margin:8px 0 2px;gap:8px}
+  .cpanel .ctl label output{font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .cpanel .ctl input[type=range]{width:100%;accent-color:var(--accent)}
+  canvas{max-width:100%;height:auto;display:block;border-radius:8px}
+  .rpanel{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;margin-top:12px;font-size:.92rem;color:var(--muted)}
+  .rpanel b{color:var(--ink);font-variant-numeric:tabular-nums}
 </style>
 
 <nav class="topnav">
@@ -71,33 +92,31 @@
 
   <!-- INTERACTIVE -->
   <div class="demo">
-    <h2>やってみよう ── 油滴をつり合わせる</h2>
-    <div class="hint">粒にのった電子の数をボタンで選びます。つり合わせるのに必要な電圧が変わりますが、電気量はいつも e の整数倍です。</div>
-    <div class="xbox">
-      <svg id="oil" width="420" height="230" viewBox="0 0 420 230" role="img" aria-label="ミリカンの油滴実験">
-        <rect x="60" y="30" width="220" height="9" rx="3" fill="#ff8a8a"/><text x="288" y="40" fill="#ff8a8a" font-size="13">＋</text>
-        <rect x="60" y="191" width="220" height="9" rx="3" fill="#8ab6ff"/><text x="288" y="202" fill="#8ab6ff" font-size="13">−</text>
-        <circle id="drop" cx="170" cy="115" r="16" fill="#ffd257"/>
-        <text id="dlab" x="170" y="120" fill="#5b3b00" font-size="11" text-anchor="middle" font-weight="bold">−</text>
-        <text x="360" y="60" fill="#8b93a7" font-size="12">電圧</text>
-        <rect x="345" y="70" width="20" height="120" rx="4" fill="#26343f"/>
-        <rect id="gauge" x="345" y="70" width="20" height="0" rx="4" fill="#7ee787"/>
-      </svg>
+    <h2>実験してみよう ── 油滴を浮かせて電気素量 e を測る</h2>
+    <div class="hint">帯電した油滴が極板の間に浮かんでいます。<b>電圧を調節して油滴を空中で静止</b>させると、電気の力 qV/d と重力 mg のつり合いから電荷 q が求まります。「記録」してから「新しい油滴」で何滴も測ると……右のグラフに<b>階段</b>が見えてきます。</div>
+    <div class="xbox"><canvas id="cv" width="640" height="300"></canvas></div>
+    <div class="cpanel">
+      <div class="ctl"><label>極板の電圧 <output id="oV">0 V</output></label><input id="V" type="range" min="0" max="600" value="0"></div>
     </div>
-    <div class="btns">
-      <button data-n="1">電子1個</button>
-      <button data-n="2">2個</button>
-      <button data-n="3">3個</button>
-      <button data-n="4">4個</button>
-    </div>
-    <div class="readout" id="msg">ボタンを選んでください</div>
-    <div class="note">※ 電子が多い粒ほど、軽い電圧でつり合います。でもどの粒も電気量は必ず e の整数倍――半端はありません。模式図です（電圧の値は相対値）。</div>
+    <div class="btns"><button id="rec">この油滴を記録する</button><button id="new">新しい油滴に替える</button></div>
+    <div class="status no" id="st">電圧を上げて油滴を静止させましょう</div>
+    <div class="rpanel"><span>油滴の半径（顕微鏡で測定済み） <b id="rR">–</b></span><span>この油滴の電荷 q <b id="rQ">–</b></span><span>記録から推定した e <b id="rE">–</b></span></div>
+    <div class="note">つり合いの式 q = mgd/V（極板間隔 d=5 mm、油の密度 886 kg/m³）による計算で、油滴の動きはストークスの空気抵抗を含めて再現しています（速度は見やすく拡大）。測った q が必ず <b>1.6×10⁻¹⁹ C の整数倍</b>になる──電気には最小単位 e があり、それより細かく分けられないことを、ミリカンはこの方法で示しました。</div>
   </div>
 
   <section class="block">
     <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
     <p>こうして測られた<b>電気素量 e</b> は、自然界の基本の数のひとつになりました。電池や回路を流れる電流（＝電子の流れ）から、素粒子1個ずつの電気の測定まで、あらゆる電気の量はこの e を単位にはかられています。</p>
   </section>
+
+  <details class="adv">
+    <summary>発展 ── もっと詳しく知りたい人へ（数式あり）</summary>
+    <div class="advbody">
+<p>電圧 <i>V</i>・極板間隔 <i>d</i> で油滴（質量 <i>m</i>）が静止する条件から電荷が決まります。</p>
+<div class="eq"><i>q</i> = <span class="fr"><span><i>mgd</i></span><span><i>V</i></span></span>,　<i>m</i> = <span class="fr"><span>4</span><span>3</span></span>πr³ρ</div>
+<p>半径 <i>r</i> は電圧を切ったときの落下の終端速度から、ストークスの抵抗則 <i>F</i> = 6πη<i>rv</i> を使って決めます（μmサイズでは平均自由行程の補正＝カニンガム補正が必要で、ミリカンはこれも自分で突き止めました）。何百滴も測ると <i>q</i> は必ず <i>e</i> = 1.602×10<sup>−19</sup> C の整数倍。現代では陽子や中性子を作るクォークが ±e/3, ±2e/3 の電荷を持ちますが、クォークは単独で取り出せない（閉じ込め）ため、<b>自由に観測される電荷の最小単位は今も e</b> です。なお電子の電荷は2019年以降、SI単位系で「定義値」に昇格しています。</p>
+    </div>
+  </details>
 
   <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）1923年物理学賞ページ、一般向け科学史資料。</p>
 
@@ -108,18 +127,61 @@
 </div>
 
 <script>
-var drop=document.getElementById('drop'), dlab=document.getElementById('dlab'),
-    gauge=document.getElementById('gauge'), msg=document.getElementById('msg');
-var btns=document.querySelectorAll('.btns button');
-function pick(n){
-  btns.forEach(function(b){b.classList.toggle('on',+b.dataset.n===n);});
-  var V=(12/n);                       // つり合い電圧 ∝ 1/n
-  var h=V/12*120;
-  gauge.setAttribute('height',h); gauge.setAttribute('y',190-h);
-  drop.setAttribute('cy',115); drop.setAttribute('fill','#7ee787');
-  dlab.textContent = Array(n+1).join('−');
-  dlab.setAttribute('x',170);
-  msg.innerHTML='電子 <b>'+n+'</b> 個 → つり合う電圧 <b>'+V.toFixed(1)+'</b>（電気量 = e × '+n+'）';
+var cv=document.getElementById('cv'),g=cv.getContext('2d'),W=cv.width,H=cv.height;
+var Vs=document.getElementById('V'),st=document.getElementById('st');
+var E0=1.602e-19,RHO=886,GRAV=9.81,DGAP=0.005,ETA=1.82e-5;
+var drop,recs=[];
+function newDrop(){drop={r:(0.45+Math.random()*0.35)*1e-6,n:1+Math.floor(Math.random()*4),y:80};render();}
+document.getElementById('new').addEventListener('click',newDrop);
+document.getElementById('rec').addEventListener('click',function(){
+  var V=+Vs.value;if(V<=0)return;
+  var m=4/3*Math.PI*Math.pow(drop.r,3)*RHO;
+  var qTrue=drop.n*E0,Fe=qTrue*V/DGAP,Fg=m*GRAV;
+  if(Math.abs(Fe-Fg)/Fg>0.03){st.className='status no';st.textContent='まだ動いています ── 静止させてから記録しましょう';return;}
+  var qMeas=m*GRAV*DGAP/V;recs.push(qMeas);newDrop();
+  st.className='status yes';st.textContent='記録しました（'+recs.length+' 滴目）── 新しい油滴で続けましょう';});
+var vy=0;
+function loop(){
+  var V=+Vs.value;document.getElementById('oV').textContent=V+' V';
+  var m=4/3*Math.PI*Math.pow(drop.r,3)*RHO;
+  var q=drop.n*E0,F=q*V/DGAP-m*GRAV;
+  var vterm=F/(6*Math.PI*ETA*drop.r);       // 終端速度 (上向き正)
+  drop.y-=vterm*4e5*0.016;                  // 表示は拡大
+  if(drop.y<44)drop.y=44; if(drop.y>H-64)drop.y=H-64;
+  render();
+  var bal=Math.abs(F)/(m*GRAV);
+  if(V===0){st.className='status no';st.textContent='電圧ゼロ ── 油滴は落ちていく（電圧を上げてみましょう）';}
+  else if(bal<0.03){st.className='status yes';st.textContent='静止した！ つり合いから q = mgd/V が求まる ──「記録」を押そう';}
+  else if(F>0){st.className='status no';st.textContent='電気の力が強すぎて上昇中 ── 電圧を下げる';}
+  else{st.className='status no';st.textContent='まだ重力が勝って落下中 ── 電圧を上げる';}
+  requestAnimationFrame(loop);
 }
-btns.forEach(function(b){b.addEventListener('click',function(){pick(+b.dataset.n);});});
+function render(){
+  g.clearRect(0,0,W,H);g.font='12px sans-serif';
+  // 左: 実験箱
+  g.fillStyle='#ff8a8a';g.fillRect(30,34,330,8);g.fillStyle='#8ab6ff';g.fillRect(30,H-52,330,8);
+  g.fillStyle='#8b93a7';g.fillText('＋極板',34,30);g.fillText('−極板（間隔 d=5mm）',34,H-32);
+  g.fillStyle='#ffd257';g.beginPath();g.arc(195,drop.y,Math.max(4,drop.r*1e7),0,7);g.fill();
+  g.fillStyle='#8b93a7';g.fillText('油滴',210,drop.y+4);
+  document.getElementById('rR').textContent=(drop.r*1e6).toFixed(2)+' μm';
+  var V=+Vs.value,m=4/3*Math.PI*Math.pow(drop.r,3)*RHO;
+  var bal=V>0?Math.abs(drop.n*E0*V/DGAP-m*GRAV)/(m*GRAV):1;
+  document.getElementById('rQ').textContent=(V>0&&bal<0.03)?(m*GRAV*DGAP/V/1e-19).toFixed(2)+'×10⁻¹⁹ C':'（静止させると測定できる）';
+  // 右: 記録チャート
+  var CX0=400,CW=W-CX0-60,CY0=H-50,CH=H-90;
+  g.strokeStyle='#8b93a7';g.beginPath();g.moveTo(CX0,CY0-CH);g.lineTo(CX0,CY0);g.lineTo(CX0+CW,CY0);g.stroke();
+  g.fillStyle='#8b93a7';g.fillText('測った電荷 q (×10⁻¹⁹C)',CX0-6,CY0-CH-8);g.fillText('油滴の番号',CX0+CW-60,CY0+16);
+  var QMAX=8e-19;
+  for(var k=1;k<=4;k++){var yy=CY0-CH*(k*E0)/QMAX;
+    g.strokeStyle='#3a4356';g.setLineDash([3,4]);g.beginPath();g.moveTo(CX0,yy);g.lineTo(CX0+CW,yy);g.stroke();g.setLineDash([]);
+    g.fillStyle='#5c6470';g.fillText(k+'e',CX0+CW+4,yy+4);}
+  recs.forEach(function(q,i){var xx=CX0+14+i*16,yy=CY0-CH*q/QMAX;
+    g.fillStyle='#7ee787';g.beginPath();g.arc(xx,yy,4,0,7);g.fill();});
+  if(recs.length>=2){var eEst=0,cnt=0;
+    recs.forEach(function(q){var n=Math.round(q/E0);if(n>0){eEst+=q/n;cnt++;}});
+    eEst/=cnt;
+    document.getElementById('rE').textContent=(eEst/1e-19).toFixed(3)+'×10⁻¹⁹ C（真値 1.602）';}
+  else document.getElementById('rE').textContent='2滴以上記録すると計算されます';
+}
+Vs.addEventListener('input',function(){});newDrop();loop();
 </script>

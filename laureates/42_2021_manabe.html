@@ -44,6 +44,27 @@
   .pager span{display:block;font-size:.75rem;color:var(--muted)}
   .src{font-size:.82rem;color:var(--muted);margin-top:24px}
   svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+  /* --- 発展セクション（数式あり） --- */
+  details.adv{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:16px;margin-top:22px;overflow:hidden}
+  details.adv summary{cursor:pointer;list-style:none;padding:18px 26px;font-weight:800;font-size:1.05rem;color:var(--accent)}
+  details.adv summary::-webkit-details-marker{display:none}
+  details.adv summary::before{content:"▸ "}
+  details.adv[open] summary::before{content:"▾ "}
+  .advbody{padding:0 26px 22px}
+  .advbody>p:first-child{margin-top:0}
+  .eq{display:block;text-align:center;margin:14px auto;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-family:"Cambria Math",Cambria,Georgia,"Times New Roman",serif;font-size:1.1rem;overflow-x:auto;line-height:2}
+  .eq i{font-style:italic;padding:0 1px}
+  .fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 3px}
+  .fr>span{display:block;padding:0 5px;line-height:1.35}
+  .fr>span:first-child{border-bottom:1.5px solid currentColor}
+  /* --- 定量シミュレーション用コントロール --- */
+  .cpanel{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:4px 26px;max-width:640px;margin:16px auto 0}
+  .cpanel .ctl label{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;font-size:.9rem;margin:8px 0 2px;gap:8px}
+  .cpanel .ctl label output{font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .cpanel .ctl input[type=range]{width:100%;accent-color:var(--accent)}
+  canvas{max-width:100%;height:auto;display:block;border-radius:8px}
+  .rpanel{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;margin-top:12px;font-size:.92rem;color:var(--muted)}
+  .rpanel b{color:var(--ink);font-variant-numeric:tabular-nums}
 </style>
 
 <nav class="topnav">
@@ -71,32 +92,30 @@
 
   <!-- INTERACTIVE -->
   <div class="demo">
-    <h2>やってみよう ── CO₂と地球の温度</h2>
-    <div class="hint">スライダーでCO₂を増やすと、宇宙へ逃げる熱がせき止められ、地球の温度が上がります。</div>
-    <div class="xbox">
-      <svg id="cl" width="440" height="220" viewBox="0 0 440 220" role="img" aria-label="温室効果">
-        <circle cx="150" cy="150" r="55" fill="#3b6ea5"/>
-        <path d="M110,150 a40,40 0 0 1 80,0" fill="#4a8a5a"/>
-        <rect id="ghg" x="60" y="60" width="200" height="14" rx="7" fill="#c2410c" opacity="0.2"/>
-        <text x="160" y="52" fill="#8b93a7" font-size="11" text-anchor="middle">CO₂の層</text>
-        <line x1="330" y1="20" x2="210" y2="120" stroke="#ffe066" stroke-width="3"/>
-        <g id="ir"></g>
-        <rect x="360" y="40" width="26" height="150" rx="13" fill="#26343f"/>
-        <rect id="merc" x="360" y="150" width="26" height="40" rx="13" fill="#ff6b6b"/>
-      </svg>
+    <h2>実験してみよう ── CO₂を増やすと大気の温度分布はどうなる？</h2>
+    <div class="hint">真鍋の1次元「放射対流平衡モデル」を単純化した実験です。CO₂濃度と水蒸気フィードバックの有無を変えて、高さごとの気温の変化を見てみましょう。注目は<b>対流圏（下層）は暖まるのに、成層圏（上層）は逆に冷える</b>こと──温室効果の紛れもない指紋です。</div>
+    <div class="xbox"><canvas id="cv" width="640" height="320"></canvas></div>
+    <div class="cpanel">
+      <div class="ctl"><label>CO₂濃度 <output id="oC">280 ppm</output></label><input id="C" type="range" min="150" max="1200" value="280" step="10"></div>
     </div>
-    <div class="controls">
-      <label for="co2">大気中のCO₂</label>
-      <input id="co2" type="range" min="0" max="100" value="20">
-      <div class="status yes" id="st"></div>
-    </div>
-    <div class="note">※ CO₂が増えるほど、地表から逃げる熱（赤外線）がせき止められ気温が上がります。真鍋のモデルの核心を簡単にした模式図です。</div>
+    <div class="btns"><button id="fb" class="on">水蒸気フィードバック：あり</button></div>
+    <div class="rpanel"><span>放射強制力 ΔF = 5.35 ln(C/280) <b id="rF">–</b></span><span>地表気温の変化 <b id="rT">–</b></span><span>成層圏（高度25 km） <b id="rS">–</b></span></div>
+    <div class="note">地表の応答は ΔT = λ·ΔF（λ は気候感度パラメータ。水蒸気フィードバックありで約0.65、なしで約0.35 K/(W·m⁻²)：真鍋・ウェザラルド1967年の「CO₂倍増で+2.4 ℃／+1.3 ℃」を再現する値）。成層圏の寒冷化も同モデルの帰結を簡略化して描いています。「暖まるだけなら太陽活動でも説明できるが、<b>下が暖まり上が冷えるのはCO₂しかない</b>」──この指紋は実際の観測でも確認されており、真鍋のモデルの予言どおりでした。</div>
   </div>
 
   <section class="block">
     <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
     <p>真鍋の気候モデルは、いまの<b>地球温暖化予測</b>の原型です。気候変動を「政治的な意見」ではなく<b>物理で示せる科学</b>にしたことが評価されました。同時受賞のパリシは、乱れた複雑な系にひそむ規則を見いだす理論で知られます。地球の未来を考えるうえで、欠かせない研究です。</p>
   </section>
+
+  <details class="adv">
+    <summary>発展 ── もっと詳しく知りたい人へ（数式あり）</summary>
+    <div class="advbody">
+<p>真鍋・ウェザラルド（1967）の1次元放射対流平衡モデルは、放射伝達＋対流調節（気温減率6.5 K/km を超えたら混ぜ直す）＋固定相対湿度という骨格で、CO₂倍増の平衡応答を計算しました。</p>
+<div class="eq">Δ<i>F</i> = 5.35 ln<span class="fr"><span><i>C</i></span><span><i>C</i><sub>0</sub></span></span> W/m²,　Δ<i>T</i><sub>2×CO₂</sub> ≈ +2.4 ℃（水蒸気FBあり）／+1.3 ℃（なし）</div>
+<p>放射強制力が濃度の<b>対数</b>なのは吸収帯の飽和のため──「すでに飽和しているから増やしても効かない」という古い反論は、帯の翼と上層大気で吸収が増え続けることを解いた放射計算で決着しました。暖まると水蒸気（それ自体が温室効果気体）が増えて増幅する正のフィードバックが約2倍を稼ぎます。モデルの際立った予言が<b>成層圏の寒冷化</b>：CO₂は対流圏では毛布、成層圏では放熱フィンとして働くため、太陽が原因なら上下とも暖まるはずのところ、観測は「下が暖まり上が冷える」──人為起源の指紋です。共同受賞のハッセルマンは、日々の天気のランダムさから気候のゆっくりした応答が生まれる確率モデルと、観測データから人為起源の信号を統計的に検出する「指紋法」を構築しました。現代のIPCCの気候感度評価（2.5〜4 ℃）の中心に、いまも真鍋の数字が座っています。</p>
+    </div>
+  </details>
 
   <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）2021年物理学賞ページ、一般向け科学史資料。</p>
 
@@ -107,20 +126,60 @@
 </div>
 
 <script>
-var co2=document.getElementById('co2'), ghg=document.getElementById('ghg'),
-    merc=document.getElementById('merc'), ir=document.getElementById('ir'), st=document.getElementById('st');
-var NS='http://www.w3.org/2000/svg';
-function render(){ var c=+co2.value/100;
-  ghg.setAttribute('opacity',(0.15+0.75*c).toFixed(2));
-  var h=30+c*120; merc.setAttribute('height',h); merc.setAttribute('y',190-h);
-  ir.innerHTML='';
-  for(var i=0;i<5;i++){ var x=110+i*20, blocked=(i/5)<c;
-    var l=document.createElementNS(NS,'line'); l.setAttribute('x1',x); l.setAttribute('y1',120);
-    l.setAttribute('x2',x); l.setAttribute('y2',blocked?74:20);
-    l.setAttribute('stroke',blocked?'#c2410c':'#ff9a8a'); l.setAttribute('stroke-width','2');
-    l.setAttribute('stroke-dasharray','3 3'); ir.appendChild(l); }
-  st.className='status '+(c>0.6?'no':'yes');
-  st.textContent='CO₂ '+(c<0.3?'少':c<0.7?'中':'多')+'：地球の温度 '+(c<0.3?'低め':c<0.7?'上昇中':'高い（熱がこもる）');
+var cv=document.getElementById('cv'),g=cv.getContext('2d'),W=cv.width,H=cv.height;
+var Cs=document.getElementById('C'),fbBtn=document.getElementById('fb'),fb=true;
+fbBtn.addEventListener('click',function(){fb=!fb;
+  fbBtn.textContent='水蒸気フィードバック：'+(fb?'あり':'なし');
+  fbBtn.classList.toggle('on',fb);render();});
+function profile(C){  // 高度z[km] → 気温[℃]
+  var dF=5.35*Math.log(C/280);
+  var dTs=(fb?0.65:0.35)*dF;
+  var dTst=-4.2*Math.log(C/280)/Math.LN2;   // 成層圏の寒冷化（簡略）
+  return function(z){
+    if(z<=12)return 15+dTs-6.5*z*(1+ -0*(0)); // 対流圏: 湿潤断熱風の固定減率
+    var base=15+dTs-6.5*12;
+    var f=Math.min(1,(z-12)/8);
+    return base+f*dTst+(z>20?(z-20)*0.6:0);   // 成層圏: オゾン加熱でゆるく上昇
+  };}
+function render(){
+  var C=+Cs.value;document.getElementById('oC').textContent=C+' ppm';
+  g.clearRect(0,0,W,H);g.font='12px sans-serif';
+  var X0=70,Y0=H-46,PWx=W-260,PHx=H-86,TMIN=-80,TMAX=40,ZMAX=35;
+  function tx(T){return X0+PWx*(T-TMIN)/(TMAX-TMIN);}
+  function zy(z){return Y0-PHx*z/ZMAX;}
+  // 格子と軸
+  g.strokeStyle='#232b3d';g.beginPath();
+  for(var T=-80;T<=40;T+=20){g.moveTo(tx(T),Y0);g.lineTo(tx(T),Y0-PHx);}
+  for(var z=0;z<=35;z+=5){g.moveTo(X0,zy(z));g.lineTo(X0+PWx,zy(z));}
+  g.stroke();
+  g.strokeStyle='#8b93a7';g.beginPath();g.moveTo(X0,Y0-PHx);g.lineTo(X0,Y0);g.lineTo(X0+PWx,Y0);g.stroke();
+  g.fillStyle='#8b93a7';
+  for(T=-80;T<=40;T+=40)g.fillText(T+'℃',tx(T)-12,Y0+16);
+  for(z=0;z<=35;z+=10)g.fillText(z+'km',X0-38,zy(z)+4);
+  g.fillText('気温',X0+PWx/2-12,H-6);
+  // 対流圏/成層圏の帯
+  g.fillStyle='rgba(37,99,235,0.08)';g.fillRect(X0,zy(35),PWx,zy(12)-zy(35));
+  g.fillStyle='rgba(22,163,74,0.08)';g.fillRect(X0,zy(12),PWx,zy(0)-zy(12));
+  g.fillStyle='#5c6470';g.fillText('成層圏',X0+PWx-56,zy(28));g.fillText('対流圏',X0+PWx-56,zy(5));
+  // 基準(280ppm) 破線
+  var p0=profile(280),p1=profile(C);
+  g.strokeStyle='#8b93a7';g.setLineDash([5,4]);g.lineWidth=2;g.beginPath();
+  for(var i=0;i<=100;i++){var zz=ZMAX*i/100,xx=tx(p0(zz)),yy=zy(zz);
+    if(i===0)g.moveTo(xx,yy);else g.lineTo(xx,yy);}
+  g.stroke();g.setLineDash([]);
+  g.strokeStyle='#ff9a8a';g.lineWidth=2.6;g.beginPath();
+  for(i=0;i<=100;i++){var z2=ZMAX*i/100,x2=tx(p1(z2)),y2=zy(z2);
+    if(i===0)g.moveTo(x2,y2);else g.lineTo(x2,y2);}
+  g.stroke();g.lineWidth=1;
+  g.fillStyle='#8b93a7';g.fillText('- - - 産業革命前（280 ppm）',X0+PWx+14,60);
+  g.fillStyle='#ff9a8a';g.fillText('── いまの設定（'+C+' ppm）',X0+PWx+14,80);
+  g.fillStyle='#8b93a7';g.fillText('下は暖まり',X0+PWx+14,120);
+  g.fillText('上は冷える ──',X0+PWx+14,138);
+  g.fillText('CO₂の「指紋」',X0+PWx+14,156);
+  var dF=5.35*Math.log(C/280),dTs=(fb?0.65:0.35)*dF,dSt=p1(25)-p0(25);
+  document.getElementById('rF').textContent=(dF>=0?'+':'')+dF.toFixed(2)+' W/m²';
+  document.getElementById('rT').textContent=(dTs>=0?'+':'')+dTs.toFixed(2)+' ℃';
+  document.getElementById('rS').textContent=(dSt>=0?'+':'')+dSt.toFixed(2)+' ℃';
 }
-co2.addEventListener('input',render); render();
+Cs.addEventListener('input',render);render();
 </script>

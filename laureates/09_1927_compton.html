@@ -44,6 +44,27 @@
   .pager span{display:block;font-size:.75rem;color:var(--muted)}
   .src{font-size:.82rem;color:var(--muted);margin-top:24px}
   svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+  /* --- 発展セクション（数式あり） --- */
+  details.adv{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:16px;margin-top:22px;overflow:hidden}
+  details.adv summary{cursor:pointer;list-style:none;padding:18px 26px;font-weight:800;font-size:1.05rem;color:var(--accent)}
+  details.adv summary::-webkit-details-marker{display:none}
+  details.adv summary::before{content:"▸ "}
+  details.adv[open] summary::before{content:"▾ "}
+  .advbody{padding:0 26px 22px}
+  .advbody>p:first-child{margin-top:0}
+  .eq{display:block;text-align:center;margin:14px auto;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-family:"Cambria Math",Cambria,Georgia,"Times New Roman",serif;font-size:1.1rem;overflow-x:auto;line-height:2}
+  .eq i{font-style:italic;padding:0 1px}
+  .fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 3px}
+  .fr>span{display:block;padding:0 5px;line-height:1.35}
+  .fr>span:first-child{border-bottom:1.5px solid currentColor}
+  /* --- 定量シミュレーション用コントロール --- */
+  .cpanel{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:4px 26px;max-width:640px;margin:16px auto 0}
+  .cpanel .ctl label{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;font-size:.9rem;margin:8px 0 2px;gap:8px}
+  .cpanel .ctl label output{font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .cpanel .ctl input[type=range]{width:100%;accent-color:var(--accent)}
+  canvas{max-width:100%;height:auto;display:block;border-radius:8px}
+  .rpanel{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;margin-top:12px;font-size:.92rem;color:var(--muted)}
+  .rpanel b{color:var(--ink);font-variant-numeric:tabular-nums}
 </style>
 
 <nav class="topnav">
@@ -71,30 +92,30 @@
 
   <!-- INTERACTIVE -->
   <div class="demo">
-    <h2>やってみよう ── X線と電子の玉つき</h2>
-    <div class="hint">スライダーで散乱の角度を変えます。大きく曲がるほど、はね返った光は波長がのびて赤っぽくなります。</div>
-    <div class="xbox">
-      <svg id="cp" width="480" height="230" viewBox="0 0 480 230" role="img" aria-label="コンプトン散乱">
-        <line x1="20" y1="120" x2="230" y2="120" stroke="#c4b5fd" stroke-width="5" stroke-linecap="round"/>
-        <text x="30" y="108" fill="#c4b5fd" font-size="12">入ってくるX線</text>
-        <circle id="etarget" cx="230" cy="120" r="9" fill="#7ee787"/>
-        <text x="230" y="150" fill="#8b93a7" font-size="11" text-anchor="middle">電子</text>
-        <line id="outp" x1="230" y1="120" x2="230" y2="120" stroke="#ff9a8a" stroke-width="5" stroke-linecap="round"/>
-        <line id="oute" x1="230" y1="120" x2="230" y2="120" stroke="#7ee787" stroke-width="3" stroke-linecap="round" stroke-dasharray="4 4"/>
-      </svg>
+    <h2>実験してみよう ── X線を電子にぶつけて「粒」を確かめる</h2>
+    <div class="hint">X線の光子を電子に当てて、散乱角 θ を変えながら散乱後の波長を測ります。光が波なら波長は変わらないはず。でも粒（光子）なら、ビリヤードのように電子へエネルギーを渡すぶん<b>波長が伸びる</b>はずです。</div>
+    <div class="xbox"><canvas id="cv" width="640" height="300"></canvas></div>
+    <div class="cpanel">
+      <div class="ctl"><label>散乱角 θ <output id="oA">90°</output></label><input id="A" type="range" min="0" max="180" value="90"></div>
+      <div class="ctl"><label>入射X線の波長 λ <output id="oL">7.1 pm</output></label><input id="L" type="range" min="20" max="200" value="71"></div>
     </div>
-    <div class="controls">
-      <label for="ang">散乱の角度</label>
-      <input id="ang" type="range" min="10" max="80" value="35">
-      <div class="readout" id="msg"></div>
-    </div>
-    <div class="note">※ 光が電子に勢い（運動量）を渡すぶん、はね返った光はエネルギーが減って波長がのびます。玉つきと同じ考え方でよい、という模式図です。</div>
+    <div class="rpanel"><span>波長ののび Δλ <b id="rD">–</b></span><span>散乱後の波長 λ′ <b id="rL2">–</b></span><span>光子のエネルギー <b id="rE">–</b></span><span>電子がもらう運動エネルギー <b id="rT">–</b></span></div>
+    <div class="note">コンプトンの式 <b>Δλ = (h/m<sub>e</sub>c)(1−cosθ)</b> の正確な計算です。h/m<sub>e</sub>c = 2.43 pm（コンプトン波長）は光子・電子の相対論的な衝突運動学だけから決まり、入射波長にはよりません。θ=90°でちょうど 2.43 pm 伸びること、λ=7.1 pm（モリブデンKα線）はコンプトンが実際に使った値であることも試してみてください。電子の向きは運動量保存から計算しています。</div>
   </div>
 
   <section class="block">
     <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
     <p>コンプトン効果は「光は波でもあり粒でもある」という量子の考えを決定づけました。この現象は、<b>レントゲンやCTの画像の見え方</b>、<b>放射線の物質への影響</b>、宇宙から届く高エネルギーの光（ガンマ線）の観測などで、いまも欠かせない基礎になっています。</p>
   </section>
+
+  <details class="adv">
+    <summary>発展 ── もっと詳しく知りたい人へ（数式あり）</summary>
+    <div class="advbody">
+<p>光子（エネルギー <i>hν</i>、運動量 <i>h</i>/λ）と静止電子の衝突に、相対論的なエネルギー・運動量保存則を適用すると、散乱波長のずれが導かれます。</p>
+<div class="eq">Δλ = <span class="fr"><span><i>h</i></span><span><i>m</i><sub>e</sub><i>c</i></span></span>(1 − cos θ),　<span class="fr"><span><i>h</i></span><span><i>m</i><sub>e</sub><i>c</i></span></span> = 2.43 pm（コンプトン波長）</div>
+<p>ずれが入射波長によらず角度だけで決まる点が「粒子どうしの衝突」の署名です（波の散乱＝トムソン散乱では波長は変わりません）。Δλ が相対的に効くのは λ がコンプトン波長と同程度のとき、つまり<b>硬X線・γ線でだけ顕著</b>になる──可視光で誰も気づかなかった理由です。逆に高エネルギー電子が低エネルギー光子を蹴り上げる<b>逆コンプトン散乱</b>は、宇宙で銀河団の熱いガスがCMB（24番）を歪ませるスニヤエフ・ゼルドビッチ効果などとして観測され、現代天文学の道具になっています。</p>
+    </div>
+  </details>
 
   <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）1927年物理学賞ページ、一般向け科学史資料。</p>
 
@@ -105,17 +126,56 @@
 </div>
 
 <script>
-var ang=document.getElementById('ang'), outp=document.getElementById('outp'),
-    oute=document.getElementById('oute'), msg=document.getElementById('msg');
-var ex=230, ey=120, L=180;
+var cv=document.getElementById('cv'),g=cv.getContext('2d'),W=cv.width,H=cv.height;
+var As=document.getElementById('A'),Ls=document.getElementById('L');
+var LC=2.4263;  // pm
 function render(){
-  var th=+ang.value*Math.PI/180;
-  outp.setAttribute('x2',ex+L*Math.cos(th)); outp.setAttribute('y2',ey-L*Math.sin(th));
-  var pe=th*0.45; oute.setAttribute('x2',ex+120*Math.cos(pe)); oute.setAttribute('y2',ey+120*Math.sin(pe));
-  var f=(+ang.value-10)/70;                    // 0..1 曲がるほど赤へ
-  var hue=270-f*250;                            // violet -> red
-  outp.setAttribute('stroke','hsl('+hue+',85%,65%)');
-  msg.innerHTML='散乱角 <b>'+ang.value+'°</b>：はね返った光は波長が'+(f<0.4?'少し':'大きく')+'のびて赤っぽく（電子に勢いを渡した）';
+  var th=+As.value*Math.PI/180,lam=+Ls.value/10;
+  document.getElementById('oA').textContent=As.value+'°';
+  document.getElementById('oL').textContent=lam.toFixed(1)+' pm';
+  var dl=LC*(1-Math.cos(th)),lam2=lam+dl;
+  var E=1239.84/lam,E2=1239.84/lam2;            // keV (hc=1239.84 keV·pm)
+  g.clearRect(0,0,W,H);g.font='12px sans-serif';
+  // 左: 散乱のベクトル図
+  var ox=170,oy=H/2;
+  g.strokeStyle='#3a4356';g.beginPath();g.arc(ox,oy,8,0,7);g.stroke();
+  g.fillStyle='#8ab6ff';g.beginPath();g.arc(ox,oy,6,0,7);g.fill();
+  g.fillStyle='#8b93a7';g.fillText('電子',ox-12,oy+24);
+  // 入射光子
+  g.strokeStyle='#d2a8ff';g.lineWidth=3;g.beginPath();g.moveTo(30,oy);g.lineTo(ox-10,oy);g.stroke();
+  g.fillStyle='#d2a8ff';g.fillText('入射X線 '+E.toFixed(0)+' keV',30,oy-12);
+  // 散乱光子 (長さ∝運動量 1/λ)
+  var Lin=110,Lout=Lin*lam/lam2;
+  var sx=ox+Lout*Math.cos(th),sy=oy-Lout*Math.sin(th);
+  g.strokeStyle='#ff9a8a';g.beginPath();g.moveTo(ox,oy);g.lineTo(sx,sy);g.stroke();
+  g.fillStyle='#ff9a8a';g.fillText('散乱X線 '+E2.toFixed(0)+' keV',sx-30,sy-10);
+  // 電子の反跳（運動量保存: p_e = p_in − p_out）
+  var pex=Lin-Lout*Math.cos(th),pey=Lout*Math.sin(th);
+  var pl=Math.sqrt(pex*pex+pey*pey);
+  if(pl>2){g.strokeStyle='#7ee787';g.beginPath();g.moveTo(ox,oy);g.lineTo(ox+pex,oy+pey);g.stroke();
+    g.fillStyle='#7ee787';g.fillText('反跳電子',ox+pex-16,oy+pey+16);}
+  g.lineWidth=1;
+  // 角度弧
+  g.strokeStyle='#8b93a7';g.beginPath();g.arc(ox,oy,26,0,-th,true);g.stroke();
+  g.fillStyle='#8b93a7';g.fillText('θ',ox+32*Math.cos(th/2),oy-32*Math.sin(th/2)+4);
+  // 右: Δλ vs θ 曲線
+  var PX0=400,PW=W-PX0-40,PY0=H-40,PH=H-80;
+  g.strokeStyle='#8b93a7';g.beginPath();g.moveTo(PX0,PY0-PH);g.lineTo(PX0,PY0);g.lineTo(PX0+PW,PY0);g.stroke();
+  g.fillStyle='#8b93a7';g.fillText('Δλ (pm)',PX0-4,PY0-PH-8);g.fillText('θ',PX0+PW+8,PY0+4);
+  g.fillText('0°',PX0-6,PY0+16);g.fillText('90°',PX0+PW/2-8,PY0+16);g.fillText('180°',PX0+PW-14,PY0+16);
+  [LC,2*LC].forEach(function(v,i){var yy=PY0-PH*v/(2*LC*1.1);
+    g.strokeStyle='#3a4356';g.setLineDash([3,4]);g.beginPath();g.moveTo(PX0,yy);g.lineTo(PX0+PW,yy);g.stroke();g.setLineDash([]);
+    g.fillStyle='#5c6470';g.fillText((i+1)+'×2.43',PX0+PW-40,yy-4);});
+  g.strokeStyle='#ffb454';g.lineWidth=2.5;g.beginPath();
+  for(var px=0;px<=PW;px++){var t2=Math.PI*px/PW,v=LC*(1-Math.cos(t2));
+    var yy2=PY0-PH*v/(2*LC*1.1);if(px===0)g.moveTo(PX0,yy2);else g.lineTo(PX0+px,yy2);}
+  g.stroke();g.lineWidth=1;
+  var mx=PX0+PW*(+As.value)/180,my=PY0-PH*dl/(2*LC*1.1);
+  g.fillStyle='#ffd257';g.beginPath();g.arc(mx,my,6,0,7);g.fill();
+  document.getElementById('rD').textContent=dl.toFixed(2)+' pm';
+  document.getElementById('rL2').textContent=lam2.toFixed(2)+' pm';
+  document.getElementById('rE').textContent=E.toFixed(0)+' keV → '+E2.toFixed(0)+' keV';
+  document.getElementById('rT').textContent=(E-E2).toFixed(1)+' keV';
 }
-ang.addEventListener('input',render); render();
+[As,Ls].forEach(function(s){s.addEventListener('input',render);});render();
 </script>

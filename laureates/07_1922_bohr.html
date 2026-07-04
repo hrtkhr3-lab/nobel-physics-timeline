@@ -44,6 +44,27 @@
   .pager span{display:block;font-size:.75rem;color:var(--muted)}
   .src{font-size:.82rem;color:var(--muted);margin-top:24px}
   svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+  /* --- 発展セクション（数式あり） --- */
+  details.adv{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:16px;margin-top:22px;overflow:hidden}
+  details.adv summary{cursor:pointer;list-style:none;padding:18px 26px;font-weight:800;font-size:1.05rem;color:var(--accent)}
+  details.adv summary::-webkit-details-marker{display:none}
+  details.adv summary::before{content:"▸ "}
+  details.adv[open] summary::before{content:"▾ "}
+  .advbody{padding:0 26px 22px}
+  .advbody>p:first-child{margin-top:0}
+  .eq{display:block;text-align:center;margin:14px auto;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-family:"Cambria Math",Cambria,Georgia,"Times New Roman",serif;font-size:1.1rem;overflow-x:auto;line-height:2}
+  .eq i{font-style:italic;padding:0 1px}
+  .fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 3px}
+  .fr>span{display:block;padding:0 5px;line-height:1.35}
+  .fr>span:first-child{border-bottom:1.5px solid currentColor}
+  /* --- 定量シミュレーション用コントロール --- */
+  .cpanel{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:4px 26px;max-width:640px;margin:16px auto 0}
+  .cpanel .ctl label{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;font-size:.9rem;margin:8px 0 2px;gap:8px}
+  .cpanel .ctl label output{font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .cpanel .ctl input[type=range]{width:100%;accent-color:var(--accent)}
+  canvas{max-width:100%;height:auto;display:block;border-radius:8px}
+  .rpanel{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;margin-top:12px;font-size:.92rem;color:var(--muted)}
+  .rpanel b{color:var(--ink);font-variant-numeric:tabular-nums}
 </style>
 
 <nav class="topnav">
@@ -71,32 +92,31 @@
 
   <!-- INTERACTIVE -->
   <div class="demo">
-    <h2>やってみよう ── 電子を飛び移らせる</h2>
-    <div class="hint">ボタンで電子の軌道を選びます。外側から内側へ移ると、その差のぶんだけ色のついた光が飛び出します。</div>
-    <div class="xbox">
-      <svg id="atom" width="360" height="240" viewBox="0 0 360 240" role="img" aria-label="ボーアの原子模型">
-        <circle cx="140" cy="120" r="38" fill="none" stroke="#3a4356"/>
-        <circle cx="140" cy="120" r="68" fill="none" stroke="#3a4356"/>
-        <circle cx="140" cy="120" r="98" fill="none" stroke="#3a4356"/>
-        <circle cx="140" cy="120" r="10" fill="#ff8a8a"/>
-        <text x="140" y="228" fill="#8b93a7" font-size="11" text-anchor="middle">原子核</text>
-        <circle id="elec" cx="140" cy="52" r="8" fill="#c4b5fd"/>
-        <circle id="photon" cx="0" cy="0" r="7" opacity="0"/>
-      </svg>
+    <h2>実験してみよう ── 電子を飛び移らせてスペクトルを作る</h2>
+    <div class="hint">水素原子で、電子が「出発する準位 n<sub>i</sub>」から「落ち着く準位 n<sub>f</sub>」へ飛び移るときに出る光を計算します。n<sub>f</sub>=2 に落ちる系列（バルマー系列）だけが可視光になることを確かめましょう。</div>
+    <div class="xbox"><canvas id="cv" width="640" height="330"></canvas></div>
+    <div class="cpanel">
+      <div class="ctl"><label>出発の準位 n<sub>i</sub> <output id="oNi">3</output></label><input id="Ni" type="range" min="2" max="7" value="3"></div>
+      <div class="ctl"><label>落ち着く準位 n<sub>f</sub> <output id="oNf">2</output></label><input id="Nf" type="range" min="1" max="4" value="2"></div>
     </div>
-    <div class="btns">
-      <button data-n="1">内側 n=1</button>
-      <button data-n="2">n=2</button>
-      <button data-n="3">外側 n=3</button>
-    </div>
-    <div class="readout" id="msg">電子はいま <b>n=3</b> にいます</div>
-    <div class="note">※ 外側→内側で光を出し（放出）、内側→外側は光を吸って移ります（吸収）。落差が大きいほど紫、小さいほど赤い光。模式図です。</div>
+    <div class="rpanel"><span>エネルギー差 ΔE <b id="rE">–</b></span><span>光の波長 λ <b id="rL">–</b></span><span>系列 <b id="rS">–</b></span></div>
+    <div class="note">E<sub>n</sub> = −13.6/n² eV、1/λ = R(1/n<sub>f</sub>² − 1/n<sub>i</sub>²) という水素原子の実式です。n<sub>f</sub>=1 はライマン系列（紫外線）、n<sub>f</sub>=2 はバルマー系列（可視光：Hα 656 nm の赤い線など）、n<sub>f</sub>=3 はパッシェン系列（赤外線）。実際の水素放電管のスペクトルがこの式と小数点以下まで一致したことが、ボーア模型の勝利でした。</div>
   </div>
 
   <section class="block">
     <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
     <p>この「エネルギー準位」の考えは、<b>蛍光灯・LED・レーザー・ネオンサイン</b>の発光や、星や銀河の成分を光の色で見分ける方法（分光）まで、光と物質のかかわりすべての基礎になりました。のちに量子力学によって、より正確な姿へと磨かれていきます。</p>
   </section>
+
+  <details class="adv">
+    <summary>発展 ── もっと詳しく知りたい人へ（数式あり）</summary>
+    <div class="advbody">
+<p>ボーア模型は「角運動量が ħ の整数倍に量子化される」という仮定から出発します。</p>
+<div class="eq"><i>mvr</i> = <i>n</i>ħ　→　<i>E</i><sub>n</sub> = −<span class="fr"><span>13.6 eV</span><span><i>n</i>²</span></span>,　<span class="fr"><span>1</span><span>λ</span></span> = <i>R</i><span
+>(</span><span class="fr"><span>1</span><span><i>n</i><sub>f</sub>²</span></span> − <span class="fr"><span>1</span><span><i>n</i><sub>i</sub>²</span></span><span>)</span></div>
+<p>リュードベリ定数 <i>R</i> = 1.097×10<sup>7</sup> m<sup>−1</sup> が基本定数（<i>m</i>, <i>e</i>, ħ, <i>c</i>）だけから正しく出てきたことが、この模型の説得力でした。ただしボーア模型が厳密に成り立つのは電子1個の水素型原子だけで、「なぜその軌道では光を出さないのか」には答えられません。10年後、電子の波動性（10番）に基づく量子力学（11・12番）が「軌道」を「定在波＝軌道関数（オービタル）」に置き換え、ボーア模型は正しい極限（対応原理：大きな n で古典力学に一致）を持つ近似理論として位置づけられました。</p>
+    </div>
+  </details>
 
   <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）1922年物理学賞ページ、一般向け科学史資料。</p>
 
@@ -107,27 +127,60 @@
 </div>
 
 <script>
-var elec=document.getElementById('elec'), photon=document.getElementById('photon'), msg=document.getElementById('msg');
-var btns=document.querySelectorAll('.btns button');
-var R={1:38,2:68,3:98}, cx=140, cy=120, cur=3;
-function hueFor(gap){return Math.max(0,Math.min(285,(gap-0.1)/0.8*285));}
-function setElec(n){elec.setAttribute('cy',cy-R[n]);}
-var anim=null;
-function go(n){
-  btns.forEach(function(b){b.classList.toggle('on',+b.dataset.n===n);});
-  if(n<cur){ // 放出
-    var gap=(1/(n*n))-(1/(cur*cur)); var col='hsl('+hueFor(gap)+',85%,62%)';
-    msg.innerHTML='<b>n='+cur+' → n='+n+'</b>：光を放出！（'+(gap>0.5?'青〜紫':'赤っぽい')+'光）';
-    if(anim)cancelAnimationFrame(anim); var px=cx, t0=null;
-    photon.setAttribute('fill',col); photon.setAttribute('cy',cy); photon.setAttribute('opacity','1');
-    function step(){px+=5; photon.setAttribute('cx',px);
-      photon.setAttribute('opacity',Math.max(0,1-(px-cx)/220).toFixed(2));
-      if(px<cx+220)anim=requestAnimationFrame(step); }
-    photon.setAttribute('cx',cx); step();
-  }else if(n>cur){ msg.innerHTML='<b>n='+cur+' → n='+n+'</b>：光を吸って外側へ（吸収）'; photon.setAttribute('opacity','0');
-  }else{ msg.innerHTML='電子はいま <b>n='+n+'</b> にいます'; }
-  cur=n; setElec(n);
+var cv=document.getElementById('cv'),g=cv.getContext('2d'),W=cv.width,H=cv.height;
+var Ni=document.getElementById('Ni'),Nf=document.getElementById('Nf');
+function eLev(n){return -13.6/(n*n);}
+function eY(E){return 40+(H-120)*(E-(-13.6))/13.6*(-1)+(H-120);} // map: E=0→y=40, E=-13.6→y=H-80
+function levY(E){return 40+(0-E)/13.6*(H-120);}
+function wl2rgb(w){var r=0,gg=0,b=0;
+  if(w<380)return [150,150,170];
+  if(w<440){r=-(w-440)/60;b=1;}else if(w<490){gg=(w-440)/50;b=1;}
+  else if(w<510){gg=1;b=-(w-510)/20;}else if(w<580){r=(w-510)/70;gg=1;}
+  else if(w<645){r=1;gg=-(w-645)/65;}else if(w<=780){r=1;}
+  else return [180,140,140];
+  return [Math.round(255*r),Math.round(255*gg),Math.round(255*b)];}
+function render(){
+  var ni=+Ni.value,nf=+Nf.value;
+  document.getElementById('oNi').textContent=ni;document.getElementById('oNf').textContent=nf;
+  g.clearRect(0,0,W,H);g.font='12px sans-serif';
+  if(nf>=ni){g.fillStyle='#ffd257';g.fillText('n(f) は n(i) より小さくしてください（外→内 に落ちるとき光が出ます）',60,H/2);
+    document.getElementById('rE').textContent='–';document.getElementById('rL').textContent='–';
+    document.getElementById('rS').textContent='–';return;}
+  // 左: 準位図
+  var LX0=60,LX1=280;
+  for(var n=1;n<=7;n++){var y=levY(eLev(n));
+    g.strokeStyle=(n===ni||n===nf)?'#ffd257':'#3a4356';g.lineWidth=(n===ni||n===nf)?2.5:1.5;
+    g.beginPath();g.moveTo(LX0,y);g.lineTo(LX1,y);g.stroke();
+    g.fillStyle='#8b93a7';g.fillText('n='+n+'  ('+eLev(n).toFixed(2)+' eV)',LX1+6,y+4);}
+  g.lineWidth=1;
+  var dE=eLev(ni)-eLev(nf),lam=1239.84/dE;
+  var c=wl2rgb(lam),col='rgb('+c[0]+','+c[1]+','+c[2]+')';
+  // 矢印
+  var ax=(LX0+LX1)/2,y1=levY(eLev(ni)),y2=levY(eLev(nf));
+  g.strokeStyle=col;g.lineWidth=3;g.beginPath();g.moveTo(ax,y1);g.lineTo(ax,y2-8);g.stroke();
+  g.beginPath();g.moveTo(ax,y2);g.lineTo(ax-6,y2-10);g.lineTo(ax+6,y2-10);g.closePath();g.fillStyle=col;g.fill();
+  // 波線の光子
+  g.strokeStyle=col;g.lineWidth=2;g.beginPath();
+  for(var i=0;i<=40;i++){var px=ax+20+i*1.8,py=(y1+y2)/2-14*Math.sin(i/3);
+    if(i===0)g.moveTo(px,py);else g.lineTo(px,py);}
+  g.stroke();g.lineWidth=1;
+  // 右下: スペクトル帯 (対数 90..2000nm)
+  var SX0=60,SW=W-120,SY=H-46;
+  var l0=Math.log(90),l1=Math.log(2000);
+  function sx(l){return SX0+SW*(Math.log(l)-l0)/(l1-l0);}
+  for(var px2=0;px2<=SW;px2++){var lam2=Math.exp(l0+(l1-l0)*px2/SW);
+    var cc=wl2rgb(lam2);g.fillStyle=(lam2<380||lam2>780)?'#20242e':'rgb('+cc[0]+','+cc[1]+','+cc[2]+')';
+    g.fillRect(SX0+px2,SY,1.5,20);}
+  g.fillStyle='#8b93a7';
+  [100,200,400,700,1000,2000].forEach(function(l){g.fillText(l,sx(l)-10,SY+34);});
+  g.fillText('紫外線',sx(150)-16,SY-6);g.fillText('可視光',sx(520)-16,SY-6);g.fillText('赤外線',sx(1300)-16,SY-6);
+  g.fillText('波長 (nm・対数目盛)',SX0+SW-120,SY+34);
+  var lx=sx(Math.max(90,Math.min(2000,lam)));
+  g.strokeStyle=col;g.lineWidth=3;g.beginPath();g.moveTo(lx,SY-4);g.lineTo(lx,SY+24);g.stroke();g.lineWidth=1;
+  document.getElementById('rE').textContent=dE.toFixed(2)+' eV';
+  document.getElementById('rL').textContent=lam.toFixed(0)+' nm';
+  var ser=nf===1?'ライマン系列（紫外線）':nf===2?'バルマー系列（可視光）':nf===3?'パッシェン系列（赤外線）':'ブラケット系列（赤外線）';
+  document.getElementById('rS').textContent=ser;
 }
-btns.forEach(function(b){b.addEventListener('click',function(){go(+b.dataset.n);});});
-setElec(3);
+[Ni,Nf].forEach(function(s){s.addEventListener('input',render);});render();
 </script>

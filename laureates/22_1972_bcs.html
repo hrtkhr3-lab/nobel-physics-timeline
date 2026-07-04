@@ -44,6 +44,27 @@
   .pager span{display:block;font-size:.75rem;color:var(--muted)}
   .src{font-size:.82rem;color:var(--muted);margin-top:24px}
   svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+  /* --- 発展セクション（数式あり） --- */
+  details.adv{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:16px;margin-top:22px;overflow:hidden}
+  details.adv summary{cursor:pointer;list-style:none;padding:18px 26px;font-weight:800;font-size:1.05rem;color:var(--accent)}
+  details.adv summary::-webkit-details-marker{display:none}
+  details.adv summary::before{content:"▸ "}
+  details.adv[open] summary::before{content:"▾ "}
+  .advbody{padding:0 26px 22px}
+  .advbody>p:first-child{margin-top:0}
+  .eq{display:block;text-align:center;margin:14px auto;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-family:"Cambria Math",Cambria,Georgia,"Times New Roman",serif;font-size:1.1rem;overflow-x:auto;line-height:2}
+  .eq i{font-style:italic;padding:0 1px}
+  .fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 3px}
+  .fr>span{display:block;padding:0 5px;line-height:1.35}
+  .fr>span:first-child{border-bottom:1.5px solid currentColor}
+  /* --- 定量シミュレーション用コントロール --- */
+  .cpanel{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:4px 26px;max-width:640px;margin:16px auto 0}
+  .cpanel .ctl label{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;font-size:.9rem;margin:8px 0 2px;gap:8px}
+  .cpanel .ctl label output{font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .cpanel .ctl input[type=range]{width:100%;accent-color:var(--accent)}
+  canvas{max-width:100%;height:auto;display:block;border-radius:8px}
+  .rpanel{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;margin-top:12px;font-size:.92rem;color:var(--muted)}
+  .rpanel b{color:var(--ink);font-variant-numeric:tabular-nums}
 </style>
 
 <nav class="topnav">
@@ -88,6 +109,15 @@
     <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
     <p>超伝導は、<b>MRI（病院の強力な磁石）</b>、<b>リニアモーターカーの浮上</b>、<b>電力を損なわず送る電線</b>、<b>量子コンピュータ</b>などに使われています。より高い温度で超伝導になる材料の探索は、いまも物理学の大きなテーマです。</p>
   </section>
+
+  <details class="adv">
+    <summary>発展 ── もっと詳しく知りたい人へ（数式あり）</summary>
+    <div class="advbody">
+<p>BCS理論の核心は、フェルミ面近傍の電子2個が格子振動（フォノン）を媒介にした引力で束縛対＝<b>クーパー対</b>を作ることです。対はボース粒子のように振る舞い、巨視的な数が同一の量子状態に凝縮します。励起には最低エネルギー 2Δ が必要で、このギャップが抵抗ゼロを守ります。</p>
+<div class="eq"><i>k</i><sub>B</sub><i>T</i><sub>c</sub> ≈ 1.13 ħω<sub>D</sub> <i>e</i><sup>−1/N(0)V</sup>,　2Δ(0) ≈ 3.5 <i>k</i><sub>B</sub><i>T</i><sub>c</sub></div>
+<p>転移温度がフォノンのデバイ振動数 ω<sub>D</sub> に比例するため、同位体を替えると T<sub>c</sub> が M<sup>−1/2</sup> でずれる（同位体効果）──「格子が仲人」の決定的証拠でした。指数関数の中に相互作用 V が入る形は摂動論では絶対に出ない（どんな次数でも展開できない）非摂動的な結果で、これが理論完成まで45年を要した理由です。BCSの「対凝縮による対称性の自発的破れ」という構造は、南部（30番）を経由して素粒子のヒッグス機構（34番）の雛形になりました。MRIの超伝導磁石、リニア新幹線、加速器はすべてこの理論の子どもたちです（高温超伝導体の機構は現在も未解決）。</p>
+    </div>
+  </details>
 
   <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）1972年物理学賞ページ、一般向け科学史資料。</p>
 

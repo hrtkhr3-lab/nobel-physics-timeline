@@ -44,6 +44,27 @@
   .pager span{display:block;font-size:.75rem;color:var(--muted)}
   .src{font-size:.82rem;color:var(--muted);margin-top:24px}
   svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+  /* --- 発展セクション（数式あり） --- */
+  details.adv{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:16px;margin-top:22px;overflow:hidden}
+  details.adv summary{cursor:pointer;list-style:none;padding:18px 26px;font-weight:800;font-size:1.05rem;color:var(--accent)}
+  details.adv summary::-webkit-details-marker{display:none}
+  details.adv summary::before{content:"▸ "}
+  details.adv[open] summary::before{content:"▾ "}
+  .advbody{padding:0 26px 22px}
+  .advbody>p:first-child{margin-top:0}
+  .eq{display:block;text-align:center;margin:14px auto;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-family:"Cambria Math",Cambria,Georgia,"Times New Roman",serif;font-size:1.1rem;overflow-x:auto;line-height:2}
+  .eq i{font-style:italic;padding:0 1px}
+  .fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 3px}
+  .fr>span{display:block;padding:0 5px;line-height:1.35}
+  .fr>span:first-child{border-bottom:1.5px solid currentColor}
+  /* --- 定量シミュレーション用コントロール --- */
+  .cpanel{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:4px 26px;max-width:640px;margin:16px auto 0}
+  .cpanel .ctl label{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;font-size:.9rem;margin:8px 0 2px;gap:8px}
+  .cpanel .ctl label output{font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .cpanel .ctl input[type=range]{width:100%;accent-color:var(--accent)}
+  canvas{max-width:100%;height:auto;display:block;border-radius:8px}
+  .rpanel{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;margin-top:12px;font-size:.92rem;color:var(--muted)}
+  .rpanel b{color:var(--ink);font-variant-numeric:tabular-nums}
 </style>
 
 <nav class="topnav">
@@ -71,28 +92,31 @@
 
   <!-- INTERACTIVE -->
   <div class="demo">
-    <h2>やってみよう ── 飛ぶうちに型が変わる</h2>
-    <div class="hint">スライダーで飛んだ距離を変えます。ニュートリノの型（色）が、行くほどに入れかわっていきます。</div>
-    <div class="xbox">
-      <svg id="ko2" width="480" height="150" viewBox="0 0 480 150" role="img" aria-label="ニュートリノ振動">
-        <line x1="30" y1="75" x2="450" y2="75" stroke="#2a3446" stroke-dasharray="4 4"/>
-        <circle id="nv" cx="30" cy="75" r="14"/>
-        <text x="30" y="40" fill="#8b93a7" font-size="11" text-anchor="middle">発生</text>
-        <text x="450" y="40" fill="#8b93a7" font-size="11" text-anchor="middle">検出</text>
-      </svg>
+    <h2>実験してみよう ── ニュートリノが「変身」する確率を計算する</h2>
+    <div class="hint">大気ニュートリノは、頭上からは約15 km、地球の裏側からは約12800 km 飛んでスーパーカミオカンデに届きます。質量差 Δm²・混ざり具合 sin²2θ・エネルギー E を変えて、ミュー型ニュートリノが「ミュー型のまま」でいる確率を見てみましょう。</div>
+    <div class="xbox"><canvas id="cv" width="640" height="310"></canvas></div>
+    <div class="cpanel">
+      <div class="ctl"><label>質量の差 Δm² <output id="oD">2.4×10⁻³ eV²</output></label><input id="D" type="range" min="10" max="40" value="24"></div>
+      <div class="ctl"><label>混ざり具合 sin²2θ <output id="oS">1.00</output></label><input id="S" type="range" min="50" max="100" value="100"></div>
+      <div class="ctl"><label>ニュートリノのエネルギー E <output id="oE">1.0 GeV</output></label><input id="E" type="range" min="5" max="100" value="10"></div>
     </div>
-    <div class="controls">
-      <label for="dist">飛んだ距離</label>
-      <input id="dist" type="range" min="0" max="100" value="0">
-      <div class="readout" id="msg"></div>
-    </div>
-    <div class="note">※ 型が入れかわるのは、ニュートリノに質量がある証拠。距離によって見つかる型の割合が変わります。模式図です。</div>
+    <div class="rpanel"><span>上から（L≈15 km）の生存率 <b id="rD2">–</b></span><span>地球の裏から（L≈12800 km） <b id="rU">–</b></span><span>観測された上下比 <b>約 0.5（欠損！）</b></span></div>
+    <div class="note">2世代振動の式 <b>P(ν<sub>μ</sub>→ν<sub>μ</sub>) = 1 − sin²2θ·sin²(1.27Δm²L/E)</b> の正確な計算です（L:km, E:GeV, Δm²:eV²）。横軸は飛行距離÷エネルギー L/E。上から来るニュートリノは振動する間もなく届く（生存率≈1）のに、地球を貫通してくるものは振動して<b>約半分がタウ型に変身して「消える」</b>──この上下の差こそスーパーカミオカンデの発見で、振動が起きるには<b>ニュートリノに質量が必要</b>です。曲線の右端が0.5に落ち着くのは、細かい振動がエネルギーの広がりで平均化されるためです。</div>
   </div>
 
   <section class="block">
     <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
     <p>ニュートリノに質量があるという発見は、素粒子の<b>標準模型を超える</b>新しい物理への入り口です。ニュートリノは宇宙にあふれており、その性質は宇宙に物質が残った謎（2008年の項）にも関わるかもしれません。日本の巨大地下実験が、またも世界の物理を書きかえました。</p>
   </section>
+
+  <details class="adv">
+    <summary>発展 ── もっと詳しく知りたい人へ（数式あり）</summary>
+    <div class="advbody">
+<p>ニュートリノの「味」（電子型・ミュー型・タウ型）が質量の固有状態の重ね合わせだとすると、飛行中に位相差がたまり、味が周期的に入れ替わります。2世代近似での生存確率は：</p>
+<div class="eq"><i>P</i>(ν<sub>μ</sub>→ν<sub>μ</sub>) = 1 − sin²2θ·sin²<span class="fr"><span>1.27Δ<i>m</i>²[eV²]·<i>L</i>[km]</span><span><i>E</i>[GeV]</span></span></div>
+<p>スーパーカミオカンデは大気ニュートリノの天頂角分布で「上から来る ν<sub>μ</sub> は予想どおり、下から（地球を貫通、L≈13000 km）は<b>半分しかない</b>」ことを1998年に発表（Δm² ≈ 2.4×10⁻³ eV²、ほぼ最大混合）。振動が起きるには質量差が、質量差が有るには質量が必要──<b>質量ゼロを仮定していた標準模型を超える最初の確かな実験事実</b>です。共同受賞のマクドナルド（SNO実験）は太陽ニュートリノで、ν<sub>e</sub> が別の味に変わっていること（物質中の共鳴＝MSW効果を含む）を全味の同時測定で証明し、30年来の「太陽ニュートリノ問題」を解決しました。残る大物は質量の絶対値と順序、そしてニュートリノのCP破れ──宇宙に物質が残った謎（30番）に繋がる可能性があり、ハイパーカミオカンデの主目標です。</p>
+    </div>
+  </details>
 
   <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）2015年物理学賞ページ、一般向け科学史資料。</p>
 
@@ -103,13 +127,49 @@
 </div>
 
 <script>
-var dist=document.getElementById('dist'), nv=document.getElementById('nv'), msg=document.getElementById('msg');
-function render(){ var d=+dist.value; var x=30+d/100*420; nv.setAttribute('cx',x);
-  var ph=d/100*Math.PI*2.2;
-  var pMu=Math.cos(ph)*Math.cos(ph);               // ミュー型の割合
-  var col = pMu>0.5 ? '#5c9dff' : '#b388ff';
-  nv.setAttribute('fill',col);
-  msg.innerHTML='今のすがた：<b>'+(pMu>0.66?'ミュー型':pMu<0.34?'タウ型':'混ざった状態')+'</b>（ミュー型 '+Math.round(pMu*100)+'%）';
+var cv=document.getElementById('cv'),g=cv.getContext('2d'),W=cv.width,H=cv.height;
+var Ds=document.getElementById('D'),Ss=document.getElementById('S'),Es=document.getElementById('E');
+function render(){
+  var dm2=+Ds.value/10*1e-3,s22=+Ss.value/100,E=+Es.value/10;
+  document.getElementById('oD').textContent=(+Ds.value/10).toFixed(1)+'×10⁻³ eV²';
+  document.getElementById('oS').textContent=s22.toFixed(2);
+  document.getElementById('oE').textContent=E.toFixed(1)+' GeV';
+  g.clearRect(0,0,W,H);g.font='12px sans-serif';
+  var X0=60,Y0=H-46,PWx=W-100,PHx=H-90;
+  // x: log10(L/E) 0..4.5 (km/GeV)
+  var LGMIN=0,LGMAX=4.5;
+  function xle(le){return X0+PWx*(Math.log(le)/Math.LN10-LGMIN)/(LGMAX-LGMIN);}
+  function yp(p){return Y0-PHx*p;}
+  g.strokeStyle='#232b3d';g.beginPath();
+  [0.25,0.5,0.75,1].forEach(function(p){g.moveTo(X0,yp(p));g.lineTo(X0+PWx,yp(p));});
+  g.stroke();
+  g.strokeStyle='#8b93a7';g.beginPath();g.moveTo(X0,yp(1.02));g.moveTo(X0,Y0);g.lineTo(X0+PWx,Y0);g.stroke();
+  g.fillStyle='#8b93a7';
+  [1,10,100,1000,10000].forEach(function(v){g.fillText(v,xle(v)-10,Y0+16);});
+  g.fillText('L/E（km/GeV・対数目盛）',W/2-70,H-6);
+  ['0','0.5','1'].forEach(function(t,i){g.fillText(t,X0-26,yp(i*0.5)+4);});
+  g.save();g.translate(14,H/2+60);g.rotate(-Math.PI/2);g.fillText('ミュー型のままの確率',0,0);g.restore();
+  // 平均化なしの曲線 + 平均化（分解能）曲線
+  function P(le){return 1-s22*Math.pow(Math.sin(1.267*dm2*le),2);}
+  function Pavg(le){ // エネルギー分解能±30%で平均
+    var n=15,s=0;for(var i=0;i<n;i++){var f=0.7+0.6*i/(n-1);s+=P(le*f);}return s/n;}
+  g.strokeStyle='rgba(126,231,135,0.35)';g.lineWidth=1.5;g.beginPath();var st2=false;
+  for(var px=0;px<=PWx;px++){var le=Math.pow(10,LGMIN+(LGMAX-LGMIN)*px/PWx);
+    var y=yp(P(le));if(!st2){g.moveTo(X0+px,y);st2=true;}else g.lineTo(X0+px,y);}
+  g.stroke();
+  g.strokeStyle='#7ee787';g.lineWidth=2.5;g.beginPath();st2=false;
+  for(px=0;px<=PWx;px++){var le2=Math.pow(10,LGMIN+(LGMAX-LGMIN)*px/PWx);
+    var y2=yp(Pavg(le2));if(!st2){g.moveTo(X0+px,y2);st2=true;}else g.lineTo(X0+px,y2);}
+  g.stroke();g.lineWidth=1;
+  g.fillStyle='#7ee787';g.fillText('観測にかかる平均（濃い線）',X0+PWx-190,yp(0.98));
+  // 上・下のマーカー
+  var leD=15/E,leU=12800/E;
+  [[leD,'#79c0ff','上から 15km'],[leU,'#ff9a8a','地球の裏から 12800km']].forEach(function(m){
+    var x=xle(Math.max(1,m[0]));
+    g.strokeStyle=m[1];g.setLineDash([4,4]);g.beginPath();g.moveTo(x,Y0);g.lineTo(x,yp(1));g.stroke();g.setLineDash([]);
+    g.fillStyle=m[1];g.fillText(m[2],Math.min(x-30,W-170),yp(1)-6);});
+  document.getElementById('rD2').textContent=(Pavg(leD)*100).toFixed(0)+' %';
+  document.getElementById('rU').textContent=(Pavg(leU)*100).toFixed(0)+' %';
 }
-dist.addEventListener('input',render); render();
+[Ds,Ss,Es].forEach(function(s){s.addEventListener('input',render);});render();
 </script>

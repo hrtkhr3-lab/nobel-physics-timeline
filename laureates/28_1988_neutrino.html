@@ -44,6 +44,27 @@
   .pager span{display:block;font-size:.75rem;color:var(--muted)}
   .src{font-size:.82rem;color:var(--muted);margin-top:24px}
   svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+  /* --- 発展セクション（数式あり） --- */
+  details.adv{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:16px;margin-top:22px;overflow:hidden}
+  details.adv summary{cursor:pointer;list-style:none;padding:18px 26px;font-weight:800;font-size:1.05rem;color:var(--accent)}
+  details.adv summary::-webkit-details-marker{display:none}
+  details.adv summary::before{content:"▸ "}
+  details.adv[open] summary::before{content:"▾ "}
+  .advbody{padding:0 26px 22px}
+  .advbody>p:first-child{margin-top:0}
+  .eq{display:block;text-align:center;margin:14px auto;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-family:"Cambria Math",Cambria,Georgia,"Times New Roman",serif;font-size:1.1rem;overflow-x:auto;line-height:2}
+  .eq i{font-style:italic;padding:0 1px}
+  .fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 3px}
+  .fr>span{display:block;padding:0 5px;line-height:1.35}
+  .fr>span:first-child{border-bottom:1.5px solid currentColor}
+  /* --- 定量シミュレーション用コントロール --- */
+  .cpanel{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:4px 26px;max-width:640px;margin:16px auto 0}
+  .cpanel .ctl label{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;font-size:.9rem;margin:8px 0 2px;gap:8px}
+  .cpanel .ctl label output{font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .cpanel .ctl input[type=range]{width:100%;accent-color:var(--accent)}
+  canvas{max-width:100%;height:auto;display:block;border-radius:8px}
+  .rpanel{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;margin-top:12px;font-size:.92rem;color:var(--muted)}
+  .rpanel b{color:var(--ink);font-variant-numeric:tabular-nums}
 </style>
 
 <nav class="topnav">
@@ -88,6 +109,15 @@
     <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
     <p>「ほとんど反応しない」ニュートリノを捕まえるため、巨大な地下検出器が作られました。日本の<b>カミオカンデ</b>は太陽や超新星からのニュートリノを観測し（2002年 小柴）、<b>スーパーカミオカンデ</b>はニュートリノに質量がある証拠をつかみました（2015年 梶田）。ニュートリノは宇宙と素粒子をつなぐ最前線です。</p>
   </section>
+
+  <details class="adv">
+    <summary>発展 ── もっと詳しく知りたい人へ（数式あり）</summary>
+    <div class="advbody">
+<p>レーダーマン、シュワルツ、スタインバーガーの実験は「ニュートリノビーム」という新しい実験手法の発明でもありました。加速器で作った陽子を標的に当て、生じたπ中間子の崩壊 π → μ + ν から高エネルギーニュートリノを取り出し、13 mの鉄で他の粒子をすべて濾し取ります。</p>
+<div class="eq">ν + n → μ⁻ + p は起こる／ ν + n → e⁻ + p は起こらない　→　ν<sub>μ</sub> ≠ ν<sub>e</sub></div>
+<p>もしニュートリノが1種類なら、反応から電子とミュー粒子が同数出るはず。実際にはミュー粒子だけが現れ、<b>ニュートリノには「世代」がある</b>ことが確定しました（のちにτニュートリノも発見され3世代に）。世代数はその後、LEP実験のZ⁰の崩壊幅から N<sub>ν</sub> = 2.984±0.008 と精密に測られ、「軽いニュートリノは3種類」が確立します。世代の区別があるからこそ「世代の間で変身する」ニュートリノ振動（36番）が意味を持つ──この実験はその前提を築きました。ちなみにシュワルツがこの着想を得たのは、コロンビア大の廊下でのコーヒー談義だったと伝えられています。</p>
+    </div>
+  </details>
 
   <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）1988年物理学賞ページ、一般向け科学史資料。</p>
 

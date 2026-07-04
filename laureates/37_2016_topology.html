@@ -44,6 +44,27 @@
   .pager span{display:block;font-size:.75rem;color:var(--muted)}
   .src{font-size:.82rem;color:var(--muted);margin-top:24px}
   svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+  /* --- 発展セクション（数式あり） --- */
+  details.adv{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:16px;margin-top:22px;overflow:hidden}
+  details.adv summary{cursor:pointer;list-style:none;padding:18px 26px;font-weight:800;font-size:1.05rem;color:var(--accent)}
+  details.adv summary::-webkit-details-marker{display:none}
+  details.adv summary::before{content:"▸ "}
+  details.adv[open] summary::before{content:"▾ "}
+  .advbody{padding:0 26px 22px}
+  .advbody>p:first-child{margin-top:0}
+  .eq{display:block;text-align:center;margin:14px auto;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-family:"Cambria Math",Cambria,Georgia,"Times New Roman",serif;font-size:1.1rem;overflow-x:auto;line-height:2}
+  .eq i{font-style:italic;padding:0 1px}
+  .fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 3px}
+  .fr>span{display:block;padding:0 5px;line-height:1.35}
+  .fr>span:first-child{border-bottom:1.5px solid currentColor}
+  /* --- 定量シミュレーション用コントロール --- */
+  .cpanel{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:4px 26px;max-width:640px;margin:16px auto 0}
+  .cpanel .ctl label{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;font-size:.9rem;margin:8px 0 2px;gap:8px}
+  .cpanel .ctl label output{font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .cpanel .ctl input[type=range]{width:100%;accent-color:var(--accent)}
+  canvas{max-width:100%;height:auto;display:block;border-radius:8px}
+  .rpanel{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;margin-top:12px;font-size:.92rem;color:var(--muted)}
+  .rpanel b{color:var(--ink);font-variant-numeric:tabular-nums}
 </style>
 
 <nav class="topnav">
@@ -92,6 +113,15 @@
     <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
     <p>トポロジーで守られた性質は<b>乱れに強い</b>ため、正確な電気抵抗の標準や、エラーに強い<b>量子コンピュータ</b>の候補として注目されています。「トポロジカル物質」は物性物理の一大分野になり、新しい電子材料の探索が世界中で進んでいます。</p>
   </section>
+
+  <details class="adv">
+    <summary>発展 ── もっと詳しく知りたい人へ（数式あり）</summary>
+    <div class="advbody">
+<p>トポロジー（位相幾何学）は「連続変形で変わらない量＝穴の数のような整数」を扱います。サウレスらは、量子ホール効果のホール伝導度がまさにそのような整数（チャーン数）であることを示しました。</p>
+<div class="eq">σ<sub>xy</sub> = ν·<span class="fr"><span><i>e</i>²</span><span><i>h</i></span></span>,　ν は波動関数の位相の巻き数（TKNN整数）</div>
+<p>整数に量子化された量は、試料の汚れや形に<b>まったく影響されません</b>──量子ホール抵抗が10⁻⁹の精度で普遍で、抵抗標準に使われる理由です。コステリッツとサウレスはまた、2次元では通常の秩序が存在できない（マーミン・ワグナーの定理）にもかかわらず、<b>渦と反渦のペアの解離</b>という位相欠陥のふるまいで相転移（KT転移）が起きることを示し、超流動薄膜で検証されました。「秩序変数の対称性」で相を分類するランダウの枠組み（19番）を超え、「位相不変量」で物質を分類する視点は、トポロジカル絶縁体（中は絶縁体・表面だけ金属）、ワイル半金属、マヨラナ準粒子を使うトポロジカル量子計算の構想へと展開しています。</p>
+    </div>
+  </details>
 
   <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）2016年物理学賞ページ、一般向け科学史資料。</p>
 

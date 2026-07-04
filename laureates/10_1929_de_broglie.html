@@ -44,6 +44,27 @@
   .pager span{display:block;font-size:.75rem;color:var(--muted)}
   .src{font-size:.82rem;color:var(--muted);margin-top:24px}
   svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+  /* --- 発展セクション（数式あり） --- */
+  details.adv{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:16px;margin-top:22px;overflow:hidden}
+  details.adv summary{cursor:pointer;list-style:none;padding:18px 26px;font-weight:800;font-size:1.05rem;color:var(--accent)}
+  details.adv summary::-webkit-details-marker{display:none}
+  details.adv summary::before{content:"▸ "}
+  details.adv[open] summary::before{content:"▾ "}
+  .advbody{padding:0 26px 22px}
+  .advbody>p:first-child{margin-top:0}
+  .eq{display:block;text-align:center;margin:14px auto;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-family:"Cambria Math",Cambria,Georgia,"Times New Roman",serif;font-size:1.1rem;overflow-x:auto;line-height:2}
+  .eq i{font-style:italic;padding:0 1px}
+  .fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 3px}
+  .fr>span{display:block;padding:0 5px;line-height:1.35}
+  .fr>span:first-child{border-bottom:1.5px solid currentColor}
+  /* --- 定量シミュレーション用コントロール --- */
+  .cpanel{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:4px 26px;max-width:640px;margin:16px auto 0}
+  .cpanel .ctl label{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;font-size:.9rem;margin:8px 0 2px;gap:8px}
+  .cpanel .ctl label output{font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .cpanel .ctl input[type=range]{width:100%;accent-color:var(--accent)}
+  canvas{max-width:100%;height:auto;display:block;border-radius:8px}
+  .rpanel{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;margin-top:12px;font-size:.92rem;color:var(--muted)}
+  .rpanel b{color:var(--ink);font-variant-numeric:tabular-nums}
 </style>
 
 <nav class="topnav">
@@ -71,26 +92,30 @@
 
   <!-- INTERACTIVE -->
   <div class="demo">
-    <h2>やってみよう ── 波が軌道につながるか</h2>
-    <div class="hint">スライダーで電子の波の数を変えます。ちょうど整数個そろうと波がつながって「安定な軌道」になります。</div>
-    <div class="xbox">
-      <svg id="db" width="360" height="260" viewBox="0 0 360 260" role="img" aria-label="物質波と定常波">
-        <circle cx="180" cy="130" r="80" fill="none" stroke="#2a3446" stroke-width="1" stroke-dasharray="3 4"/>
-        <path id="wave" fill="none" stroke="#c4b5fd" stroke-width="3"/>
-      </svg>
+    <h2>実験してみよう ── 電子を波として回折させる</h2>
+    <div class="hint">電子を加速して薄い黒鉛（グラファイト）の膜に当てると、蛍光スクリーンに<b>回折リング</b>が現れます──電子が波だからです。加速電圧を変えると波長 λ = h/√(2meV) が変わり、リングの大きさが変わります。</div>
+    <div class="xbox"><canvas id="cv" width="640" height="300"></canvas></div>
+    <div class="cpanel">
+      <div class="ctl"><label>加速電圧 <output id="oV">4000 V</output></label><input id="V" type="range" min="500" max="10000" value="4000" step="100"></div>
     </div>
-    <div class="controls">
-      <label for="k">電子の波の数（速さで変わる）</label>
-      <input id="k" type="range" min="300" max="800" value="500">
-      <div class="status yes" id="st"></div>
-    </div>
-    <div class="note">※ 波が整数個そろうと自分自身とつながり、消えずに残ります（定常波）。だから原子の軌道はとびとびに決まります。模式図です。</div>
+    <div class="btns"><button id="be" class="on">電子</button><button id="bp">陽子（質量1836倍）</button></div>
+    <div class="rpanel"><span>ド・ブロイ波長 λ <b id="rL">–</b></span><span>第1リングの半径 <b id="rR">–</b></span><span>比較：黒鉛の面間隔 <b>d=213 pm</b></span></div>
+    <div class="note">λ = h/√(2mqV)（非相対論）とブラッグの条件 2d sinθ = λ による計算です（膜からスクリーンまで 13.5 cm、黒鉛の面間隔 d₁=213 pm, d₂=123 pm）。<b>電圧を上げるほど波長が短くなりリングが縮む</b>のは波の証拠。同じ電圧でも質量の大きい陽子では波長が数十分の一になり、リングがほぼ点につぶれることも確かめてください。この実験（G.P.トムソン、デイヴィソン＝ガーマー：1937年受賞）がド・ブロイの理論を裏づけました。</div>
   </div>
 
   <section class="block">
     <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
     <p>「物にも波がある」というド・ブロイの考えは、シュレディンガーの<b>波動方程式</b>（1933）へと発展し、量子力学の柱になりました。電子の波を利用した<b>電子顕微鏡</b>は、光では見えないウイルスや原子の並びまで映し出し、いまも科学と産業を支えています。</p>
   </section>
+
+  <details class="adv">
+    <summary>発展 ── もっと詳しく知りたい人へ（数式あり）</summary>
+    <div class="advbody">
+<p>ド・ブロイの関係式はあらゆる粒子に波長を割り当てます。電圧 <i>V</i> で加速した電子なら：</p>
+<div class="eq">λ = <span class="fr"><span><i>h</i></span><span><i>p</i></span></span> = <span class="fr"><span><i>h</i></span><span>√(2<i>meV</i>)</span></span> ≈ <span class="fr"><span>1.226</span><span>√<i>V</i></span></span> nm</div>
+<p>100 Vで約0.12 nm──ちょうど結晶の原子間隔と同程度なので、結晶が回折格子の役を果たします（デイヴィソン＝ガーマーのニッケル単結晶、G.P.トムソンの多結晶薄膜、いずれも1927年、1937年に受賞）。アイデアの出どころは対称性です：光は波なのに粒子性を持つ（06・09番）なら、粒子と思っていた電子が波動性を持ってもよいはず。さらにボーア模型（07番）の量子化条件 <i>mvr</i> = <i>n</i>ħ は「円周にちょうど n 個の波が乗る条件 2π<i>r</i> = <i>n</i>λ」と読み替えられます。この波を支配する方程式を書き下したのがシュレーディンガー（12番）。応用面では、電子の短い波長を活かした<b>電子顕微鏡</b>が光学顕微鏡の1000倍の分解能を実現しています。</p>
+    </div>
+  </details>
 
   <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）1929年物理学賞ページ、一般向け科学史資料。</p>
 
@@ -101,21 +126,43 @@
 </div>
 
 <script>
-var k=document.getElementById('k'), wave=document.getElementById('wave'), st=document.getElementById('st');
-var cx=180, cy=130, R=80;
+var cv=document.getElementById('cv'),g=cv.getContext('2d'),W=cv.width,H=cv.height;
+var Vs=document.getElementById('V'),be=document.getElementById('be'),bp=document.getElementById('bp');
+var mass=1;  // 1=電子, 1836=陽子
+be.addEventListener('click',function(){mass=1;be.classList.add('on');bp.classList.remove('on');render();});
+bp.addEventListener('click',function(){mass=1836;bp.classList.add('on');be.classList.remove('on');render();});
+var D1=213,D2=123,LSCR=0.135;  // pm, m
 function render(){
-  var kk=+k.value/100;                          // 3.00 .. 8.00
-  var d='', i;
-  for(i=0;i<=360;i+=2){var a=i*Math.PI/180;
-    var rr=R+12*Math.sin(kk*a);
-    var x=cx+rr*Math.cos(a-Math.PI/2), y=cy+rr*Math.sin(a-Math.PI/2);
-    d+=(i===0?'M':'L')+x.toFixed(1)+','+y.toFixed(1)+' ';}
-  wave.setAttribute('d',d);
-  var frac=Math.abs(kk-Math.round(kk));
-  if(frac<0.06){wave.setAttribute('stroke','#7ee787');st.className='status yes';
-    st.textContent='波がぴったり '+Math.round(kk)+' 個つながった！ 安定な軌道';}
-  else{wave.setAttribute('stroke','#ff9a8a');st.className='status no';
-    st.textContent='端がずれて波がつながらない（この速さは不安定）';}
+  var V=+Vs.value;document.getElementById('oV').textContent=V+' V';
+  var lam=1226.4/Math.sqrt(mass*V);   // pm
+  g.clearRect(0,0,W,H);g.font='12px sans-serif';
+  // 左: 装置図
+  g.fillStyle='#8b93a7';g.fillRect(24,H/2-14,18,28);g.fillText('電子銃',18,H/2+34);
+  g.strokeStyle='#7ee787';g.lineWidth=2;
+  // 波として描くビーム（波長に応じた波々）
+  var per=Math.max(3,lam/2);
+  g.beginPath();for(var x=44;x<=170;x++){var y=H/2+5*Math.sin((x-44)/per*2*Math.PI);
+    if(x===44)g.moveTo(x,y);else g.lineTo(x,y);}g.stroke();g.lineWidth=1;
+  g.fillStyle='#9fb2c9';g.fillRect(172,H/2-40,6,80);g.fillStyle='#8b93a7';g.fillText('黒鉛膜',158,H/2+58);
+  // スクリーン(右の円)
+  var sx=430,sy=H/2,SR=120;
+  g.fillStyle='#101720';g.beginPath();g.arc(sx,sy,SR,0,7);g.fill();
+  g.strokeStyle='#2a3446';g.beginPath();g.arc(sx,sy,SR,0,7);g.stroke();
+  g.fillStyle='#8b93a7';g.fillText('蛍光スクリーン（直径12 cm）',sx-80,sy+SR+18);
+  // 中心スポット
+  g.fillStyle='#b6ffcf';g.beginPath();g.arc(sx,sy,3,0,7);g.fill();
+  // リング: 2d sinθ=λ, 画面半径 R=L tan(2θ)。スケール: SR px = 6cm
+  var scale=SR/0.06;
+  var rr=[];
+  [[D1,1],[D2,0.7],[D1,2]].forEach(function(pair){var d=pair[0],ord=pair[1]<1?1:pair[1];var amp=pair[1]<1?0.7:1/ord;
+    var s=ord*lam/(2*d);if(s<1){var th=Math.asin(s),R=LSCR*Math.tan(2*th)*scale;
+      if(R<SR*0.98&&R>1){g.strokeStyle='rgba(126,231,135,'+(0.9*amp)+')';g.lineWidth=Math.max(1.5,4-R/40);
+        g.beginPath();g.arc(sx,sy,R,0,7);g.stroke();rr.push(LSCR*Math.tan(2*th)*1000);}}});
+  g.lineWidth=1;
+  // ビーム線 膜→スクリーン
+  g.strokeStyle='rgba(126,231,135,0.35)';g.beginPath();g.moveTo(178,H/2);g.lineTo(sx-SR,sy);g.stroke();
+  document.getElementById('rL').textContent=lam>=10?lam.toFixed(1)+' pm':lam.toFixed(2)+' pm';
+  document.getElementById('rR').textContent=rr.length?rr[0].toFixed(1)+' mm':'（リングが小さすぎて見えない）';
 }
-k.addEventListener('input',render); render();
+Vs.addEventListener('input',render);render();
 </script>

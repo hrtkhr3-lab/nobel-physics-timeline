@@ -44,6 +44,27 @@
   .pager span{display:block;font-size:.75rem;color:var(--muted)}
   .src{font-size:.82rem;color:var(--muted);margin-top:24px}
   svg text{font-family:"Yu Gothic","Meiryo",sans-serif}
+  /* --- 発展セクション（数式あり） --- */
+  details.adv{background:var(--card);border:1px solid var(--line);border-left:5px solid var(--accent);border-radius:16px;margin-top:22px;overflow:hidden}
+  details.adv summary{cursor:pointer;list-style:none;padding:18px 26px;font-weight:800;font-size:1.05rem;color:var(--accent)}
+  details.adv summary::-webkit-details-marker{display:none}
+  details.adv summary::before{content:"▸ "}
+  details.adv[open] summary::before{content:"▾ "}
+  .advbody{padding:0 26px 22px}
+  .advbody>p:first-child{margin-top:0}
+  .eq{display:block;text-align:center;margin:14px auto;padding:12px 14px;background:var(--accent-soft);border-radius:10px;font-family:"Cambria Math",Cambria,Georgia,"Times New Roman",serif;font-size:1.1rem;overflow-x:auto;line-height:2}
+  .eq i{font-style:italic;padding:0 1px}
+  .fr{display:inline-block;vertical-align:middle;text-align:center;margin:0 3px}
+  .fr>span{display:block;padding:0 5px;line-height:1.35}
+  .fr>span:first-child{border-bottom:1.5px solid currentColor}
+  /* --- 定量シミュレーション用コントロール --- */
+  .cpanel{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:4px 26px;max-width:640px;margin:16px auto 0}
+  .cpanel .ctl label{display:flex;justify-content:space-between;align-items:baseline;font-weight:700;font-size:.9rem;margin:8px 0 2px;gap:8px}
+  .cpanel .ctl label output{font-weight:800;color:var(--accent);font-variant-numeric:tabular-nums;white-space:nowrap}
+  .cpanel .ctl input[type=range]{width:100%;accent-color:var(--accent)}
+  canvas{max-width:100%;height:auto;display:block;border-radius:8px}
+  .rpanel{display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:center;margin-top:12px;font-size:.92rem;color:var(--muted)}
+  .rpanel b{color:var(--ink);font-variant-numeric:tabular-nums}
 </style>
 
 <nav class="topnav">
@@ -71,30 +92,36 @@
 
   <!-- INTERACTIVE -->
   <div class="demo">
-    <h2>やってみよう ── 回転する宇宙の灯台</h2>
-    <div class="hint">スライダーで自転の速さを変えます。ビームが地球（右）を向くたびに、下の記録計にパルスが刻まれます。</div>
-    <div class="xbox">
-      <svg id="ps" width="480" height="230" viewBox="0 0 480 230" role="img" aria-label="パルサー">
-        <circle cx="150" cy="90" r="20" fill="#e8edf3"/>
-        <line id="beam" x1="150" y1="90" x2="150" y2="90" stroke="#5c9dff" stroke-width="8" stroke-linecap="round" opacity="0.85"/>
-        <line id="beam2" x1="150" y1="90" x2="150" y2="90" stroke="#5c9dff" stroke-width="8" stroke-linecap="round" opacity="0.85"/>
-        <circle id="earth" cx="430" cy="90" r="9" fill="#66bb6a"/><text x="430" y="115" fill="#66bb6a" font-size="11" text-anchor="middle">地球</text>
-        <rect x="20" y="160" width="440" height="50" rx="6" fill="#0b1220" stroke="#2a3446"/>
-        <polyline id="chart" points="" fill="none" stroke="#7ee787" stroke-width="2"/>
-      </svg>
+    <h2>実験してみよう ── パルスの周期から星の正体を推理する</h2>
+    <div class="hint">パルサーは「宇宙の灯台」──自転する星のビームが地球を横切るたびに電波のパルスが届きます。周期を変えると、<b>その速さで自転してもバラバラにならない天体</b>がどれほど高密度でなければならないかが計算できます。ジョスリン・ベルが見つけた本物のパルサーも試してみましょう。</div>
+    <div class="xbox"><canvas id="cv" width="640" height="300"></canvas></div>
+    <div class="cpanel">
+      <div class="ctl"><label>自転周期 P <output id="oP">0.10 秒</output></label><input id="P" type="range" min="0" max="100" value="60"></div>
+      <div class="ctl"><label>ビームの幅 <output id="oB">10°</output></label><input id="B" type="range" min="4" max="25" value="10"></div>
     </div>
-    <div class="controls">
-      <label for="rot">自転の速さ</label>
-      <input id="rot" type="range" min="1" max="10" value="4">
-      <div class="readout" id="msg"></div>
+    <div class="btns">
+      <button data-p="1337">CP1919（発見された最初のパルサー, 1.337秒）</button>
+      <button data-p="33">かに星雲パルサー（0.033秒）</button>
+      <button data-p="1.4">最速のミリ秒パルサー（0.0014秒）</button>
     </div>
-    <div class="note">※ ビームが地球を向いた瞬間だけ強く受信 → 規則正しいパルスになります。星の回転が“時計”のように正確です。模式図です。</div>
+    <div class="status no" id="st">–</div>
+    <div class="rpanel"><span>必要な平均密度 <b id="rD">–</b></span><span>赤道の速さ（半径10 kmとして） <b id="rV">–</b></span></div>
+    <div class="note">自転でちぎれ飛ばない条件（重力 &gt; 遠心力）から、平均密度は <b>ρ &gt; 3π/(GP²)</b> でなければなりません。周期 0.033 秒のかに星雲パルサーではこの下限が白色矮星の密度（〜10⁹ kg/m³）を大きく超え、<b>中性子星（〜10¹⁷ kg/m³）しかあり得ない</b>ことが分かります──パルサー発見が「中性子星は実在する」の証明になった理由です。灯台のアニメは実際より遅く再生しています。</div>
   </div>
 
   <section class="block">
     <h2><span class="no">3</span>意義 ── いまへのつながり</h2>
     <p>パルサーは、極限の高密度・強い磁場・強い重力を調べる宇宙の実験室です。その正確な明滅は<b>宇宙の時計</b>として使われ、のちに連星パルサーの観測は<b>重力波の存在</b>を間接的に証明しました（直接観測は2017年の項）。電波天文学はブラックホールや宇宙背景放射（1978年の項）の研究へと広がりました。</p>
   </section>
+
+  <details class="adv">
+    <summary>発展 ── もっと詳しく知りたい人へ（数式あり）</summary>
+    <div class="advbody">
+<p>パルサーの周期が「自転」だと確定すると、天体の密度に強い下限が付きます。赤道の物質が飛ばされない条件（重力≧遠心力）から：</p>
+<div class="eq">ρ &gt; <span class="fr"><span>3π</span><span><i>GP</i>²</span></span>　（P = 0.033 s → ρ &gt; 1.3×10¹¹ kg/m³）</div>
+<p>かに星雲パルサー（P=33 ms）のこの下限は白色矮星の密度上限（〜10⁹ kg/m³）を2桁超え、<b>中性子星の実在</b>が確定しました。パルサーは巨大な回転磁石でもあり、磁気双極子放射でエネルギーを失って周期がゆっくり伸びます（かにパルサーで dP/dt ≈ 4×10<sup>−13</sup>）。その回転エネルギー損失率 約5×10<sup>31</sup> W が、かに星雲全体を光らせる電源とぴったり一致することも決定的でした。のちに連星パルサーの周期変化から重力波の存在が間接検証され（ハルス・テイラー、1993年受賞）、直接検出（38番）へつながります。なお発見者ジョスリン・ベルが受賞から漏れたことは、ノーベル賞史の大きな論争点として残っています。</p>
+    </div>
+  </details>
 
   <p class="src"><b>主な出典：</b>ノーベル財団 公式サイト（nobelprize.org）1974年物理学賞ページ、一般向け科学史資料。</p>
 
@@ -105,22 +132,57 @@
 </div>
 
 <script>
-var beam=document.getElementById('beam'), beam2=document.getElementById('beam2'),
-    earth=document.getElementById('earth'), chart=document.getElementById('chart'),
-    rot=document.getElementById('rot'), msg=document.getElementById('msg');
-var ang=0, cx=150, cy=90, L=120, pts=[], hitCount=0;
-function frame(){ ang+=(+rot.value)/40;
-  var dx=Math.cos(ang), dy=Math.sin(ang);
-  beam.setAttribute('x2',cx+L*dx); beam.setAttribute('y2',cy+L*dy);
-  beam2.setAttribute('x2',cx-L*dx); beam2.setAttribute('y2',cy-L*dy);
-  var toward = dx>0.985;                            // 右（地球）を向いた
-  earth.setAttribute('r', toward?14:9);
-  earth.setAttribute('fill', toward?'#b6ffcf':'#66bb6a');
-  var y = toward?168:205;
-  pts.push(y); if(pts.length>220)pts.shift();
-  chart.setAttribute('points', pts.map(function(v,i){return (24+i*2)+','+v;}).join(' '));
-  if(toward){ msg.innerHTML='<b>パルス受信！</b> ビームが地球を向いた'; }
-  requestAnimationFrame(frame);
+var cv=document.getElementById('cv'),g=cv.getContext('2d'),W=cv.width,H=cv.height;
+var Ps=document.getElementById('P'),Bs=document.getElementById('B'),st=document.getElementById('st');
+document.querySelectorAll('.btns button').forEach(function(b){
+  b.addEventListener('click',function(){var ms=+b.dataset.p;   // ミリ秒
+    Ps.value=Math.round((Math.log10(ms/1000)+3)/3.3*100);
+    document.querySelectorAll('.btns button').forEach(function(x){x.classList.toggle('on',x===b)});});});
+var phase=0,last=null;
+function period(){return Math.pow(10,-3+3.3*(+Ps.value)/100);}   // 0.001 .. 2 s
+function loop(ts){
+  if(last===null)last=ts;var dt=(ts-last)/1000;last=ts;
+  var P=period();
+  phase+=dt/Math.max(P,0.8)*2*Math.PI;      // 遅い再生（0.8s より速い周期はスロー表示）
+  render();requestAnimationFrame(loop);
 }
-frame();
+function render(){
+  var P=period(),bw=+Bs.value*Math.PI/180;
+  document.getElementById('oP').textContent=P>=0.01?P.toFixed(3)+' 秒':(P*1000).toFixed(1)+' ミリ秒';
+  document.getElementById('oB').textContent=Bs.value+'°';
+  g.clearRect(0,0,W,H);g.font='12px sans-serif';
+  // 左: 灯台
+  var cx=140,cy=120;
+  for(var s2=0;s2<2;s2++){var a=phase+s2*Math.PI;
+    var grd=g.createConicGradient?null:null;
+    g.fillStyle='rgba(126,231,135,0.25)';
+    g.beginPath();g.moveTo(cx,cy);g.arc(cx,cy,110,a-bw,a+bw);g.closePath();g.fill();}
+  g.fillStyle='#c4b5fd';g.beginPath();g.arc(cx,cy,14,0,7);g.fill();
+  g.strokeStyle='#8b93a7';g.beginPath();g.moveTo(cx,cy-22);g.lineTo(cx,cy+22);g.stroke();
+  g.fillStyle='#8b93a7';g.fillText('中性子星（スロー再生）',cx-62,cy+140);
+  g.fillText('地球へ→',cx+120,cy+4);
+  // 右: パルス列（横軸は実時間）
+  var PX0=300,PW=W-PX0-30,PY0=200,PH=110;
+  g.strokeStyle='#8b93a7';g.beginPath();g.moveTo(PX0,PY0);g.lineTo(PX0+PW,PY0);g.stroke();
+  var TW=4*P;   // 窓=4周期
+  g.fillStyle='#8b93a7';
+  g.fillText('受かる電波の強さ',PX0,PY0-PH-10);
+  g.fillText('0',PX0-4,PY0+16);
+  g.fillText(TW>=0.01?TW.toFixed(2)+' 秒':(TW*1000).toFixed(1)+' ミリ秒',PX0+PW-56,PY0+16);
+  g.strokeStyle='#7ee787';g.lineWidth=2;g.beginPath();
+  var obs=phase%(2*Math.PI);
+  for(var px=0;px<=PW;px++){var t=TW*px/PW;
+    var ph2=(t/P*2*Math.PI+obs)%Math.PI;var dd=Math.min(ph2,Math.PI-ph2);
+    var I=Math.exp(-dd*dd/(2*bw*bw));
+    var y=PY0-PH*I;if(px===0)g.moveTo(PX0,y);else g.lineTo(PX0+px,y);}
+  g.stroke();g.lineWidth=1;
+  // 密度の下限
+  var G=6.674e-11,rho=3*Math.PI/(G*P*P);
+  var v=2*Math.PI*1e4/P,c=2.998e8;
+  document.getElementById('rD').textContent=(rho/1e9>=1000?(rho/1e12).toFixed(1)+'×10¹² ':(rho/1e9).toFixed(2)+'×10⁹ ')+'kg/m³ 以上';
+  document.getElementById('rV').textContent=v/c>0.003?(v/c*100).toFixed(1)+'% × 光速':(v/1000).toFixed(0)+' km/s';
+  if(rho>1e10){st.className='status yes';st.textContent='白色矮星（〜10⁹ kg/m³）ではちぎれ飛ぶ ── 中性子星しかあり得ない！';}
+  else{st.className='status no';st.textContent='この周期なら白色矮星でもぎりぎり可能 ── 周期を短くすると…？';}
+}
+requestAnimationFrame(loop);
 </script>
